@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Examples</string>
+    <string name="click_this">feeling lucky</string>
+    <string name="welcome">Welcome to the second activity</string>
+    <string name="next">Next</string>
+    <string name="response">Feeling lucky is not available. Please try again...</string>
+    <string name="fragments">Fragments</string>
+</resources>
