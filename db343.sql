@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `rooms` (
   `roomId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `roomNumber` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  
   UNIQUE KEY `rooms_roomNumber_unique` (`roomNumber`),
   PRIMARY KEY (`roomId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=135 ;
@@ -62,21 +63,27 @@ INSERT INTO `students` (`studentId`, `username`, `name`, `password`) VALUES
 -- Table structure for table `rooms`
 --
 
-CREATE TABLE IF NOT EXISTS `timeSlot` (
-  `timeSlotId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `reservations` (
+  `reservationId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `roomId` int(10) unsigned NOT NULL,
+  `studentId` int(10) unsigned NOT NULL,
   `startTime` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `endTime` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`timeSlotId`)
+  `position` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`reservationId`),
+  KEY `studentid_foreign` (`studentId`),
+  KEY `roomid_foreign` (`roomId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=135 ;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `students` (`timeSlotId`, `startTime`, `endTime`) VALUES
+INSERT INTO `students` (`reservationId`, `roomId`, `studentId`, `startTime`, `endTime`, `position`) VALUES
 (1);
 
 -- --------------------------------------------------------
+
 
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
