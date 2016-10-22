@@ -13,10 +13,41 @@
     tools:context="com.skynetprojectapp.android.skynetprojectapp.mainActivity"
     tools:showIn="@layout/app_bar_nav__dawer">
 
-
-    <android.support.v7.widget.AppCompatTextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="This is very fun !!!"/>
+        android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:text="Click on the button for a example action to be called. The code can be found in the mainActivity java file." />
+
+    </FrameLayout>
+
+        <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="137dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/prototype_testing"
+                android:text=" Prototype testing "
+                android:layout_margin="15dp"
+                android:background="@color/blue"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
