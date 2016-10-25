@@ -41,7 +41,7 @@
                 android:focusable="true"
                 android:textColorHighlight="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimary">
-                <EditText android:id="@+id/input_email"
+                <EditText android:id="@+id/input_studennt_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"

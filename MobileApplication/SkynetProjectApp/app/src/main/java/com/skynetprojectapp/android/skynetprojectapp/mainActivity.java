@@ -26,14 +26,6 @@ public class mainActivity extends AppCompatActivity
         toolbar.setTitle("Header");
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -98,14 +90,17 @@ public class mainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "Reservations", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_Rooms) {
+            Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
+            //startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_Map) {
-            Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_About) {
 
         } else if (id == R.id.nav_Help) {
 
         } else if (id == R.id.nav_Log_out) {
-
+            startActivity(new Intent(mainActivity.this,LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
