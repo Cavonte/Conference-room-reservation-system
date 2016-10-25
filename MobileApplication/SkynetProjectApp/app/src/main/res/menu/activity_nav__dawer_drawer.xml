@@ -6,6 +6,9 @@
             android:id="@+id/nav_Reservations"
             android:title="Reservations" />
         <item
+            android:id="@+id/nav_Rooms"
+            android:title="Rooms" />
+        <item
             android:id="@+id/nav_Map"
             android:title="Map" />
         <item
