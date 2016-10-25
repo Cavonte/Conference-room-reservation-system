@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `rooms` (
   `roomId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `roomNumber` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `roomsize` int(10) unsigned NOT NULL,
   UNIQUE KEY `rooms_roomNumber_unique` (`roomNumber`),
   PRIMARY KEY (`roomId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=135 ;
@@ -67,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   `reservationId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `roomId` int(10) unsigned NOT NULL,
   `studentId` int(10) unsigned NOT NULL,
+  `weekDay` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `startTime` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `endTime` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `position` int(10) unsigned NOT NULL,
