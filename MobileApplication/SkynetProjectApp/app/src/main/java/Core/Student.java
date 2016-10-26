@@ -14,7 +14,7 @@ public class Student {
     private String name;
     private String password;
 
-    public void Student(String u, String n, String p){
+    public Student(String u, String n, String p){
         sid = counts.incrementAndGet();
         username = u;
         name = n;
