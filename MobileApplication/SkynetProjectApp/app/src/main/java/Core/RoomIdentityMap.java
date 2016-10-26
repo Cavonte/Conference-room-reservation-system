@@ -22,7 +22,7 @@ public class RoomIdentityMap {
     public static Room getRoomFromMap(int roomID) throws ObjectNotFoundException{
         Room ro = mapOfRooms.get(roomID);
         if (ro == null){
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException("Room not found.");
         }
         return ro;
     }
