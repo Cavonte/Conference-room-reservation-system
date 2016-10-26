@@ -22,7 +22,7 @@ public class StudentIdentityMap {
     public static Student getStudentFromMap(int studentID) throws ObjectNotFoundException{
         Student s = mapOfStudents.get(studentID);
         if (s == null){
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException("Student not found.");
         }
         return s;
     }
