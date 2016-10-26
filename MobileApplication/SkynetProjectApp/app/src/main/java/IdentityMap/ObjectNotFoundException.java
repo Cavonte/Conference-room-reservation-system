@@ -1,4 +1,4 @@
-package Core;
+package IdentityMap;
 
 /**
  * Created by dias on 2016-10-25.
