@@ -26,7 +26,7 @@ public class ReservationTDG {
 
     }
 
-    public ArrayList<Reservation> findAll() throws SQLException {
+    public static ArrayList<Reservation> findAll() throws SQLException {
 
         ArrayList<Reservation> reservationsList = new ArrayList<>(30);
 

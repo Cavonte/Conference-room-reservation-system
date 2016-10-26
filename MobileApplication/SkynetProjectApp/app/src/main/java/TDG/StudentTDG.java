@@ -26,7 +26,7 @@ public class StudentTDG {
 
     }
 
-    public ArrayList<Student> findAll() throws SQLException {
+    public static ArrayList<Student> findAll() throws SQLException {
 
         ArrayList<Student> studentList = new ArrayList<>(30);
 

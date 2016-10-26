@@ -26,7 +26,7 @@ public class RoomsTDG {
 
     }
 
-    public ArrayList<Room> findAll() throws SQLException {
+    public static ArrayList<Room> findAll() throws SQLException {
 
         ArrayList<Room> rooms = new ArrayList<>(30);
 
