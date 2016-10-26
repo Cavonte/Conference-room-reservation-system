@@ -14,7 +14,7 @@ public class Room {
     private String description;
     private int roomSize;
 
-    public void Room(String rn, String d, int rs){
+    public Room(String rn, String d, int rs){
         rid = countro.incrementAndGet();
         roomNumber = rn;
         description = d;
