@@ -18,7 +18,7 @@ public class Reservation {
     private String endTime;
     private int position;
 
-    public void Reservation(int roomid, int studentid, String d, String st, String et, int p){
+    public Reservation(int roomid, int studentid, String d, String st, String et, int p){
         resid = countres.incrementAndGet();
         this.roomid = roomid;
         this.studentid = studentid;
