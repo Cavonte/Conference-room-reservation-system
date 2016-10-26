@@ -22,7 +22,7 @@ public class ReservationIdentityMap {
     public static Reservation getResFromMap(int resID) throws ObjectNotFoundException{
         Reservation res = mapOfRes.get(resID);
         if (res == null){
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException("Reservation not found.");
         }
         return res;
     }
