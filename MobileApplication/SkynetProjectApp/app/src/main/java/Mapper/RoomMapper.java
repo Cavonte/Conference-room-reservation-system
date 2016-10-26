@@ -15,13 +15,13 @@ public class RoomMapper {
     public RoomMapper(){
     }
 
-    public static Room getRoom(String rn) throws Exception, ClassNotFoundException, SQLException{
-        Room ro =  RoomIdentityMap.getRoomFromMap(rn);
+    public static Room getRoom(int rid) throws Exception, ClassNotFoundException, SQLException{
+        Room ro =  RoomIdentityMap.getRoomFromMap(rid);
         if(ro != null){
             return ro;
         }
         else{
-            Room roomDB = RoomsTDG.find(rn);
+            Room roomDB = RoomsTDG.find(rid);
             RoomIdentityMap.addRoom(roomDB);
             return roomDB;
         }

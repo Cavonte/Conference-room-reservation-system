@@ -11,18 +11,18 @@ import Core.Room;
 
 public class RoomIdentityMap {
 
-    private static Map<String, Room> mapOfRooms;
+    private static Map<Integer, Room> mapOfRooms;
 
     public RoomIdentityMap(){
-        mapOfRooms = new HashMap<String, Room>();
+        mapOfRooms = new HashMap<Integer, Room>();
     }
 
     public static void addRoom(Room ro){
-        mapOfRooms.put(ro.getRoomNumber(), ro);
+        mapOfRooms.put(ro.getRid(), ro);
     }
 
-    public static Room getRoomFromMap(String roomNumber) throws ObjectNotFoundException {
-        Room ro = mapOfRooms.get(roomNumber);
+    public static Room getRoomFromMap(int roid) throws ObjectNotFoundException {
+        Room ro = mapOfRooms.get(roid);
         if (ro == null){
             throw new ObjectNotFoundException("Room not found.");
         }
