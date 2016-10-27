@@ -6,24 +6,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by Emili on 2016-10-24.
  */
 
-public class Room {
+public class Room extends DomainObject{
 
-    private static final AtomicInteger countro = new AtomicInteger(1);
-    private int rid;
+    private static final AtomicInteger COUNTRO = new AtomicInteger(1);
+    //private int rid;
     private String roomNumber;
     private String description;
     private int roomSize;
 
     public Room(String rn, String d, int rs){
-        rid = countro.incrementAndGet();
+        super(COUNTRO.incrementAndGet());
+        //rid = COUNTRO.incrementAndGet();
         roomNumber = rn;
         description = d;
         roomSize = rs;
     }
 
-    public int getRid() {
+    /*public int getRid() {
         return rid;
-    }
+    }*/
 
     public String getRoomNumber() {
         return roomNumber;
@@ -37,9 +38,9 @@ public class Room {
         return roomSize;
     }
 
-    public void setRid(int rid) {
+    /*public void setRid(int rid) {
         this.rid = rid;
-    }
+    }*/
 
     public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
@@ -57,6 +58,6 @@ public class Room {
         return ("Room Number: " + roomNumber +
                 "\nDescription: " + description +
                 "\nSize " + roomSize +
-                "\nRoom ID: " + rid);
+                "\nRoom ID: " + super.getId());
     }
 }

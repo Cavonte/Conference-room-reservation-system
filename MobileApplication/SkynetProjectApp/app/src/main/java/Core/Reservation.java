@@ -7,10 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by Emili on 2016-10-24.
  */
 
-public class Reservation {
+public class Reservation extends DomainObject{
 
-    private static final AtomicInteger countres = new AtomicInteger(1);
-    private int resid;
+    private static final AtomicInteger COUNTRES = new AtomicInteger(1);
+    //private int resid;
     private int roomid;
     private int studentid;
     private String day;
@@ -19,7 +19,8 @@ public class Reservation {
     private int position;
 
     public Reservation(int roomid, int studentid, String d, String st, String et, int p){
-        resid = countres.incrementAndGet();
+        super(COUNTRES.incrementAndGet());
+        //resid = countres.incrementAndGet();
         this.roomid = roomid;
         this.studentid = studentid;
         day = d;
@@ -28,9 +29,9 @@ public class Reservation {
         position = p;
     }
 
-    public int getResid() {
+   /* public int getResid() {
         return resid;
-    }
+    }*/
 
     public int getRoomid() {
         return roomid;
@@ -56,9 +57,9 @@ public class Reservation {
         return endTime;
     }
 
-    public void setResid(int resid) {
+    /*public void setResid(int resid) {
         this.resid = resid;
-    }
+    }*/
 
     public void setRoomid(int roomid) {
         this.roomid = roomid;
@@ -85,7 +86,7 @@ public class Reservation {
     }
 
     public String toString() {
-        return ("Reservation id: " + resid +
+        return ("Reservation id: " + super.getId() +
                 "\nRoom id: " + roomid +
                 "\nStudent id: " + studentid +
                 "\nDay of the Week: " + day +

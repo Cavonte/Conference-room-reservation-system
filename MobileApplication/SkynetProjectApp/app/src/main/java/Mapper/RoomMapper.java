@@ -44,14 +44,15 @@ public class RoomMapper {
         r.setDescription(d);
         r.setRoomSize(rs);
         UnitOfWork.registerDirty(r);
-        UnitOfWork.commit();
+        //UnitOfWork.commit();
+        RoomIdentityMap.addRoom(r);
         RoomsTDG.update(r);
     }
 
     public void erase(Room r) throws SQLException {
         RoomIdentityMap.delete(r);
         UnitOfWork.registerDelete(r);
-        UnitOfWork.commit();
+        //UnitOfWork.commit();
         RoomsTDG.delete(r);
     }
 

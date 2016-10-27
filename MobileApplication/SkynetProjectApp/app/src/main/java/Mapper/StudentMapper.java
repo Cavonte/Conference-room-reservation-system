@@ -45,9 +45,10 @@ public class StudentMapper {
     public void set(Student s, String u, String n, String p) throws SQLException{
             s.setUsername(u);
             s.setName(n);
-            s.getPassword(p);
+            s.setPassword(p);
             UnitOfWork.registerDirty(s);
-            UnitOfWork.commit();
+            //UnitOfWork.commit();
+            StudentIdentityMap.addStudent(s);
             StudentTDG.update(s);
 
     }
@@ -55,7 +56,7 @@ public class StudentMapper {
     public void erase(Student s) throws SQLException {
         StudentIdentityMap.delete(s);
         UnitOfWork.registerDelete(s);
-        UnitOfWork.commit();
+        //UnitOfWork.commit();
         StudentTDG.delete(s);
     }
 

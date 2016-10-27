@@ -47,14 +47,15 @@ public class ReservationMapper {
         re.setEndTime(et);
         re.setPosition(p);
         UnitOfWork.registerDirty(re);
-        UnitOfWork.commit();
+        //UnitOfWork.commit();
+        ReservationIdentityMap.addRes(re);
         ReservationTDG.update(re);
     }
 
     public void erase(Reservation re) throws SQLException {
         ReservationIdentityMap.delete(re);
         UnitOfWork.registerDelete(re);
-        UnitOfWork.commit();
+        //UnitOfWork.commit();
         ReservationTDG.delete(re);
     }
 

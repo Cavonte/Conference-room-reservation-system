@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import Core.DomainObject;
 import Core.Reservation;
 import Core.Room;
 import Core.Student;
@@ -20,18 +21,18 @@ public class UnitOfWork {
     private static ArrayList<Object> removedObjects =     new ArrayList();
 
 
-    public static void registerNew(Object client){
+    public static void registerNew(DomainObject client){
 
-        //Assert.assertNotNull(client.getId());
+        Assert.assertNotNull(client.getId());
         Assert.assertTrue(!dirtyObjects.contains(client));
         Assert.assertTrue(removedObjects.contains(client));
         Assert.assertTrue(!newObjects.contains(client));
         newObjects.add(client);
     }
 
-    public static void registerDirty(Object obj){
+    public static void registerDirty(DomainObject obj){
 
-        //Assert.assertNotNull(obj.getId());
+        Assert.assertNotNull(obj.getId());
         Assert.assertTrue(!removedObjects.contains(obj));
 
         if(!dirtyObjects.contains(obj) && !newObjects.contains(obj)){
@@ -40,8 +41,8 @@ public class UnitOfWork {
 
     }
 
-    public static void registerDelete(Object obj){
-        //Assert.assertNotNull(obj.getId());
+    public static void registerDelete(DomainObject obj){
+        Assert.assertNotNull(obj.getId());
 
         if(newObjects.remove(obj))
             return;
@@ -52,6 +53,11 @@ public class UnitOfWork {
         }
     }
 
+    //Register clean missing
+    //rollback missing
+
+
+    /*
     public static void commit(){
         save();
         updateDirty();
@@ -108,5 +114,5 @@ public class UnitOfWork {
         }
     }
 
-
+*/
 }
