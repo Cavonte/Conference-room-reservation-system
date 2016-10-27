@@ -58,5 +58,13 @@ public class StudentMapper {
         UnitOfWork.commit();
         StudentTDG.delete(s);
     }
+
+    public void saveToMap(Student s){
+        StudentIdentityMap.addStudent(s);
+    }
+
+    public void deleteToMap(Student s){
+        StudentIdentityMap.delete(s);
+    }
 }
 

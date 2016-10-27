@@ -57,4 +57,12 @@ public class ReservationMapper {
         UnitOfWork.commit();
         ReservationTDG.delete(re);
     }
+
+    public void saveToMap(Reservation re){
+        ReservationIdentityMap.addRes(re);
+    }
+
+    public void deleteToMap(Reservation re){
+        ReservationIdentityMap.delete(re);
+    }
 }

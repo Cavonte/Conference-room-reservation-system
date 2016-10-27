@@ -54,4 +54,12 @@ public class RoomMapper {
         UnitOfWork.commit();
         RoomsTDG.delete(r);
     }
+
+    public void saveToMap(Room ro){
+        RoomIdentityMap.addRoom(ro);
+    }
+
+    public void deleteToMap(Room ro){
+        RoomIdentityMap.delete(ro);
+    }
 }
