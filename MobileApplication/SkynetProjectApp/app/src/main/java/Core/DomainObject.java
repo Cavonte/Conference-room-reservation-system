@@ -3,7 +3,7 @@ package Core;
 /**
  * Created by Emili on 2016-10-26.
  */
-/*
+
 public class DomainObject {
 
     private int id;
@@ -20,4 +20,3 @@ public class DomainObject {
         this.id = id;
     }
 }
-*/

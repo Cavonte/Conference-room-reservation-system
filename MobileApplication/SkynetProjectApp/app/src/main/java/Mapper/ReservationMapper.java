@@ -58,11 +58,11 @@ public class ReservationMapper {
         ReservationTDG.delete(re);
     }
 
-    public void saveToMap(Reservation re){
+    public static void saveToMap(Reservation re){
         ReservationIdentityMap.addRes(re);
     }
 
-    public void deleteToMap(Reservation re){
+    public static void deleteToMap(Reservation re){
         ReservationIdentityMap.delete(re);
     }
 }

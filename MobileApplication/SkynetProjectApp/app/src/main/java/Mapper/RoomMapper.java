@@ -55,11 +55,11 @@ public class RoomMapper {
         RoomsTDG.delete(r);
     }
 
-    public void saveToMap(Room ro){
+    public static void saveToMap(Room ro){
         RoomIdentityMap.addRoom(ro);
     }
 
-    public void deleteToMap(Room ro){
+    public static void deleteToMap(Room ro){
         RoomIdentityMap.delete(ro);
     }
 }
