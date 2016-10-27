@@ -28,4 +28,9 @@ public class StudentIdentityMap {
         }
         return s;
     }
+
+    public static void delete(Student s){
+        int id = s.getSid();
+        mapOfStudents.remove(id);
+    }
 }

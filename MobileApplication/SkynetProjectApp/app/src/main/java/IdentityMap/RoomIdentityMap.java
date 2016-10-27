@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Core.Room;
+import Core.Student;
 
 /**
  * Created by Emili on 2016-10-25.
@@ -27,5 +28,10 @@ public class RoomIdentityMap {
             throw new ObjectNotFoundException("Room not found.");
         }
         return ro;
+    }
+
+    public static void delete(Room ro){
+        int id = ro.getRid();
+        mapOfRooms.remove(id);
     }
 }

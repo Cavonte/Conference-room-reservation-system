@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Core.Reservation;
+import Core.Student;
 
 /**
  * Created by Emili on 2016-10-25.
@@ -27,5 +28,10 @@ public class ReservationIdentityMap {
             throw new ObjectNotFoundException("Reservation not found.");
         }
         return res;
+    }
+
+    public static void delete(Reservation re){
+        int id = re.getResid();
+        mapOfRes.remove(id);
     }
 }
