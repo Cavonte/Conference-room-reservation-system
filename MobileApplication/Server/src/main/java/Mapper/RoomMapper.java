@@ -36,7 +36,7 @@ public class RoomMapper {
         Room ro = new Room(rn, d, rs);
         RoomIdentityMap.addRoom(ro);
         UnitOfWork.registerNew(ro);
-        RoomsTDG.insert(ro);
+        UnitOfWork.commit();
     }
 
     public void set(Room r, String rn, String d, int rs) throws SQLException{
@@ -44,23 +44,25 @@ public class RoomMapper {
         r.setDescription(d);
         r.setRoomSize(rs);
         UnitOfWork.registerDirty(r);
-        //UnitOfWork.commit();
-        RoomIdentityMap.addRoom(r);
-        RoomsTDG.update(r);
+        UnitOfWork.commit();
+
     }
 
     public void erase(Room r) throws SQLException {
         RoomIdentityMap.delete(r);
         UnitOfWork.registerDelete(r);
-        //UnitOfWork.commit();
-        RoomsTDG.delete(r);
+        UnitOfWork.commit();
     }
 
-    public static void saveToMap(Room ro){
-        RoomIdentityMap.addRoom(ro);
+    public static void saveToDB(Room ro) throws SQLException{
+        RoomsTDG.insert(ro);
     }
 
-    public static void deleteToMap(Room ro){
-        RoomIdentityMap.delete(ro);
+    public static void deleteToDB(Room ro) throws SQLException{
+        RoomsTDG.delete(ro);
+    }
+
+    public static void updateToDB(Room ro) throws SQLException{
+        RoomsTDG.update(ro);
     }
 }

@@ -60,11 +60,11 @@ public class StudentMapper {
         StudentTDG.delete(s);
     }
 
-    public void saveToMap(Student s){
+    public static void saveToMap(Student s){
         StudentIdentityMap.addStudent(s);
     }
 
-    public void deleteToMap(Student s){
+    public static void deleteToMap(Student s){
         StudentIdentityMap.delete(s);
     }
 }
