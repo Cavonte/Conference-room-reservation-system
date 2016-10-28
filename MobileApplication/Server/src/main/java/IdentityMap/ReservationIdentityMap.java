@@ -19,7 +19,7 @@ public class ReservationIdentityMap {
     }
 
     public static void addRes(Reservation res){
-        //mapOfRes.put(res.getResid(), res);
+        mapOfRes.put(res.getId(), res);
     }
 
     public static Reservation getResFromMap(int resID) throws ObjectNotFoundException {
@@ -31,7 +31,7 @@ public class ReservationIdentityMap {
     }
 
     public static void delete(Reservation re){
-        //int id = re.getResid();
-        //mapOfRes.remove(id);
+        int id = re.getId();
+        mapOfRes.remove(id);
     }
 }

@@ -92,7 +92,7 @@ public class ReservationTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getResid() + "," + reservation.getRoomid() + "," + reservation.getStudentid() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
+        statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getId() + "," + reservation.getRoomid() + "," + reservation.getStudentid() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
         
         statement.close();
         connection.close();
@@ -103,7 +103,7 @@ public class ReservationTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getResid());
+        statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getId());
         statement.close();
         connection.close();
     }
@@ -113,7 +113,7 @@ public class ReservationTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("DELETE FROM reservations " + "WHERE reservationId = " + reservation.getResid());
+        statement.executeUpdate("DELETE FROM reservations " + "WHERE reservationId = " + reservation.getId());
         statement.close();
         connection.close();
         

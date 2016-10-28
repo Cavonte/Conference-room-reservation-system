@@ -84,7 +84,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("INSERT INTO students " + "VALUES ( " + student.getSid() + ",'" + student.getUsername() + "','" + student.getName() + "','" + student.getPassword() + "')");
+        statement.executeUpdate("INSERT INTO students " + "VALUES ( " + student.getId() + ",'" + student.getUsername() + "','" + student.getName() + "','" + student.getPassword() + "')");
         
         statement.close();
         connection.close();
@@ -105,7 +105,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("DELETE FROM students " + "WHERE studentId = " + student.getSid());
+        statement.executeUpdate("DELETE FROM students " + "WHERE studentId = " + student.getId());
         statement.close();
         connection.close();
         
