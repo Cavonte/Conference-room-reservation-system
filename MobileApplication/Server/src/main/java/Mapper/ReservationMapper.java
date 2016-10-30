@@ -36,7 +36,7 @@ public class ReservationMapper {
         Reservation re = new Reservation(roomid, studentid, d, st, et, p);
         ReservationIdentityMap.addRes(re);
         UnitOfWork.registerNew(re);
-        ReservationTDG.insert(re);
+        UnitOfWork.commit();
     }
 
     public void set(Reservation re, int roomid, int studentid, String d, String st, String et, int p) throws SQLException{
@@ -46,24 +46,26 @@ public class ReservationMapper {
         re.setStartTime(st);
         re.setEndTime(et);
         re.setPosition(p);
-        UnitOfWork.registerDirty(re);
-        //UnitOfWork.commit();
         ReservationIdentityMap.addRes(re);
-        ReservationTDG.update(re);
+        UnitOfWork.registerDirty(re);
+        UnitOfWork.commit();
     }
 
     public void erase(Reservation re) throws SQLException {
         ReservationIdentityMap.delete(re);
         UnitOfWork.registerDelete(re);
-        //UnitOfWork.commit();
+        UnitOfWork.commit();
+    }
+
+    public static void saveToDB(Reservation re) throws SQLException {
+        ReservationTDG.insert(re);
+    }
+
+    public static void deleteToDB(Reservation re) throws SQLException{
         ReservationTDG.delete(re);
     }
 
-    public static void saveToMap(Reservation re){
-        ReservationIdentityMap.addRes(re);
-    }
-
-    public static void deleteToMap(Reservation re){
-        ReservationIdentityMap.delete(re);
+    public static void updateToDB(Reservation re) throws SQLException{
+        ReservationTDG.update(re);
     }
 }

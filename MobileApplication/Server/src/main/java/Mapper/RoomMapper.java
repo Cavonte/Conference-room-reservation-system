@@ -43,6 +43,7 @@ public class RoomMapper {
         r.setRoomNumber(rn);
         r.setDescription(d);
         r.setRoomSize(rs);
+        RoomIdentityMap.addRoom(r);
         UnitOfWork.registerDirty(r);
         UnitOfWork.commit();
 

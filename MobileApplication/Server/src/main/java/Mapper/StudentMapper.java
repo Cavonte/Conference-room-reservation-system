@@ -39,33 +39,35 @@ public class StudentMapper {
         Student s = new Student(u, n, p);
         StudentIdentityMap.addStudent(s);
         UnitOfWork.registerNew(s);
-        StudentTDG.insert(s);
+        UnitOfWork.commit();
     }
 
     public void set(Student s, String u, String n, String p) throws SQLException{
             s.setUsername(u);
             s.setName(n);
             s.setPassword(p);
-            UnitOfWork.registerDirty(s);
-            //UnitOfWork.commit();
             StudentIdentityMap.addStudent(s);
-            StudentTDG.update(s);
+            UnitOfWork.registerDirty(s);
+            UnitOfWork.commit();
 
     }
 
     public void erase(Student s) throws SQLException {
         StudentIdentityMap.delete(s);
         UnitOfWork.registerDelete(s);
-        //UnitOfWork.commit();
+        UnitOfWork.commit();
+    }
+
+    public static void saveToDB(Student s) throws SQLException {
+        StudentTDG.insert(s);
+    }
+
+    public static void deleteToDB(Student s) throws SQLException {
         StudentTDG.delete(s);
     }
 
-    public static void saveToMap(Student s){
-        StudentIdentityMap.addStudent(s);
-    }
-
-    public static void deleteToMap(Student s){
-        StudentIdentityMap.delete(s);
+    public static void updateToDB(Student s) throws SQLException {
+        StudentTDG.update(s);
     }
 }
 

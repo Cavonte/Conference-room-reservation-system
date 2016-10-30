@@ -58,12 +58,7 @@ public class UnitOfWork {
         }
     }
 
-    //Register clean missing
-    //rollback missing
-
-
-
-    public static void commit(){
+    public static void commit() throws SQLException {
         newSave();
         updateDirty();
         deleteRemoved();
@@ -73,20 +68,16 @@ public class UnitOfWork {
         for(Iterator<DomainObject> objects = newObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 
-            checkInstanceSaveToMap(obj);
+            if(obj instanceof Room){
+                RoomMapper.saveToDB((Room) obj);
+            }
+            else if(obj instanceof Reservation){
+                ReservationMapper.saveToDB((Reservation) obj);
+            }
+            else if(obj instanceof Student){
+                StudentMapper.saveToDB((Student) obj);
+            }
 
-        }
-    }
-
-    private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{
-        if(obj instanceof Room){
-            RoomMapper.saveToDB((Room) obj);
-        }
-        else if(obj instanceof Reservation){
-            ReservationMapper.saveToMap((Reservation) obj);
-        }
-        else if(obj instanceof Student){
-            StudentMapper.saveToMap((Student) obj);
         }
     }
 
@@ -101,10 +92,10 @@ public class UnitOfWork {
                 RoomMapper.updateToDB((Room) obj);
             }
             else if(obj instanceof Reservation){
-                ReservationMapper.saveToMap((Reservation) obj);
+                ReservationMapper.updateToDB((Reservation) obj);
             }
             else if(obj instanceof Student){
-                StudentMapper.saveToMap((Student) obj);
+                StudentMapper.updateToDB((Student) obj);
             }
 
         }
@@ -117,11 +108,23 @@ public class UnitOfWork {
                 RoomMapper.deleteToDB((Room) obj);
             }
             else if(obj instanceof Reservation){
-                ReservationMapper.deleteToMap((Reservation)obj);
+                ReservationMapper.deleteToDB((Reservation)obj);
             }
             else if(obj instanceof Student){
-                StudentMapper.deleteToMap((Student)obj);
+                StudentMapper.deleteToDB((Student)obj);
             }
         }
     }
+
+        /*private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{
+        if(obj instanceof Room){
+            RoomMapper.saveToDB((Room) obj);
+        }
+        else if(obj instanceof Reservation){
+            ReservationMapper.saveToDB((Reservation) obj);
+        }
+        else if(obj instanceof Student){
+            StudentMapper.saveToDB((Student) obj);
+        }
+    }*/
 }
