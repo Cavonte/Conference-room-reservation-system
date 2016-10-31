@@ -39,6 +39,10 @@
         <activity
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Reservations"
+            android:label="@string/title_activity_reservations"
             android:theme="@style/AppTheme"></activity>
     </application>
 

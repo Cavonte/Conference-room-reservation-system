@@ -57,7 +57,7 @@ public class mapsActivity extends AppCompatActivity
                 this, drawerM, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerM.addDrawerListener(toggleM);
         toggleM.syncState();
-//
+
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 

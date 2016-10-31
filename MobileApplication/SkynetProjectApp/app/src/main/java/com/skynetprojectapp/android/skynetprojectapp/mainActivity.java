@@ -90,17 +90,19 @@ public class mainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "Reservations", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity.this,mainActivity.class));
         } else if (id == R.id.nav_Rooms) {
             Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
             //startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_Map) {
             startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_About) {
-
+            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Help) {
-
+            Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Log_out) {
             startActivity(new Intent(mainActivity.this,LoginActivity.class));
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
