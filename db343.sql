@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `students` (`roomId, `roomNumber`, `description`, `roomsize`) VALUES
+INSERT INTO `rooms` (`roomId`, `roomNumber`, `description`, `roomsize`) VALUES
 (1, 'LB-351', 'This room is located in the Webster Library. It has 1 table, a 46" LCD screen with an HDMI port, an USB camera and multiple power outlets.', 6), 
 (2, 'LB-353', 'This room is located in the Webster Library. It has 1 table, a 46" LCD screen with an HDMI port, an USB camera and multiple power outlets.', 6), 
 (3, 'LB-359', 'This room is located in the Webster Library. It has 1 table, a 46" LCD screen with an HDMI port, an USB camera and multiple power outlets.', 6),
@@ -86,7 +86,7 @@ INSERT INTO `students` (`roomId, `roomNumber`, `description`, `roomsize`) VALUES
 (52, 'H961-29', 'This room is located in the Henry F. Hall Building (H-Building). It is mainly used for Captsone projects.', 2),
 (53, 'H961-31', 'This room is located in the Henry F. Hall Building (H-Building). It is mainly used for Captsone projects.', 2), 
 (54, 'H961-33', 'This room is located in the Henry F. Hall Building (H-Building). It is mainly used for Captsone projects.', 2),          
-(54, 'LB-520', 'This room is located in the Webster Library. It has 1 table, two 46" LCD screens with an HDMI port, an USB camera and multiple power outlets.', 6);
+(55, 'LB-520', 'This room is located in the Webster Library. It has 1 table, two 46" LCD screens with an HDMI port, an USB camera and multiple power outlets.', 6);
 -- --------------------------------------------------------
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `students` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   UNIQUE KEY `users_username_unique` (`username`),
-  PRIMARY KEY ('studentId')
+  PRIMARY KEY (`studentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=135;
 
 --

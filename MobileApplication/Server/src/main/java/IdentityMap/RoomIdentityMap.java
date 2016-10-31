@@ -19,7 +19,7 @@ public class RoomIdentityMap {
     }
 
     public static void addRoom(Room ro){
-        //mapOfRooms.put(ro.getRid(), ro);
+        mapOfRooms.put(ro.getId(), ro);
     }
 
     public static Room getRoomFromMap(int roid) throws ObjectNotFoundException {
@@ -31,7 +31,7 @@ public class RoomIdentityMap {
     }
 
     public static void delete(Room ro){
-        //int id = ro.getRid();
-        //mapOfRooms.remove(id);
+        int id = ro.getId();
+        mapOfRooms.remove(id);
     }
 }

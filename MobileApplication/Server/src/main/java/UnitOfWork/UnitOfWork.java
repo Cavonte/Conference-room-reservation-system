@@ -6,6 +6,7 @@ package UnitOfWork;
 
 import org.junit.Assert;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,11 +15,15 @@ import Core.Reservation;
 import Core.Room;
 import Core.Student;
 
+import Mapper.RoomMapper;
+import Mapper.ReservationMapper;
+import Mapper.StudentMapper;
+
 public class UnitOfWork {
 
-    private static ArrayList<Object> newObjects     =     new ArrayList();
-    private static ArrayList<Object> dirtyObjects   =     new ArrayList();
-    private static ArrayList<Object> removedObjects =     new ArrayList();
+    private static ArrayList<DomainObject> newObjects     =     new ArrayList();
+    private static ArrayList<DomainObject> dirtyObjects   =     new ArrayList();
+    private static ArrayList<DomainObject> removedObjects =     new ArrayList();
 
 
     public static void registerNew(DomainObject client){
@@ -53,66 +58,73 @@ public class UnitOfWork {
         }
     }
 
-    //Register clean missing
-    //rollback missing
-
-
-    /*
-    public static void commit(){
-        save();
+    public static void commit() throws SQLException {
+        newSave();
         updateDirty();
         deleteRemoved();
     }
 
-    public static void save(){
-        for(Iterator<Object> objects = newObjects.iterator(); objects.hasNext();){
-            Object obj = (Object) objects.next();
+    public static void newSave() throws SQLException{
+        for(Iterator<DomainObject> objects = newObjects.iterator(); objects.hasNext();){
+            DomainObject obj = objects.next();
 
-            if(obj.getClass() == Room.class){
-                //RoomMapper.saveToMap(obj);
+            if(obj instanceof Room){
+                RoomMapper.saveToDB((Room) obj);
             }
-            else if(obj.getClass() == Reservation.class){
-                //ReservationMapper.saveToMap(obj);
+            else if(obj instanceof Reservation){
+                ReservationMapper.saveToDB((Reservation) obj);
             }
-            else if(obj.getClass() == Student.class){
-                //StudentMapper.saveToMap(obj);
-            }
-
-        }
-    }
-
-    public static void updateDirty(){
-
-        for(Iterator<Object> objects = dirtyObjects.iterator(); objects.hasNext();){
-            Object obj = (Object) objects.next();
-
-            if(obj.getClass() == Room.class){
-                //RoomMapper.saveToMap(obj);
-            }
-            else if(obj.getClass() == Reservation.class){
-                //ReservationMapper.saveToMap(obj);
-            }
-            else if(obj.getClass() == Student.class){
-                //StudentMapper.saveToMap(obj);
+            else if(obj instanceof Student){
+                StudentMapper.saveToDB((Student) obj);
             }
 
         }
     }
 
-    public static void deleteRemoved(){
-        for(Iterator<Object>objects = removedObjects.iterator(); objects.hasNext();){
-            Object obj = (Object) objects.next();
-            if(obj.getClass() == Room.class){
-                //RoomMapper.deleteToMap(obj);
+    public static void updateDirty() throws SQLException{
+
+
+        for(Iterator<DomainObject> objects = dirtyObjects.iterator(); objects.hasNext();){
+            DomainObject obj = objects.next();
+
+            //checkInstanceSaveToMap(obj);
+            if(obj instanceof Room){
+                RoomMapper.updateToDB((Room) obj);
             }
-            else if(obj.getClass() == Reservation.class){
-                //ReservationMapper.deleteToMap(obj);
+            else if(obj instanceof Reservation){
+                ReservationMapper.updateToDB((Reservation) obj);
             }
-            else if(obj.getClass() == Student.class){
-                //StudentMapper.deleteToMap(obj);
+            else if(obj instanceof Student){
+                StudentMapper.updateToDB((Student) obj);
+            }
+
+        }
+    }
+
+    public static void deleteRemoved() throws SQLException{
+        for(Iterator<DomainObject>objects = removedObjects.iterator(); objects.hasNext();){
+            DomainObject obj = objects.next();
+            if(obj instanceof Room){
+                RoomMapper.deleteToDB((Room) obj);
+            }
+            else if(obj instanceof Reservation){
+                ReservationMapper.deleteToDB((Reservation)obj);
+            }
+            else if(obj instanceof Student){
+                StudentMapper.deleteToDB((Student)obj);
             }
         }
     }
 
-*/
+        /*private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{
+        if(obj instanceof Room){
+            RoomMapper.saveToDB((Room) obj);
+        }
+        else if(obj instanceof Reservation){
+            ReservationMapper.saveToDB((Reservation) obj);
+        }
+        else if(obj instanceof Student){
+            StudentMapper.saveToDB((Student) obj);
+        }
+    }*/
 }

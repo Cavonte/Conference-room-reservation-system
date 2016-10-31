@@ -84,7 +84,7 @@ public class RoomsTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
         Statement statement = connection.createStatement();
         
-        //statement.executeUpdate("INSERT INTO rooms " + "VALUES ( " + room.getRid() + ", '" + room.getRoomNumber() + "', '" + room.getDescription() + "'," + room.getRoomSize() + ")");
+        statement.executeUpdate("INSERT INTO rooms " + "VALUES ( " + room.getId() + ", '" + room.getRoomNumber() + "', '" + room.getDescription() + "'," + room.getRoomSize() + ")");
         
         statement.close();
         connection.close();

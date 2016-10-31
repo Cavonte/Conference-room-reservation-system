@@ -18,7 +18,7 @@ public class StudentIdentityMap {
     }
 
     public static void addStudent(Student s){
-        //mapOfStudents.put(s.getSid(), s);
+        mapOfStudents.put(s.getId(), s);
     }
 
     public static Student getStudentFromMap(int studentID) throws ObjectNotFoundException {
@@ -30,7 +30,7 @@ public class StudentIdentityMap {
     }
 
     public static void delete(Student s){
-        //int id = s.getSid();
-        //mapOfStudents.remove(id);
+        int id = s.getId();
+        mapOfStudents.remove(id);
     }
 }
