@@ -12,6 +12,9 @@
             android:id="@+id/nav_Map"
             android:title="Map" />
         <item
+            android:id="@+id/nav_preferences"
+            android:title="Preferences" />
+        <item
             android:id="@+id/nav_About"
             android:title="About" />
         <item

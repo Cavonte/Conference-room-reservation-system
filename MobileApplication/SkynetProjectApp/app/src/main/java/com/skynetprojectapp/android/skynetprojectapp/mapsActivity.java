@@ -19,7 +19,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
@@ -49,7 +48,7 @@ public class mapsActivity extends AppCompatActivity
         setContentView(R.layout.activity_maps_drawer);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Header");
+        toolbar.setTitle("Maps");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawerM = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -60,14 +59,6 @@ public class mapsActivity extends AppCompatActivity
 
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
-
-        tab= new TabHost.TabContentFactory() {
-            @Override
-            public View createTabContent(String tag) {
-                return null;
-            }
-        };
-
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -182,19 +173,24 @@ public class mapsActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
         if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "Reservations", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mapsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
         } else if (id == R.id.nav_Rooms) {
             Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
             //startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(mapsActivity.this,mapsActivity.class));
+            startActivity(new Intent(mapsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+        } else if (id == R.id.nav_preferences) {
+            startActivity(new Intent(mapsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
         } else if (id == R.id.nav_About) {
-
+            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Help) {
-
+            Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(mapsActivity.this,LoginActivity.class));
+            startActivity(new Intent(mapsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

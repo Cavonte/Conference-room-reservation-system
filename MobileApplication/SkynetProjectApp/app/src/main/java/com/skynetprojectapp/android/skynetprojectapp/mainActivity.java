@@ -21,7 +21,7 @@ public class mainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav__dawer);
+        setContentView(R.layout.activity_nav__drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Header");
         setSupportActionBar(toolbar);
@@ -89,19 +89,21 @@ public class mainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "Reservations", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(mainActivity.this,mainActivity.class));
+            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
         } else if (id == R.id.nav_Rooms) {
             Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
             //startActivity(new Intent(mainActivity.this,mapsActivity.class));
         } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(mainActivity.this,mapsActivity.class));
+            startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+        } else if (id == R.id.nav_preferences) {
+            startActivity(new Intent(mainActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
         } else if (id == R.id.nav_About) {
             Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Help) {
             Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(mainActivity.this,LoginActivity.class));
+            startActivity(new Intent(mainActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 

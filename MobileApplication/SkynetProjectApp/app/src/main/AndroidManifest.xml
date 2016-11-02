@@ -16,18 +16,19 @@
         <activity
             android:name=".mainActivity"
             android:label="@string/title_activity_nav__dawer"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,14 +37,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
+
+
         <activity
-            android:name=".Reservations"
-            android:label="@string/title_activity_reservations"
-            android:theme="@style/AppTheme"></activity>
+            android:name=".preferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
