@@ -11,8 +11,10 @@ import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.Toast;
+import android.view.Menu;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +26,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class mapsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,7 +42,7 @@ public class mapsActivity extends AppCompatActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private TabHost.TabContentFactory tab;
+    private TabHost host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,48 @@ public class mapsActivity extends AppCompatActivity
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 
+        host = (TabHost) findViewById(R.id.mapTabs);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("T1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("B1");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("T2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("B2");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("T3");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("B3");
+        host.addTab(spec);
+
+        //Tab 4
+        spec = host.newTabSpec("T4");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("B4");
+        host.addTab(spec);
+
+        //Tab 5
+        spec = host.newTabSpec("T5");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("B5");
+        host.addTab(spec);
+
+        //Tab 6
+        spec = host.newTabSpec("T6");
+        spec.setContent(R.id.tab6);
+        spec.setIndicator("B6");
+        host.addTab(spec);
+
+        host.setOnTabChangedListener(mapsActivity.this);
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -67,31 +111,72 @@ public class mapsActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(mapsActivity.this);
+
+
 
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_maps, menu);
-//        return true;
-//    }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+       }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public void onPageSelected(int position) {
+        host.setCurrentTab(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+
+    @Override
+    public void onTabChanged(String tabId) {
+        if ("T1".equals(tabId)) {
+            mViewPager.setCurrentItem(0);
+        }
+        if ("T2".equals(tabId)) {
+            mViewPager.setCurrentItem(1);
+        }
+        if ("T3".equals(tabId)) {
+            mViewPager.setCurrentItem(2);
+        }
+        if ("T4".equals(tabId)) {
+            mViewPager.setCurrentItem(3);
+        }
+        if ("T5".equals(tabId)) {
+            mViewPager.setCurrentItem(4);
+        }
+        if ("T6".equals(tabId)) {
+            mViewPager.setCurrentItem(5);
+
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_maps, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -124,6 +209,22 @@ public class mapsActivity extends AppCompatActivity
             View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+            ImageView map = (ImageView) rootView.findViewById(R.id.cmap);
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    map.setImageResource(R.drawable.lb3);
+                case 2:
+                    map.setImageResource(R.drawable.lb3);
+                case 3:
+                    map.setImageResource(R.drawable.logo);
+                case 4:
+                    map.setImageResource(R.drawable.lb3);
+                case 5:
+                    map.setImageResource(R.drawable.lb3);
+                case 6:
+                    map.setImageResource(R.drawable.lb3);
+            }
             return rootView;
         }
     }
@@ -148,7 +249,7 @@ public class mapsActivity extends AppCompatActivity
         @Override
         public int getCount() {
             //Total pages count.
-            return 4;
+            return 6;
         }
 
         @Override
@@ -162,9 +263,14 @@ public class mapsActivity extends AppCompatActivity
                     return "Map 3";
                 case 4:
                     return "Map 4";
+                case 5:
+                    return "Map 5";
+                case 6:
+                    return "Map 6";
             }
             return null;
         }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -196,4 +302,5 @@ public class mapsActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
