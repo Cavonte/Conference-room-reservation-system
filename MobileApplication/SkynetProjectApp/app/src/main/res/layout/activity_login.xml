@@ -11,6 +11,7 @@
     tools:context="com.skynetprojectapp.android.skynetprojectapp.LoginActivity">
 
     <!-- Login progress -->
+
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -31,58 +32,42 @@
             android:orientation="vertical">
 
 
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="StudentID"
+                android:layout_marginTop="8dp"
                 android:focusable="true"
+                android:hint="StudentID"
                 android:textColorHighlight="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimary">
-                <EditText android:id="@+id/input_studennt_id"
+
+                <EditText
+                    android:id="@+id/input_studennt_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    />
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <!-- Password Label -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:focusable="true"
                 android:textColorHighlight="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimary">
-                <EditText android:id="@+id/input_password"
+
+                <EditText
+                    android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="Password"/>
+                    android:hint="Password"
+                    android:inputType="textPassword" />
+
             </android.support.design.widget.TextInputLayout>
 
-
-
-            <FrameLayout
-
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-                <Button
-                    android:id="@+id/email_sign_in_button"
-                    android:layout_width="100dp"
-                    android:layout_margin="15dp"
-                    android:background="@color/blue"
-                    android:textColor="@color/grey"
-                    android:layout_height="match_parent"
-                    android:text="Sign In"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                   />
-            </FrameLayout>
 
             <FrameLayout
 
@@ -90,17 +75,28 @@
                 android:layout_height="fill_parent">
 
                 <Button
-                    android:id="@+id/go_to_reservation"
+                    android:id="@+id/email_sign_in_button"
                     android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="15dp"
                     android:background="@color/blue"
+                    android:text="Sign In"
                     android:textColor="@color/grey"
-                    android:layout_height="match_parent"
-                    android:text="Go to Reservation"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    />
+                    android:textStyle="bold" />
 
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Credentials are admin/admin"
+                    android:textAlignment="center" />
             </FrameLayout>
 
 
@@ -113,12 +109,10 @@
                     android:id="@+id/logo"
                     android:layout_width="300dp"
                     android:layout_height="310dp"
-                    android:layout_margin="15dp"
-                    android:textStyle="bold"
-                    android:src="@mipmap/logo"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    />
-
+                    android:layout_margin="15dp"
+                    android:src="@drawable/logo"
+                    android:textStyle="bold" />
 
 
             </FrameLayout>
