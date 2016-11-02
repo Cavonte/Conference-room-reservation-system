@@ -176,20 +176,19 @@ public class mapsActivity extends AppCompatActivity
 
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(mapsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mapsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Rooms) {
-            Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(mainActivity.this,mapsActivity.class));
+            startActivity(new Intent(mapsActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(mapsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mapsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(mapsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mapsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_About) {
-            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mapsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Help) {
-            Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mapsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(mapsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mapsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 

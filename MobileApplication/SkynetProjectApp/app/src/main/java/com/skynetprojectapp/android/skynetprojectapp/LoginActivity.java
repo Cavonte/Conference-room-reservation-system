@@ -89,14 +89,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
 
-        reservation = (Button)findViewById(R.id.go_to_reservation);
-
-        reservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, mainActivity.class));
-            }
-        });
+//        reservation = (Button)findViewById(R.id.go_to_reservation);
+//
+//        reservation.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(LoginActivity.this, mainActivity.class));
+//            }
+//        });
 
     }
 

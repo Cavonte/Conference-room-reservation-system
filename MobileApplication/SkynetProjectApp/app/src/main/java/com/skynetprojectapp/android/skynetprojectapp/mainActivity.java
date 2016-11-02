@@ -23,7 +23,7 @@ public class mainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav__drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Header");
+        toolbar.setTitle("Reservations");
         setSupportActionBar(toolbar);
 
 
@@ -41,10 +41,10 @@ public class mainActivity extends AppCompatActivity
         servlet_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //this is where we define what the method does.
+                //this is where we define what the method does.
                 //temporary output to visualize
 
-                Toast.makeText(getApplicationContext(),"Hi, this is Example",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Hi, this is Example", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,20 +90,19 @@ public class mainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Rooms) {
-            Toast.makeText(this, "Rooms", Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(mainActivity.this,mapsActivity.class));
+            startActivity(new Intent(mainActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(mainActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mainActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_About) {
-            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Help) {
-            Toast.makeText(this, "Help", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mainActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(mainActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) );
+            startActivity(new Intent(mainActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 

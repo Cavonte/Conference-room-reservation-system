@@ -44,9 +44,26 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
 
-
         <activity
             android:name=".preferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".aboutActivity"
+            android:label="@string/title_activity_preferences"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".helpActivity"
+            android:label="@string/title_activity_preferences"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".roomsActivity"
             android:label="@string/title_activity_preferences"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
