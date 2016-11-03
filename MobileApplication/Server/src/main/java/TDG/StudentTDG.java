@@ -26,11 +26,12 @@ public class StudentTDG {
         
     }
     
-    public ArrayList<Student> findAll() throws SQLException {
+    public ArrayList<Student> findAll() throws ClassNotFoundException,SQLException {
         
         ArrayList<Student> studentList = new ArrayList<>(30);
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * " + "FROM students");
@@ -52,9 +53,10 @@ public class StudentTDG {
         
     }
     
-    public static Student find(int studentId) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static Student find(int studentId) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE studentId = " + studentId);
@@ -79,9 +81,10 @@ public class StudentTDG {
         
     }
     
-    public static void insert(Student student) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void insert(Student student) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO students " + "VALUES ( " + student.getId() + ",'" + student.getUsername() + "','" + student.getName() + "','" + student.getPassword() + "')");
@@ -90,9 +93,10 @@ public class StudentTDG {
         connection.close();
     }
     
-    public static void update(Student student) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void update(Student student) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE students " + "SET name = '" + student.getName() + "', password = '" + student.getPassword() + "'");
@@ -100,9 +104,10 @@ public class StudentTDG {
         connection.close();
     }
     
-    public static void delete(Student student) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void delete(Student student) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM students " + "WHERE studentId = " + student.getId());

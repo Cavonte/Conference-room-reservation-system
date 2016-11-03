@@ -26,11 +26,12 @@ public class RoomsTDG {
         
     }
     
-    public ArrayList<Room> findAll() throws SQLException {
+    public ArrayList<Room> findAll() throws ClassNotFoundException,SQLException {
         
         ArrayList<Room> rooms = new ArrayList<>(30);
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * " + "FROM rooms");
@@ -52,9 +53,10 @@ public class RoomsTDG {
         
     }
     
-    public static Room find(int roomId) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static Room find(int roomId) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms WHERE roomId = " + roomId);
@@ -79,9 +81,10 @@ public class RoomsTDG {
         
     }
     
-    public static void insert(Room room) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void insert(Room room) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO rooms " + "VALUES ( " + room.getId() + ", '" + room.getRoomNumber() + "', '" + room.getDescription() + "'," + room.getRoomSize() + ")");
@@ -90,9 +93,10 @@ public class RoomsTDG {
         connection.close();
     }
     
-    public static void update(Room room) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void update(Room room) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE rooms " + "SET roomNumber = '" + room.getRoomNumber() + "', description = '" + room.getDescription() + "', roomSize = " + room.getRoomSize());
@@ -100,9 +104,10 @@ public class RoomsTDG {
         connection.close();
     }
     
-    public static void delete(Room room) throws SQLException{
-        
-        Connection connection = DriverManager.getConnection("jdbc:mysql:db343.sql", databaseUsername, databasePassword);
+    public static void delete(Room room) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM rooms " + "WHERE roomNumber = " + room.getRoomNumber());
