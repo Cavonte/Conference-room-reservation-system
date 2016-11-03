@@ -37,31 +37,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".preferencesActivity"
             android:label="@string/title_activity_preferences"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".aboutActivity"
             android:label="@string/title_activity_preferences"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".helpActivity"
             android:label="@string/title_activity_preferences"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".roomsActivity"
             android:label="@string/title_activity_preferences"

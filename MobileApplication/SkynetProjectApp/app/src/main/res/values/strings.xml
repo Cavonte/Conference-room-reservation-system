@@ -24,4 +24,6 @@
     <string name="title_activity_maps">mapsActivity</string>
     <string name="section_format">Hi this is map: %1$d</string>
     <string name="title_activity_preferences">Preferences</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="register">Register</string>
 </resources>
