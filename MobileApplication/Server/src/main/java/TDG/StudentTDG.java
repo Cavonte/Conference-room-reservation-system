@@ -38,7 +38,7 @@ public class StudentTDG {
         while(resultSet.next()){
 
             int username = resultSet.getInt("username");
-            String name = resultSet.getString("name");
+            String name = resultSet.getString("FullName");
             String password = resultSet.getString("password");
             
             studentList.add(new Student(username, name,password));
@@ -57,11 +57,11 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE studentId = " + studentId);
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE username = " + studentId);
         
         if(resultSet.next()){
             int username = resultSet.getInt("username");
-            String name = resultSet.getString("name");
+            String name = resultSet.getString("FullName");
             String password = resultSet.getString("password");
             
             resultSet.close();
@@ -84,8 +84,8 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("INSERT INTO students " + "VALUES ( " + student.getId() + ",'" + student.getId() + "','" + student.getName() + "','" + student.getPassword() + "')");
-        
+        statement.executeUpdate("INSERT INTO students(username, FullName, password) VALUES (" + student.getId() + "," + "'student.getName()'" + ", '" + student.getPassword() + "');");
+
         statement.close();
         connection.close();
     }
@@ -95,7 +95,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("UPDATE students " + "SET name = '" + student.getName() + "', password = '" + student.getPassword() + "'");
+        statement.executeUpdate("UPDATE students SET FullName = '" + student.getName() + "', password = '" + student.getPassword() + "' WHERE username = '" + student.getId() + "'");
         statement.close();
         connection.close();
     }
@@ -105,7 +105,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("DELETE FROM students " + "WHERE studentId = " + student.getId());
+        statement.executeUpdate("DELETE FROM students WHERE username = " + student.getId());
         statement.close();
         connection.close();
         

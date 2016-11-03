@@ -95,7 +95,7 @@ INSERT INTO `rooms` (`roomId`, `roomNumber`, `description`, `roomsize`) VALUES
 
 CREATE TABLE IF NOT EXISTS `students` (
   `username` int(10) unsigned NOT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fullName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   UNIQUE KEY `users_username_unique` (`username`),
   PRIMARY KEY (`username`)
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`username`, `name`, `password`) VALUES
+INSERT INTO `students` (`username`, `fullName`, `password`) VALUES
 ('27526741', 'Emili Vasseva', 'Ca8/08c9onmg77QVxPXQh.w/OLRqO9e'),
 ('27526766', 'Sponge Bob', 'pass'),
 ('27526711', 'Bishes', 'JW8a8/iaCSg92WboP8foeO12Ym6t7PW');
@@ -133,8 +133,7 @@ CREATE TABLE IF NOT EXISTS `reservations` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `students` (`reservationId`, `roomId`, `studentId`, `startTime`, `endTime`, `position`) VALUES
-();
+
 
 -- --------------------------------------------------------
 
