@@ -15,7 +15,7 @@ public class Student extends DomainObject{
     private String name;
     private String password;
 
-    public Student(int u, String n, String p){
+    public Student(long u, String n, String p){
         super(u);
         //super(COUNTS.incrementAndGet());
         //sid = COUNTS.incrementAndGet();

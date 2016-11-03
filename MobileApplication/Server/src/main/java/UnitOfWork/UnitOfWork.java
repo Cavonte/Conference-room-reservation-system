@@ -58,13 +58,13 @@ public class UnitOfWork {
         }
     }
 
-    public static void commit() throws SQLException {
+    public static void commit() throws ClassNotFoundException,SQLException {
         newSave();
         updateDirty();
         deleteRemoved();
     }
 
-    public static void newSave() throws SQLException{
+    public static void newSave() throws ClassNotFoundException,SQLException{
         for(Iterator<DomainObject> objects = newObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 
@@ -81,7 +81,7 @@ public class UnitOfWork {
         }
     }
 
-    public static void updateDirty() throws SQLException{
+    public static void updateDirty() throws ClassNotFoundException,SQLException{
 
 
         for(Iterator<DomainObject> objects = dirtyObjects.iterator(); objects.hasNext();){
@@ -101,7 +101,7 @@ public class UnitOfWork {
         }
     }
 
-    public static void deleteRemoved() throws SQLException{
+    public static void deleteRemoved() throws ClassNotFoundException,SQLException{
         for(Iterator<DomainObject>objects = removedObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
             if(obj instanceof Room){

@@ -6,13 +6,13 @@ package Core;
 
 public class DomainObject {
 
-    private int id;
+    private long id;
 
-    public DomainObject(int id){
+    public DomainObject(long id){
         this.id = id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

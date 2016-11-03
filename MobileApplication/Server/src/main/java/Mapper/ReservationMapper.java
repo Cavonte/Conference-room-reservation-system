@@ -32,14 +32,14 @@ public class ReservationMapper {
             return reservationDB;
         }
     }
-    public void makeNew(int roomid, int studentid, String d, String st, String et, int p) throws SQLException {
+    public void makeNew(int roomid, int studentid, String d, String st, String et, int p) throws ClassNotFoundException,SQLException {
         Reservation re = new Reservation(roomid, studentid, d, st, et, p);
         ReservationIdentityMap.addRes(re);
         UnitOfWork.registerNew(re);
         UnitOfWork.commit();
     }
 
-    public void set(Reservation re, int roomid, int studentid, String d, String st, String et, int p) throws SQLException{
+    public void set(Reservation re, int roomid, int studentid, String d, String st, String et, int p) throws ClassNotFoundException,SQLException{
         re.setRoomid(roomid);
         re.setStudentid(studentid);
         re.setDay(d);
@@ -51,21 +51,21 @@ public class ReservationMapper {
         UnitOfWork.commit();
     }
 
-    public void erase(Reservation re) throws SQLException {
+    public void erase(Reservation re) throws ClassNotFoundException,SQLException {
         ReservationIdentityMap.delete(re);
         UnitOfWork.registerDelete(re);
         UnitOfWork.commit();
     }
 
-    public static void saveToDB(Reservation re) throws SQLException {
+    public static void saveToDB(Reservation re) throws ClassNotFoundException,SQLException {
         ReservationTDG.insert(re);
     }
 
-    public static void deleteToDB(Reservation re) throws SQLException{
+    public static void deleteToDB(Reservation re) throws ClassNotFoundException,SQLException{
         ReservationTDG.delete(re);
     }
 
-    public static void updateToDB(Reservation re) throws SQLException{
+    public static void updateToDB(Reservation re) throws ClassNotFoundException,SQLException{
         ReservationTDG.update(re);
     }
 }
