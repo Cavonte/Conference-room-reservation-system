@@ -31,7 +31,7 @@ public class RoomIdentityMap {
     }
 
     public static void delete(Room ro){
-        long id = ro.getId();
+        int id = ro.getId();
         mapOfRooms.remove(id);
     }
 }

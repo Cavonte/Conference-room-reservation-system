@@ -30,7 +30,7 @@ public class StudentIdentityMap {
     }
 
     public static void delete(Student s){
-        long id = s.getId();
+        int id = s.getId();
         mapOfStudents.remove(id);
     }
 }

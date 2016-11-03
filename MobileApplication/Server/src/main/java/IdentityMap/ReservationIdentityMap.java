@@ -31,7 +31,7 @@ public class ReservationIdentityMap {
     }
 
     public static void delete(Reservation re){
-        long id = re.getId();
+        int id = re.getId();
         mapOfRes.remove(id);
     }
 }
