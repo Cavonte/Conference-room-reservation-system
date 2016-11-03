@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.skynetprojectapp.android.skynetprojectapp.RegisterActivity">
+
+    <TextView
+        android:text="Registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="495dp"
+        android:orientation="vertical">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:hint="StudentID"
+            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/input_student_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:hint="Full Name"
+            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/input_student_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Password Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:focusable="true"
+            android:textColorHighlight="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <FrameLayout
+
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:focusable="true"
+                android:textColorHighlight="@color/colorPrimaryDark"
+                android:textColorHint="@color/colorPrimary">
+
+                <EditText
+                    android:id="@+id/confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/email_sign_in_button"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_margin="15dp"
+                android:background="@color/blue"
+                android:text="@string/register"
+                android:textColor="@color/grey"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Credentials are admin/admin"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
