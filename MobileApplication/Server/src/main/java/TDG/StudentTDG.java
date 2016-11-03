@@ -33,11 +33,11 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        ResultSet resultSet = statement.executeQuery("SELECT * " + "FROM students");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM students");
         
         while(resultSet.next()){
-            
-            long username = resultSet.getLong("username");
+
+            int username = resultSet.getInt("username");
             String name = resultSet.getString("name");
             String password = resultSet.getString("password");
             
