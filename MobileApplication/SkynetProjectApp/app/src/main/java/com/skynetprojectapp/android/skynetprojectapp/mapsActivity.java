@@ -114,13 +114,12 @@ public class mapsActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(mapsActivity.this);
 
 
-
     }
 
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-       }
+    }
 
     @Override
     public void onPageSelected(int position) {
@@ -178,27 +177,14 @@ public class mapsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public PlaceholderFragment() {
+    public static class Frag1 extends Fragment {
+        public Frag1() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static Frag1 newInstance() {
+            Frag1 fragment = new Frag1();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
@@ -208,23 +194,113 @@ public class mapsActivity extends AppCompatActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText("Hi Frag1");
+            return rootView;
+        }
+    }
 
-            ImageView map = (ImageView) rootView.findViewById(R.id.cmap);
-            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
-                case 1:
-                    map.setImageResource(R.drawable.lb3);
-                case 2:
-                    map.setImageResource(R.drawable.lb3);
-                case 3:
-                    map.setImageResource(R.drawable.logo);
-                case 4:
-                    map.setImageResource(R.drawable.lb3);
-                case 5:
-                    map.setImageResource(R.drawable.lb3);
-                case 6:
-                    map.setImageResource(R.drawable.lb3);
-            }
+    public static class Frag2 extends Fragment {
+        public Frag2() {
+        }
+
+        public static Frag2 newInstance() {
+            Frag2 fragment = new Frag2();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps2, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag2");
+            return rootView;
+        }
+    }
+
+    public static class Frag3 extends Fragment {
+        public Frag3() {
+        }
+
+        public static Frag3 newInstance() {
+            Frag3 fragment = new Frag3();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps3, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag3");
+            return rootView;
+        }
+    }
+
+    public static class Frag4 extends Fragment {
+        public Frag4() {
+        }
+
+        public static Frag4 newInstance() {
+            Frag4 fragment = new Frag4();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps4, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag4");
+            return rootView;
+        }
+    }
+
+
+    public static class Frag5 extends Fragment {
+        public Frag5() {
+        }
+
+        public static Frag5 newInstance() {
+            Frag5 fragment = new Frag5();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps5, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag5");
+            return rootView;
+        }
+    }
+
+    public static class Frag6 extends Fragment {
+        public Frag6() {
+        }
+
+        public static Frag6 newInstance() {
+            Frag6 fragment = new Frag6();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps6, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag6");
             return rootView;
         }
     }
@@ -243,7 +319,21 @@ public class mapsActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    return Frag1.newInstance();
+                case 1:
+                    return Frag2.newInstance();
+                case 2:
+                    return Frag3.newInstance();
+                case 3:
+                    return Frag4.newInstance();
+                case 4:
+                    return Frag5.newInstance();
+                case 5:
+                    return Frag6.newInstance();
+            }
+            return null;
         }
 
         @Override
