@@ -23,13 +23,14 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET,produces = "application/json")
     public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String password){
-        if(!areValidLengths(username, password))
+        if(!areValidFormat(username, password))
             return false;
 
         password = encrypt(password);
 
         //if log in info correct
-        Student student = StudentMapper.getData(username);//This is wrong now, but I am assuming the method will change once we discuss what the primary keys for the maps should be
+        int studentId = Integer.parseInt(username);
+        Student student = StudentMapper.getData(studentId);//This is wrong now, but I am assuming the method will change once we discuss what the primary keys for the maps should be
         if(!isValidPassword(student, password))
             return false;
 
@@ -43,11 +44,18 @@ public class AuthenticationController {
      * @param password
      * @return true if it validates properly
      */
-    private boolean areValidLengths(String username, String password)
+    private boolean areValidFormat(String username, String password)
     {
         if(username.length() < 8 || username.length() > 20 || password.length() < 8 || password.length() > 20)
             return false;
-        return true;
+        try {
+            Integer.parseInt(username);
+            return true;
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
     }
 
     /**
