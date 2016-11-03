@@ -10,14 +10,16 @@ public class Student extends DomainObject{
 
     private static final AtomicInteger COUNTS = new AtomicInteger(1);
     //private int sid;
-    private String username;
+    //private String username;
+    //private int username;
     private String name;
     private String password;
 
-    public Student(String u, String n, String p){
-        super(COUNTS.incrementAndGet());
+    public Student(int u, String n, String p){
+        super(u);
+        //super(COUNTS.incrementAndGet());
         //sid = COUNTS.incrementAndGet();
-        username = u;
+        //username = u;
         name = n;
         password = p;
     }
@@ -26,9 +28,9 @@ public class Student extends DomainObject{
         return sid;
     }*/
 
-    public String getUsername() {
+    /*public int getUsername() {
         return username;
-    }
+    }*/
 
     public String getName() {
         return name;
@@ -42,9 +44,9 @@ public class Student extends DomainObject{
         this.sid = sid;
     }*/
 
-    public void setUsername(String username) {
+    /*public void setUsername(int username) {
         this.username = username;
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;
@@ -56,7 +58,6 @@ public class Student extends DomainObject{
 
     public String toString(){
         return ("Name: " + name +
-                "\nUsername: " + username +
                 "\nStudent Id: " + super.getId());
     }
 }

@@ -94,22 +94,21 @@ INSERT INTO `rooms` (`roomId`, `roomNumber`, `description`, `roomsize`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `students` (
-  `studentId` int(10) unsigned NOT NULL AUTO_INCREMENT,	
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   UNIQUE KEY `users_username_unique` (`username`),
-  PRIMARY KEY (`studentId`)
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=135;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`studentId`, `username`, `name`, `password`) VALUES
-(1, 'v_emili', 'Emili Vasseva', 'Ca8/08c9onmg77QVxPXQh.w/OLRqO9e'),
-(2, 'bob', 'Sponge Bob', 'pass'),
-(3, 'wazzup', 'Bishes', 'JW8a8/iaCSg92WboP8foeO12Ym6t7PW');
+INSERT INTO `students` (`username`, `name`, `password`) VALUES
+('27526741', 'Emili Vasseva', 'Ca8/08c9onmg77QVxPXQh.w/OLRqO9e'),
+('27526766', 'Sponge Bob', 'pass'),
+('27526711', 'Bishes', 'JW8a8/iaCSg92WboP8foeO12Ym6t7PW');
 
 -- --------------------------------------------------------
 

@@ -35,15 +35,14 @@ public class StudentMapper {
         }
     }
 
-    public void makeNew(String u, String n, String p) throws SQLException {
+    public void makeNew(int u, String n, String p) throws SQLException {
         Student s = new Student(u, n, p);
         StudentIdentityMap.addStudent(s);
         UnitOfWork.registerNew(s);
         UnitOfWork.commit();
     }
 
-    public void set(Student s, String u, String n, String p) throws SQLException{
-            s.setUsername(u);
+    public void set(Student s, String n, String p) throws SQLException{
             s.setName(n);
             s.setPassword(p);
             StudentIdentityMap.addStudent(s);
