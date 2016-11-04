@@ -13,10 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+
+
 public class mainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button servlet_Button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +39,19 @@ public class mainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        servlet_Button = (Button) findViewById(R.id.prototype_testing);
 
-        servlet_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //this is where we define what the method does.
-                //temporary output to visualize
 
-                Toast.makeText(getApplicationContext(), "Hi, this is Example", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Reservation r1 = (Reservation) findViewById(R.id.reservation);
+        r1.setRoomNumber("LB1");
+
+        Reservation r2 = (Reservation) findViewById(R.id.reservation2);
+        r2.setRoomNumber("LB2");
+        r2.setDay("Tuesday");
+
+        Reservation r3 = (Reservation) findViewById(R.id.reservation3);
+        r3.setRoomNumber("LB3");
+        r3.setDay("Monday");
+
 
     }
 
@@ -89,7 +94,7 @@ public class mainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Rooms) {
             startActivity(new Intent(mainActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

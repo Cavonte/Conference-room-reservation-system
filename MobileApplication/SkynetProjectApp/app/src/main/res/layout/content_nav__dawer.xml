@@ -18,33 +18,73 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.AppCompatTextView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            android:text="Click on the button for a example action to be called. The code can be found in the mainActivity java file." />
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:paddingBottom="5dp"
+                android:text="My Reservations"
+                android:textSize="30sp" />
+        </FrameLayout>
+
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:id="@+id/r1"
+            layout="@layout/sample_reservation" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:id="@+id/r2"
+            layout="@layout/reservation2" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:id="@+id/r3"
+            layout="@layout/reservation3" />
 
         <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatButton
-                android:layout_width="137dp"
+            <Button
+                android:text="Reserve a room"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/prototype_testing"
-                android:text=" Prototype testing "
-                android:layout_margin="15dp"
-                android:background="@color/blue"
-                android:textColor="@color/grey"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1" />
+                android:background="@color/colorPrimary"
+
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:id="@+id/button2" />
+
+
         </FrameLayout>
+
+
+        <FrameLayout
+            android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:text="Go to Favorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:id="@+id/button3" />
+
+        </FrameLayout>
+
 
     </LinearLayout>
 

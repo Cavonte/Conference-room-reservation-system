@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkynetProjectApp</string>
+    <string name="app_name">Concordia Room Scheduler</string>
     <string name="title_activity_nav__dawer">nav_Dawer</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -26,4 +26,10 @@
     <string name="title_activity_preferences">Preferences</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+    <string name="def_quote">You have tried your best and you have failed miserably. The lesson is to never try. -Homer Simpson</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="studentid">StudentID</string>
+    <string name="reset_button">Reset</string>
 </resources>
