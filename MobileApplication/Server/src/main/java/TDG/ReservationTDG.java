@@ -26,16 +26,16 @@ public class ReservationTDG {
         
     }
     
-    public static ArrayList<Reservation> findAll() throws ClassNotFoundException,SQLException {
+    public static ResultSet findAll() throws ClassNotFoundException,SQLException {
         
-        ArrayList<Reservation> reservationsList = new ArrayList<>(30);
+        //ArrayList<Reservation> reservationsList = new ArrayList<>(30);
 
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
-        
+        /*
         while(resultSet.next()){
             
             int resId = resultSet.getInt("reservationId");
@@ -52,19 +52,22 @@ public class ReservationTDG {
         resultSet.close();
         statement.close();
         connection.close();
-        
-        return reservationsList;
+        */
+        return resultSet;
         
     }
     
-    public static Reservation find(int reservationId) throws ClassNotFoundException,SQLException{
+    public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
-        
+
+        return resultSet;
+
+        /*
         if(resultSet.next()){
             int resId = resultSet.getInt("reservationId");
             int roomId = resultSet.getInt("roomId");
@@ -84,7 +87,7 @@ public class ReservationTDG {
         else{
             throw new SQLException("Error: empty result");
         }
-        
+        */
         
         
     }

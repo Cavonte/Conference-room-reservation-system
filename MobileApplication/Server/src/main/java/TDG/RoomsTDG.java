@@ -26,16 +26,17 @@ public class RoomsTDG {
         
     }
     
-    public static ArrayList<Room> findAll() throws ClassNotFoundException,SQLException {
+    public static ResultSet findAll() throws ClassNotFoundException,SQLException {
         
-        ArrayList<Room> rooms = new ArrayList<>(30);
+        //ArrayList<Room> rooms = new ArrayList<>(30);
 
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms");
-        
+
+        /*
         while(resultSet.next()){
             
             String roomNumber = resultSet.getString("roomNumber");
@@ -48,19 +49,20 @@ public class RoomsTDG {
         resultSet.close();
         statement.close();
         connection.close();
-        
-        return rooms;
+        */
+        return resultSet;
         
     }
     
-    public static Room find(int roomId) throws ClassNotFoundException,SQLException{
+    public static ResultSet find(int roomId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms WHERE roomId = " + roomId);
-        
+
+        /*
         if(resultSet.next()){
             String roomNumber1 = resultSet.getString("roomNumber");
             String description = resultSet.getString("description");
@@ -77,7 +79,8 @@ public class RoomsTDG {
             throw new SQLException("Error: empty result");
         }
         
-        
+        */
+        return resultSet;
         
     }
     

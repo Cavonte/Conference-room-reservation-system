@@ -26,15 +26,16 @@ public class StudentTDG {
         
     }
     
-    public static ArrayList<Student> findAll() throws SQLException {
+    public static ResultSet findAll() throws SQLException {
         
-        ArrayList<Student> studentList = new ArrayList<>(30);
+        //ArrayList<Student> studentList = new ArrayList<>(30);
 
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students");
-        
+
+        /*
         while(resultSet.next()){
 
             int username = resultSet.getInt("username");
@@ -47,18 +48,19 @@ public class StudentTDG {
         resultSet.close();
         statement.close();
         connection.close();
-        
-        return studentList;
+        */
+        return resultSet;
         
     }
     
-    public static Student find(int studentId) throws SQLException{
+    public static ResultSet find(int studentId) throws SQLException{
 
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE username = " + studentId);
-        
+
+        /*
         if(resultSet.next()){
             int username = resultSet.getInt("username");
             String name = resultSet.getString("FullName");
@@ -74,8 +76,8 @@ public class StudentTDG {
         else{
             throw new SQLException("Error: empty result");
         }
-        
-        
+        */
+        return resultSet;
         
     }
     
