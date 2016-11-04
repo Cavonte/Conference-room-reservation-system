@@ -26,7 +26,7 @@ public class ReservationTDG {
         
     }
     
-    public ArrayList<Reservation> findAll() throws ClassNotFoundException,SQLException {
+    public static ArrayList<Reservation> findAll() throws ClassNotFoundException,SQLException {
         
         ArrayList<Reservation> reservationsList = new ArrayList<>(30);
 
@@ -34,7 +34,7 @@ public class ReservationTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        ResultSet resultSet = statement.executeQuery("SELECT * " + "FROM reservations");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
         
         while(resultSet.next()){
             

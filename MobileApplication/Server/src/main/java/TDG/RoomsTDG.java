@@ -26,7 +26,7 @@ public class RoomsTDG {
         
     }
     
-    public ArrayList<Room> findAll() throws ClassNotFoundException,SQLException {
+    public static ArrayList<Room> findAll() throws ClassNotFoundException,SQLException {
         
         ArrayList<Room> rooms = new ArrayList<>(30);
 
@@ -34,7 +34,7 @@ public class RoomsTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        ResultSet resultSet = statement.executeQuery("SELECT * " + "FROM rooms");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms");
         
         while(resultSet.next()){
             
