@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import Core.Room;
 import Core.Student;
+import IdentityMap.ObjectNotFoundException;
 import IdentityMap.RoomIdentityMap;
 
 import IdentityMap.StudentIdentityMap;
@@ -21,7 +22,7 @@ public class RoomMapper {
     public RoomMapper(){
     }
 
-    public static Room getData(int rid) throws Exception, ClassNotFoundException, SQLException{
+    public static Room getData(int rid) throws ObjectNotFoundException,ClassNotFoundException, SQLException{
         Room ro =  RoomIdentityMap.getRoomFromMap(rid);
         if(ro != null){
             return ro;

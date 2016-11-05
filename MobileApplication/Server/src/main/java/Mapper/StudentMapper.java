@@ -50,23 +50,22 @@ public class StudentMapper {
         }
     }
 
-    public void makeNew(int u, String n, String p) throws ClassNotFoundException,SQLException {
+    public static void makeNew(int u, String n, String p) throws ClassNotFoundException,SQLException {
         Student s = new Student(u, n, p);
         StudentIdentityMap.addStudent(s);
         UnitOfWork.registerNew(s);
         UnitOfWork.commit();
     }
 
-    public void set(Student s, String n, String p) throws ClassNotFoundException,SQLException{
+    public static void set(Student s, String n, String p) throws ClassNotFoundException,SQLException{
             s.setName(n);
             s.setPassword(p);
-            StudentIdentityMap.addStudent(s);
             UnitOfWork.registerDirty(s);
             UnitOfWork.commit();
 
     }
 
-    public void erase(Student s) throws ClassNotFoundException,SQLException {
+    public static void erase(Student s) throws ClassNotFoundException,SQLException {
         StudentIdentityMap.delete(s);
         UnitOfWork.registerDelete(s);
         UnitOfWork.commit();

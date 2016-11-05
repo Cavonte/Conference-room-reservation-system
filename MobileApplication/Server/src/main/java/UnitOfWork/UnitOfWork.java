@@ -30,7 +30,7 @@ public class UnitOfWork {
 
         Assert.assertNotNull(client.getId());
         Assert.assertTrue(!dirtyObjects.contains(client));
-        Assert.assertTrue(removedObjects.contains(client));
+        Assert.assertTrue(!removedObjects.contains(client));
         Assert.assertTrue(!newObjects.contains(client));
         newObjects.add(client);
     }
@@ -48,6 +48,7 @@ public class UnitOfWork {
 
     public static void registerDelete(DomainObject obj){
         Assert.assertNotNull(obj.getId());
+
 
         if(newObjects.remove(obj))
             return;
@@ -79,6 +80,7 @@ public class UnitOfWork {
             }
 
         }
+        newObjects.clear();
     }
 
     public static void updateDirty() throws ClassNotFoundException,SQLException{
@@ -99,6 +101,7 @@ public class UnitOfWork {
             }
 
         }
+        dirtyObjects.clear();
     }
 
     public static void deleteRemoved() throws ClassNotFoundException,SQLException{
@@ -114,6 +117,7 @@ public class UnitOfWork {
                 StudentMapper.deleteToDB((Student)obj);
             }
         }
+        removedObjects.clear();
     }
 
         /*private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{

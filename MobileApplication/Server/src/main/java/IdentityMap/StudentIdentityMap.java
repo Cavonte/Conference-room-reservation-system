@@ -11,13 +11,14 @@ import Core.Student;
 
 public class StudentIdentityMap {
 
-    private static Map<Integer, Student> mapOfStudents;
+    private static Map<Integer, Student> mapOfStudents = new HashMap<Integer, Student>();;
 
     public StudentIdentityMap(){
-        mapOfStudents = new HashMap<Integer, Student>();
+
     }
 
     public static void addStudent(Student s){
+        int temp = s.getId();
         mapOfStudents.put(s.getId(), s);
     }
 

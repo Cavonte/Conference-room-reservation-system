@@ -78,7 +78,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("INSERT INTO students(username, FullName, password) VALUES (" + student.getId() + "," + "'student.getName()'" + ", '" + student.getPassword() + "');");
+        statement.executeUpdate("INSERT INTO students(username, FullName, password) VALUES (" + student.getId() + ",'" + student.getName() + "', '" + student.getPassword() + "');");
 
         statement.close();
         connection.close();
@@ -89,7 +89,7 @@ public class StudentTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("UPDATE students SET FullName = '" + student.getName() + "', password = '" + student.getPassword() + "' WHERE username = '" + student.getId() + "'");
+        statement.executeUpdate("UPDATE students SET FullName = '" + student.getName() + "', password = '" + student.getPassword() + "' WHERE username = " + student.getId() + "");
 
         statement.close();
         connection.close();
