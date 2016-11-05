@@ -11,6 +11,8 @@ import TDG.ReservationTDG;
 import TDG.StudentTDG;
 import UnitOfWork.UnitOfWork;
 
+import java.sql.ResultSet;
+
 /**
  * Created by Emili on 2016-10-26.
  */
@@ -27,9 +29,28 @@ public class ReservationMapper {
             return res;
         }
         else {
-            Reservation reservationDB = ReservationTDG.find(reId);
+
+        ResultSet resultSet = ReservationTDG.find(reId);
+
+        if(resultSet.next()){
+
+            int resId = resultSet.getInt("reservationId");
+            int roomId = resultSet.getInt("roomId");
+            int studentId = resultSet.getInt("studentId");
+            String weekDay = resultSet.getString("weekDay");
+            String startTime = resultSet.getString("startTime");
+            String endTime = resultSet.getString("endTime");
+            int position = resultSet.getInt("position");
+
+            Reservation reservationDB = new Reservation(roomId, studentId, weekDay, startTime, endTime, position);
             ReservationIdentityMap.addRes(reservationDB);
+
             return reservationDB;
+        }
+        else{
+            throw new SQLException("Error: empty result");
+        }
+
         }
     }
     public void makeNew(int roomid, int studentid, String d, String st, String et, int p) throws ClassNotFoundException,SQLException {
@@ -46,7 +67,7 @@ public class ReservationMapper {
         re.setStartTime(st);
         re.setEndTime(et);
         re.setPosition(p);
-        ReservationIdentityMap.addRes(re);
+        //ReservationIdentityMap.addRes(re);
         UnitOfWork.registerDirty(re);
         UnitOfWork.commit();
     }

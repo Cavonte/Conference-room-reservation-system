@@ -2,6 +2,7 @@ package Mapper;
 
 
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,9 +30,23 @@ public class StudentMapper {
             return stu;
         }
         else {
-            Student studentDB = StudentTDG.find(stuid);
-            StudentIdentityMap.addStudent(studentDB);
-            return studentDB;
+
+            ResultSet resultSet = StudentTDG.find(stuid);
+
+            if(resultSet.next()){
+
+                int username = resultSet.getInt("username");
+                String name = resultSet.getString("FullName");
+                String password = resultSet.getString("password");
+
+                Student studentDB = new Student(username, name, password);
+                StudentIdentityMap.addStudent(studentDB);
+
+                return studentDB;
+            }
+            else{
+                throw new SQLException("Error: empty result");
+            }
         }
     }
 

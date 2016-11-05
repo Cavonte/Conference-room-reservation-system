@@ -50,6 +50,11 @@ public class RoomsTDG {
         statement.close();
         connection.close();
         */
+
+        connection.close();
+        statement.close();
+        resultSet.close();
+
         return resultSet;
         
     }
@@ -62,24 +67,10 @@ public class RoomsTDG {
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms WHERE roomId = " + roomId);
 
-        /*
-        if(resultSet.next()){
-            String roomNumber1 = resultSet.getString("roomNumber");
-            String description = resultSet.getString("description");
-            int roomSize = resultSet.getInt("roomSize");
-            
-            resultSet.close();
-            connection.close();
-            
-            Room room = new Room(roomNumber1, description, roomSize);
-            
-            return room;
-        }
-        else{
-            throw new SQLException("Error: empty result");
-        }
-        
-        */
+        connection.close();
+        statement.close();
+        resultSet.close();
+
         return resultSet;
         
     }
@@ -103,6 +94,7 @@ public class RoomsTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE rooms " + "SET roomNumber = '" + room.getRoomNumber() + "', description = '" + room.getDescription() + "', roomSize = " + room.getRoomSize());
+
         statement.close();
         connection.close();
     }
@@ -114,6 +106,7 @@ public class RoomsTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM rooms " + "WHERE roomNumber = " + room.getRoomNumber());
+
         statement.close();
         connection.close();
         

@@ -41,14 +41,19 @@ public class StudentTDG {
             int username = resultSet.getInt("username");
             String name = resultSet.getString("FullName");
             String password = resultSet.getString("password");
-            
+
             studentList.add(new Student(username, name,password));
         }
-        
+
         resultSet.close();
         statement.close();
         connection.close();
         */
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+
         return resultSet;
         
     }
@@ -60,23 +65,10 @@ public class StudentTDG {
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE username = " + studentId);
 
-        /*
-        if(resultSet.next()){
-            int username = resultSet.getInt("username");
-            String name = resultSet.getString("FullName");
-            String password = resultSet.getString("password");
-            
-            resultSet.close();
-            connection.close();
-            
-            Student student = new Student(username, name, password);
-            
-            return student;
-        }
-        else{
-            throw new SQLException("Error: empty result");
-        }
-        */
+        resultSet.close();
+        statement.close();
+        connection.close();
+
         return resultSet;
         
     }
@@ -98,6 +90,7 @@ public class StudentTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE students SET FullName = '" + student.getName() + "', password = '" + student.getPassword() + "' WHERE username = '" + student.getId() + "'");
+
         statement.close();
         connection.close();
     }
@@ -108,6 +101,7 @@ public class StudentTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM students WHERE username = " + student.getId());
+
         statement.close();
         connection.close();
         

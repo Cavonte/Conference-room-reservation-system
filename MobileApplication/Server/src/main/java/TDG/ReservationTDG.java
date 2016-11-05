@@ -53,6 +53,11 @@ public class ReservationTDG {
         statement.close();
         connection.close();
         */
+
+        connection.close();
+        statement.close();
+        resultSet.close();
+
         return resultSet;
         
     }
@@ -65,30 +70,11 @@ public class ReservationTDG {
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
 
-        return resultSet;
+        connection.close();
+        statement.close();
+        resultSet.close();
 
-        /*
-        if(resultSet.next()){
-            int resId = resultSet.getInt("reservationId");
-            int roomId = resultSet.getInt("roomId");
-            int studentId = resultSet.getInt("studentId");
-            String weekDay = resultSet.getString("weekDay");
-            String startTime = resultSet.getString("startTime");
-            String endTime = resultSet.getString("endTime");
-            int position = resultSet.getInt("position");
-            
-            resultSet.close();
-            connection.close();
-            
-            Reservation reservation = new Reservation(roomId, studentId, weekDay, startTime, endTime, position);
-            
-            return reservation;
-        }
-        else{
-            throw new SQLException("Error: empty result");
-        }
-        */
-        
+        return resultSet;
         
     }
     
@@ -111,6 +97,7 @@ public class ReservationTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getId());
+
         statement.close();
         connection.close();
     }
@@ -122,6 +109,7 @@ public class ReservationTDG {
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM reservations " + "WHERE reservationId = " + reservation.getId());
+
         statement.close();
         connection.close();
         

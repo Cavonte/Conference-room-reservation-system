@@ -1,5 +1,6 @@
 package Mapper;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Core.Room;
@@ -26,9 +27,24 @@ public class RoomMapper {
             return ro;
         }
         else{
-            Room roomDB = RoomsTDG.find(rid);
+
+        ResultSet resultSet = RoomsTDG.find(rid);
+
+        if(resultSet.next()){
+
+            String roomNumber1 = resultSet.getString("roomNumber");
+            String description = resultSet.getString("description");
+            int roomSize = resultSet.getInt("roomSize");
+
+            Room roomDB = new Room(roomNumber1, description, roomSize);
             RoomIdentityMap.addRoom(roomDB);
+
             return roomDB;
+        }
+        else{
+            throw new SQLException("Error: empty result");
+        }
+
         }
     }
 
