@@ -1,5 +1,4 @@
 package com.server;
-/*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,20 +8,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+
+import java.sql.SQLException;
+
 import Core.Student;
 
 import Mapper.StudentMapper;
 import netscape.security.Principal;
-*/
-/**
- * Created by dias on 16-10-28.
- */
-/*
+
 @RestController
 public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET,produces = "application/json")
-    public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String password){
+    public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String password) throws ClassNotFoundException, SQLException
+    {
         if(!areValidFormat(username, password))
             return false;
 
@@ -30,21 +29,20 @@ public class AuthenticationController {
 
         //if log in info correct
         int studentId = Integer.parseInt(username);
-        Student student = StudentMapper.getData(studentId);//This is wrong now, but I am assuming the method will change once we discuss what the primary keys for the maps should be
+        Student student = StudentMapper.getData(studentId);
         if(!isValidPassword(student, password))
             return false;
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
         return true;
     }
-*/
+
     /**
      * Method to before basic validation on the length of the parameters, in case the front end did not
      * @param username
      * @param password
      * @return true if it validates properly
      */
-/*
     private boolean areValidFormat(String username, String password)
     {
         if(username.length() < 8 || username.length() > 20 || password.length() < 8 || password.length() > 20)
@@ -58,13 +56,12 @@ public class AuthenticationController {
             return false;
         }
     }
-*/
+
     /**
      * Unimplemented method to encrypt the password before it can be checked against the encrypted passwords in the database
      * @param password
      * @return the encrypted password as a String
      */
-/*
     private String encrypt(String password)
     {
         String encryptedPassword = password;
@@ -78,4 +75,3 @@ public class AuthenticationController {
         return true;
     }
 }
-*/
