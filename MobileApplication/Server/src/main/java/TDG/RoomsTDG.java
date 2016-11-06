@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import Core.Room;
 
@@ -27,11 +26,9 @@ public class RoomsTDG {
     }
     
     public static ResultSet findAll() throws ClassNotFoundException,SQLException {
-        
-        //ArrayList<Room> rooms = new ArrayList<>(30);
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms");
@@ -51,10 +48,6 @@ public class RoomsTDG {
         connection.close();
         */
 
-        connection.close();
-        statement.close();
-        resultSet.close();
-
         return resultSet;
         
     }
@@ -62,14 +55,10 @@ public class RoomsTDG {
     public static ResultSet find(int roomId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM rooms WHERE roomId = " + roomId);
-
-        connection.close();
-        statement.close();
-        resultSet.close();
 
         return resultSet;
         
@@ -78,7 +67,7 @@ public class RoomsTDG {
     public static void insert(Room room) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO rooms " + "VALUES ( " + room.getId() + ", '" + room.getRoomNumber() + "', '" + room.getDescription() + "'," + room.getRoomSize() + ")");
@@ -90,10 +79,10 @@ public class RoomsTDG {
     public static void update(Room room) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("UPDATE rooms " + "SET roomNumber = '" + room.getRoomNumber() + "', description = '" + room.getDescription() + "', roomSize = " + room.getRoomSize());
+        statement.executeUpdate("UPDATE rooms " + "SET roomNumber = '" + room.getRoomNumber() + "', description = '" + room.getDescription() + "', roomSize = " + room.getRoomSize() + " WHERE roomId = " + room.getId());
 
         statement.close();
         connection.close();
@@ -102,10 +91,10 @@ public class RoomsTDG {
     public static void delete(Room room) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("DELETE FROM rooms " + "WHERE roomNumber = " + room.getRoomNumber());
+        statement.executeUpdate("DELETE FROM rooms " + "WHERE roomNumber = '" + room.getRoomNumber()+ "'");
 
         statement.close();
         connection.close();

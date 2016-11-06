@@ -11,21 +11,16 @@ import Core.Student;
 
 public class StudentIdentityMap {
 
-    private static Map<Integer, Student> mapOfStudents = new HashMap<Integer, Student>();;
-
-    public StudentIdentityMap(){
-
-    }
+    private static Map<Integer, Student> mapOfStudents = new HashMap<Integer, Student>();
 
     public static void addStudent(Student s){
-        int temp = s.getId();
         mapOfStudents.put(s.getId(), s);
     }
 
-    public static Student getStudentFromMap(int studentID) throws ObjectNotFoundException {
+    public static Student getStudentFromMap(int studentID){
         Student s = mapOfStudents.get(studentID);
         if (s == null){
-            throw new ObjectNotFoundException("Student not found.");
+            return null;
         }
         return s;
     }

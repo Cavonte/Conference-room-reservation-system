@@ -1,16 +1,10 @@
 package Mapper;
 
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
 
 import Core.Student;
-import IdentityMap.ObjectNotFoundException;
 import IdentityMap.StudentIdentityMap;
-
 import TDG.StudentTDG;
 import UnitOfWork.UnitOfWork;
 
@@ -23,7 +17,7 @@ public class StudentMapper {
     public StudentMapper(){
     }
 
-    public static Student getData(int stuid) throws ObjectNotFoundException,ClassNotFoundException, SQLException{
+    public static Student getData(int stuid) throws ClassNotFoundException, SQLException{
         Student stu = StudentIdentityMap.getStudentFromMap(stuid);
         if(stu != null)
         {
@@ -50,14 +44,14 @@ public class StudentMapper {
         }
     }
 
-    public static void makeNew(int u, String n, String p) throws ClassNotFoundException,SQLException {
+    public static void makeNew(int u, String n, String p) throws ClassNotFoundException, SQLException {
         Student s = new Student(u, n, p);
         StudentIdentityMap.addStudent(s);
         UnitOfWork.registerNew(s);
         UnitOfWork.commit();
     }
 
-    public static void set(Student s, String n, String p) throws ClassNotFoundException,SQLException{
+    public static void set(Student s, String n, String p) throws ClassNotFoundException, SQLException{
             s.setName(n);
             s.setPassword(p);
             UnitOfWork.registerDirty(s);
@@ -65,21 +59,21 @@ public class StudentMapper {
 
     }
 
-    public static void erase(Student s) throws ClassNotFoundException,SQLException {
+    public static void erase(Student s) throws ClassNotFoundException, SQLException {
         StudentIdentityMap.delete(s);
         UnitOfWork.registerDelete(s);
         UnitOfWork.commit();
     }
 
-    public static void saveToDB(Student s) throws SQLException {
+    public static void saveToDB(Student s) throws ClassNotFoundException, SQLException{
         StudentTDG.insert(s);
     }
 
-    public static void deleteToDB(Student s) throws SQLException {
+    public static void deleteToDB(Student s) throws ClassNotFoundException, SQLException{
         StudentTDG.delete(s);
     }
 
-    public static void updateToDB(Student s) throws SQLException {
+    public static void updateToDB(Student s) throws ClassNotFoundException, SQLException{
         StudentTDG.update(s);
     }
 }

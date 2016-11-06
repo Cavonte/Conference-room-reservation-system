@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import Core.Reservation;
 
@@ -27,11 +26,9 @@ public class ReservationTDG {
     }
     
     public static ResultSet findAll() throws ClassNotFoundException,SQLException {
-        
-        //ArrayList<Reservation> reservationsList = new ArrayList<>(30);
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
@@ -54,10 +51,6 @@ public class ReservationTDG {
         connection.close();
         */
 
-        connection.close();
-        statement.close();
-        resultSet.close();
-
         return resultSet;
         
     }
@@ -65,14 +58,10 @@ public class ReservationTDG {
     public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
-
-        connection.close();
-        statement.close();
-        resultSet.close();
 
         return resultSet;
         
@@ -81,7 +70,7 @@ public class ReservationTDG {
     public static void insert(Reservation reservation) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getId() + "," + reservation.getRoomid() + "," + reservation.getStudentid() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
@@ -93,7 +82,7 @@ public class ReservationTDG {
     public static void update(Reservation reservation) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getId());
@@ -105,7 +94,7 @@ public class ReservationTDG {
     public static void delete(Reservation reservation) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM reservations " + "WHERE reservationId = " + reservation.getId());

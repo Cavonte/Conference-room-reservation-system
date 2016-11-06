@@ -9,8 +9,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Reservation extends DomainObject{
 
-    private static final AtomicInteger COUNTRES = new AtomicInteger(1);
-    //private int resid;
     private int roomid;
     private int studentid;
     private String day;
@@ -18,9 +16,8 @@ public class Reservation extends DomainObject{
     private String endTime;
     private int position;
 
-    public Reservation(int roomid, int studentid, String d, String st, String et, int p){
-        super(COUNTRES.incrementAndGet());
-        //resid = countres.incrementAndGet();
+    public Reservation(int resid, int roomid, int studentid, String d, String st, String et, int p){
+        super(resid);
         this.roomid = roomid;
         this.studentid = studentid;
         day = d;
@@ -28,10 +25,6 @@ public class Reservation extends DomainObject{
         endTime = et;
         position = p;
     }
-
-   /* public int getResid() {
-        return resid;
-    }*/
 
     public int getRoomid() {
         return roomid;
@@ -56,10 +49,6 @@ public class Reservation extends DomainObject{
     public String getEndTime() {
         return endTime;
     }
-
-    /*public void setResid(int resid) {
-        this.resid = resid;
-    }*/
 
     public void setRoomid(int roomid) {
         this.roomid = roomid;

@@ -1,5 +1,5 @@
 package com.server;
-
+/*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import Core.Student;
 
 import Mapper.StudentMapper;
 import netscape.security.Principal;
-
+*/
 /**
  * Created by dias on 16-10-28.
  */
-
+/*
 @RestController
 public class AuthenticationController {
 
@@ -37,13 +37,14 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
         return true;
     }
-
+*/
     /**
      * Method to before basic validation on the length of the parameters, in case the front end did not
      * @param username
      * @param password
      * @return true if it validates properly
      */
+/*
     private boolean areValidFormat(String username, String password)
     {
         if(username.length() < 8 || username.length() > 20 || password.length() < 8 || password.length() > 20)
@@ -57,12 +58,13 @@ public class AuthenticationController {
             return false;
         }
     }
-
+*/
     /**
      * Unimplemented method to encrypt the password before it can be checked against the encrypted passwords in the database
      * @param password
      * @return the encrypted password as a String
      */
+/*
     private String encrypt(String password)
     {
         String encryptedPassword = password;
@@ -76,3 +78,4 @@ public class AuthenticationController {
         return true;
     }
 }
+*/

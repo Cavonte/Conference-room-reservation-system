@@ -1,5 +1,5 @@
 package com.server;
-
+/*
 import Core.Reservation;
 import Core.Room;
 import TDG.ReservationTDG;
@@ -65,3 +65,4 @@ public class ReservationTDGTests {
 
     }
 }
+*/

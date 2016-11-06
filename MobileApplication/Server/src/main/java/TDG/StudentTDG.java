@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import Core.Student;
 
@@ -27,10 +26,9 @@ public class StudentTDG {
     }
     
     public static ResultSet findAll() throws SQLException {
-        
-        //ArrayList<Student> studentList = new ArrayList<>(30);
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students");
@@ -50,24 +48,16 @@ public class StudentTDG {
         connection.close();
         */
 
-        resultSet.close();
-        statement.close();
-        connection.close();
-
         return resultSet;
         
     }
     
     public static ResultSet find(int studentId) throws SQLException{
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM students WHERE username = " + studentId);
-
-        resultSet.close();
-        statement.close();
-        connection.close();
 
         return resultSet;
         
@@ -75,7 +65,7 @@ public class StudentTDG {
     
     public static void insert(Student student) throws SQLException{
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO students(username, FullName, password) VALUES (" + student.getId() + ",'" + student.getName() + "', '" + student.getPassword() + "');");
@@ -86,7 +76,7 @@ public class StudentTDG {
     
     public static void update(Student student) throws SQLException{
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE students SET FullName = '" + student.getName() + "', password = '" + student.getPassword() + "' WHERE username = " + student.getId() + "");
@@ -97,7 +87,7 @@ public class StudentTDG {
     
     public static void delete(Student student) throws SQLException{
 
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM students WHERE username = " + student.getId());

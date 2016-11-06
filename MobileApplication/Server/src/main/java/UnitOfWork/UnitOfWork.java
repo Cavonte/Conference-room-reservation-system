@@ -89,7 +89,6 @@ public class UnitOfWork {
         for(Iterator<DomainObject> objects = dirtyObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 
-            //checkInstanceSaveToMap(obj);
             if(obj instanceof Room){
                 RoomMapper.updateToDB((Room) obj);
             }
@@ -120,15 +119,4 @@ public class UnitOfWork {
         removedObjects.clear();
     }
 
-        /*private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{
-        if(obj instanceof Room){
-            RoomMapper.saveToDB((Room) obj);
-        }
-        else if(obj instanceof Reservation){
-            ReservationMapper.saveToDB((Reservation) obj);
-        }
-        else if(obj instanceof Student){
-            StudentMapper.saveToDB((Student) obj);
-        }
-    }*/
 }
