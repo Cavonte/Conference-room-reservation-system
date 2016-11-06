@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `roomId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `roomId` int(10) unsigned NOT NULL,
   `roomNumber` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `roomsize` int(10) unsigned NOT NULL,
@@ -117,7 +117,7 @@ INSERT INTO `students` (`username`, `fullName`, `password`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `reservations` (
-  `reservationId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `reservationId` int(10) unsigned NOT NULL,
   `roomId` int(10) unsigned NOT NULL,
   `studentId` int(10) unsigned NOT NULL,
   `weekDay` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
