@@ -36,9 +36,9 @@ dependencies {
     compile("org.apache.directory.server:apacheds-server-jndi:1.5.5")
 	compile("org.springframework:spring-jdbc")
 	runtime("mysql:mysql-connector-java")
-	testCompile "junit:junit:4.12"
+	testCompile "junit:junit:4.11"
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 	testCompile("org.springframework.security:spring-security-test")
-	testCompile "org.mockito:mockito-core:1.+"
-	testCompile("org.powermock:powermock-mockito-release-full:1.5.4")
+	testCompile "org.mockito:mockito-all:1.9.5"
+	testCompile("org.powermock:powermock-mockito-release-full:1.5.6")
 }
