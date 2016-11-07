@@ -3,6 +3,7 @@ package Mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import Core.Room;
 import TDG.RoomsTDG;
@@ -15,90 +16,153 @@ import IdentityMap.RoomIdentityMap;
 
 public class RoomMapper {
 
+    private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+
     public RoomMapper(){
     }
 
     public static Room getData(int rid) throws ClassNotFoundException, SQLException{
-        Room ro =  RoomIdentityMap.getRoomFromMap(rid);
-        if(ro != null){
-            return ro;
+
+        readWriteLock.readLock().lock();
+
+        try {
+            Room ro = RoomIdentityMap.getRoomFromMap(rid);
+            if (ro != null) {
+                return ro;
+            } else {
+
+                ResultSet resultSet = RoomsTDG.find(rid);
+
+                if (resultSet.next()) {
+                    int roomid1 = resultSet.getInt("roomId");
+                    String roomNumber1 = resultSet.getString("roomNumber");
+                    String description = resultSet.getString("description");
+                    int roomSize = resultSet.getInt("roomSize");
+
+                    Room roomDB = new Room(roomid1, roomNumber1, description, roomSize);
+                    RoomIdentityMap.addRoom(roomDB);
+
+                    return roomDB;
+                } else {
+                    throw new SQLException("Error: empty result");
+                }
+
+            }
         }
-        else{
-
-            ResultSet resultSet = RoomsTDG.find(rid);
-
-            if(resultSet.next()){
-                int roomid1 = resultSet.getInt("roomId");
-                String roomNumber1 = resultSet.getString("roomNumber");
-                String description = resultSet.getString("description");
-                int roomSize = resultSet.getInt("roomSize");
-
-                Room roomDB = new Room(roomid1, roomNumber1, description, roomSize);
-                RoomIdentityMap.addRoom(roomDB);
-
-                return roomDB;
-            }
-            else{
-                throw new SQLException("Error: empty result");
-            }
-
+        finally{
+            readWriteLock.readLock().unlock();
         }
     }
 
     public static ArrayList<Room> getAllData() throws SQLException, ClassNotFoundException {
 
-        ResultSet resultSet = RoomsTDG.findAll();
-        ArrayList<Room> roomList = new ArrayList<Room>();
+        readWriteLock.readLock().lock();
 
-        if (resultSet == null)
-            return null;
-        else {
+        try {
+            ResultSet resultSet = RoomsTDG.findAll();
+            ArrayList<Room> roomList = new ArrayList<Room>();
 
-            while(resultSet.next()){
+            if (resultSet == null)
+                return null;
+            else {
 
-                int roomid1 = resultSet.getInt("roomId");
-                String roomNumber1 = resultSet.getString("roomNumber");
-                String description = resultSet.getString("description");
-                int roomSize = resultSet.getInt("roomSize");
+                while (resultSet.next()) {
 
-                roomList.add(new Room(roomid1, roomNumber1, description,roomSize));
-                RoomIdentityMap.addRoom(new Room(roomid1, roomNumber1, description,roomSize));
+                    int roomid1 = resultSet.getInt("roomId");
+                    String roomNumber1 = resultSet.getString("roomNumber");
+                    String description = resultSet.getString("description");
+                    int roomSize = resultSet.getInt("roomSize");
+
+                    roomList.add(new Room(roomid1, roomNumber1, description, roomSize));
+                    RoomIdentityMap.addRoom(new Room(roomid1, roomNumber1, description, roomSize));
+                }
+                return roomList;
             }
-            return roomList;
+        }
+        finally{
+            readWriteLock.readLock().unlock();
         }
     }
 
     public static void makeNew(int i, String rn, String d, int rs) throws ClassNotFoundException, SQLException{
-        Room ro = new Room(i, rn, d, rs);
-        RoomIdentityMap.addRoom(ro);
-        UnitOfWork.registerNew(ro);
-        UnitOfWork.commit();
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            Room ro = new Room(i, rn, d, rs);
+            RoomIdentityMap.addRoom(ro);
+            UnitOfWork.registerNew(ro);
+            UnitOfWork.commit();
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public static void set(Room r, String rn, String d, int rs) throws ClassNotFoundException, SQLException{
-        r.setRoomNumber(rn);
-        r.setDescription(d);
-        r.setRoomSize(rs);
-        UnitOfWork.registerDirty(r);
-        UnitOfWork.commit();
 
+        readWriteLock.writeLock().lock();
+
+        try {
+            r.setRoomNumber(rn);
+            r.setDescription(d);
+            r.setRoomSize(rs);
+            UnitOfWork.registerDirty(r);
+            UnitOfWork.commit();
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public static void erase(Room r) throws ClassNotFoundException, SQLException{
-        RoomIdentityMap.delete(r);
-        UnitOfWork.registerDelete(r);
-        UnitOfWork.commit();
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            RoomIdentityMap.delete(r);
+            UnitOfWork.registerDelete(r);
+            UnitOfWork.commit();
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public static void saveToDB(Room ro) throws ClassNotFoundException, SQLException{
-        RoomsTDG.insert(ro);
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            RoomsTDG.insert(ro);
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public static void deleteToDB(Room ro) throws ClassNotFoundException, SQLException{
-        RoomsTDG.delete(ro);
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            RoomsTDG.delete(ro);
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 
     public static void updateToDB(Room ro) throws ClassNotFoundException, SQLException{
-        RoomsTDG.update(ro);
+
+        readWriteLock.writeLock().lock();
+
+        try {
+            RoomsTDG.update(ro);
+        }
+        finally{
+            readWriteLock.writeLock().unlock();
+        }
     }
 }
