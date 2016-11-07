@@ -2,6 +2,7 @@ package Mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Core.Room;
 import TDG.RoomsTDG;
@@ -24,22 +25,46 @@ public class RoomMapper {
         }
         else{
 
-        ResultSet resultSet = RoomsTDG.find(rid);
-        if(resultSet.next()){
-            int roomid1 = resultSet.getInt("roomId");
-            String roomNumber1 = resultSet.getString("roomNumber");
-            String description = resultSet.getString("description");
-            int roomSize = resultSet.getInt("roomSize");
+            ResultSet resultSet = RoomsTDG.find(rid);
 
-            Room roomDB = new Room(roomid1, roomNumber1, description, roomSize);
-            RoomIdentityMap.addRoom(roomDB);
+            if(resultSet.next()){
+                int roomid1 = resultSet.getInt("roomId");
+                String roomNumber1 = resultSet.getString("roomNumber");
+                String description = resultSet.getString("description");
+                int roomSize = resultSet.getInt("roomSize");
 
-            return roomDB;
+                Room roomDB = new Room(roomid1, roomNumber1, description, roomSize);
+                RoomIdentityMap.addRoom(roomDB);
+
+                return roomDB;
+            }
+            else{
+                throw new SQLException("Error: empty result");
+            }
+
         }
-        else{
-            throw new SQLException("Error: empty result");
-        }
+    }
 
+    public static ArrayList<Room> getAllData() throws SQLException, ClassNotFoundException {
+
+        ResultSet resultSet = RoomsTDG.findAll();
+        ArrayList<Room> roomList = new ArrayList<Room>();
+
+        if (resultSet == null)
+            return null;
+        else {
+
+            while(resultSet.next()){
+
+                int roomid1 = resultSet.getInt("roomId");
+                String roomNumber1 = resultSet.getString("roomNumber");
+                String description = resultSet.getString("description");
+                int roomSize = resultSet.getInt("roomSize");
+
+                roomList.add(new Room(roomid1, roomNumber1, description,roomSize));
+                RoomIdentityMap.addRoom(new Room(roomid1, roomNumber1, description,roomSize));
+            }
+            return roomList;
         }
     }
 

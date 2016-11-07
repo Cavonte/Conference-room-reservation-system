@@ -54,7 +54,7 @@ public class ReservationTDG {
         return resultSet;
         
     }
-    
+
     public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
@@ -102,6 +102,17 @@ public class ReservationTDG {
         statement.close();
         connection.close();
         
+    }
+
+    public static ResultSet getAllResOfStudent(int studID) throws ClassNotFoundException,SQLException{
+
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE studentId = " + studID);
+
+        return resultSet;
     }
     
 }

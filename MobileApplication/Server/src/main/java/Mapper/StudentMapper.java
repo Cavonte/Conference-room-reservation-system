@@ -2,6 +2,7 @@ package Mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Core.Student;
 import IdentityMap.StudentIdentityMap;
@@ -43,6 +44,29 @@ public class StudentMapper {
             }
         }
     }
+
+    public static ArrayList<Student> getAllData() throws SQLException {
+
+        ResultSet resultSet = StudentTDG.findAll();
+        ArrayList<Student> studentList = new ArrayList<Student>();
+
+        if (resultSet == null)
+            return null;
+        else {
+
+            while (resultSet.next()) {
+
+                int username = resultSet.getInt("username");
+                String name = resultSet.getString("FullName");
+                String password = resultSet.getString("password");
+
+                studentList.add(new Student(username, name, password));
+                StudentIdentityMap.addStudent(new Student(username, name, password));
+            }
+            return studentList;
+        }
+    }
+
 
     public static void makeNew(int u, String n, String p) throws ClassNotFoundException, SQLException {
         Student s = new Student(u, n, p);

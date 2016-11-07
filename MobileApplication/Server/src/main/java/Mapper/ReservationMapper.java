@@ -8,6 +8,7 @@ import TDG.ReservationTDG;
 import UnitOfWork.UnitOfWork;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  * Created by Emili on 2016-10-26.
@@ -26,29 +27,56 @@ public class ReservationMapper {
         }
         else {
 
-        ResultSet resultSet = ReservationTDG.find(reId);
+            ResultSet resultSet = ReservationTDG.find(reId);
 
-        if(resultSet.next()){
+            if(resultSet.next()){
 
-            int resId = resultSet.getInt("reservationId");
-            int roomId = resultSet.getInt("roomId");
-            int studentId = resultSet.getInt("studentId");
-            String weekDay = resultSet.getString("weekDay");
-            String startTime = resultSet.getString("startTime");
-            String endTime = resultSet.getString("endTime");
-            int position = resultSet.getInt("position");
+                int resId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                String startTime = resultSet.getString("startTime");
+                String endTime = resultSet.getString("endTime");
+                int position = resultSet.getInt("position");
 
-            Reservation reservationDB = new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position);
-            ReservationIdentityMap.addRes(reservationDB);
+                Reservation reservationDB = new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position);
+                ReservationIdentityMap.addRes(reservationDB);
 
-            return reservationDB;
-        }
-        else{
-            throw new SQLException("Error: empty result");
-        }
+                return reservationDB;
+            }
+            else{
+                throw new SQLException("Error: empty result");
+            }
 
         }
     }
+
+    public static ArrayList<Reservation> getAllData() throws SQLException, ClassNotFoundException {
+
+        ResultSet resultSet = ReservationTDG.findAll();
+        ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
+
+        if (resultSet == null)
+            return null;
+        else {
+
+            while (resultSet.next()) {
+
+                int resId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                String startTime = resultSet.getString("startTime");
+                String endTime = resultSet.getString("endTime");
+                int position = resultSet.getInt("position");
+
+                reservationList.add(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+                ReservationIdentityMap.addRes(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+            }
+            return reservationList;
+        }
+    }
+
     public static void makeNew(int resid, int roomid, int studentid, String d, String st, String et, int p) throws ClassNotFoundException, SQLException {
         Reservation re = new Reservation(resid, roomid, studentid, d, st, et, p);
         ReservationIdentityMap.addRes(re);
@@ -84,4 +112,36 @@ public class ReservationMapper {
     public static void updateToDB(Reservation re) throws ClassNotFoundException, SQLException{
         ReservationTDG.update(re);
     }
+
+    public static ArrayList<Reservation> getResForStud(int sid) throws SQLException, ClassNotFoundException {
+
+        ResultSet resultSet = ReservationTDG.getAllResOfStudent(sid);
+        ArrayList<Reservation> reservationStudentList = new ArrayList<Reservation>();
+
+        if (resultSet == null)
+            return null;
+        else {
+
+            while (resultSet.next()) {
+
+                int resId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                String startTime = resultSet.getString("startTime");
+                String endTime = resultSet.getString("endTime");
+                int position = resultSet.getInt("position");
+
+                reservationStudentList.add(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+
+                if (ReservationIdentityMap.getResFromMap(resId) == null)
+                    ReservationIdentityMap.addRes(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+
+            }
+            return reservationStudentList;
+        }
+
+
+    }
+
 }

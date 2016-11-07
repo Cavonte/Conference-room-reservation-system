@@ -1,3 +1,6 @@
+create database if not exists db343;
+
+use db343;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";

@@ -29,6 +29,8 @@ public class RoomMapperSystemTest {
         RoomMapper.set(r, "potato", "banana", 5);
 
         RoomMapper.erase(r);
+
+        RoomMapper.getAllData();
     }
 
 }

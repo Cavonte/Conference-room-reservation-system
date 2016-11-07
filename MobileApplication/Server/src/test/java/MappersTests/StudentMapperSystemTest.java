@@ -30,7 +30,11 @@ public class StudentMapperSystemTest {
 
             StudentMapper.set(s, "123aaaa", "no");
 
+            Student ss = StudentMapper.getData(27526799);
+
             StudentMapper.erase(s);
+
+            StudentMapper.getAllData();
         }
         catch(ClassNotFoundException e){
             Assert.assertTrue(false);
