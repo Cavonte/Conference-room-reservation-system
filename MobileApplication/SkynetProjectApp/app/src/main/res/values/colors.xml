@@ -2,13 +2,13 @@
 <resources>
     <color name="colorPrimary">#840000</color>
     <color name="colorPrimaryDark">#FFA300</color>
-    <color name="colorAccent">#45050C</color>
-    <color name="blue">#4C7EC4</color>
-    <color name="grey">#E7EEE6</color>
+    <color name="colorAccent">#45050c</color>
+    <color name="blue">#4c7ec4</color>
+    <color name="grey">#e7eee6</color>
     <color name="seafoam">#ffc6f9e5</color>
     <color name="chartreuse">#ffb6e9b5</color>
     <color name="emerald">#ffa6d9b5</color>
     <color name="bluegrass">#ff96c9b5</color>
     <color name="turquoise">#ff86b9b5</color>
-    <color name="slate">#ff76a9b5</color>
+    <color name="slate">#76a9b5</color>
 </resources>

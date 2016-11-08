@@ -9,17 +9,29 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
+import android.widget.TextView;
 
-public class preferencesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class preferencesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    private Toolbar toolbar;
+    private TextView notifications;
+    private TextView notificationsperiodexplain;
+    private TextView notificationsperiod;
+    private TextView changePassword;
+    private CheckBox notificationcheck;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences__drawer);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Preferences");
         setSupportActionBar(toolbar);
 
@@ -32,6 +44,39 @@ public class preferencesActivity extends AppCompatActivity implements Navigation
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 
+        notifications = (TextView) findViewById(R.id.notifications);
+
+        notificationsperiod = (TextView) findViewById(R.id.notificationsperiod);
+        notificationsperiod.setOnClickListener(preferencesActivity.this);
+
+        notificationsperiodexplain = (TextView) findViewById(R.id.explainnoti);
+        notificationsperiodexplain.setOnClickListener(preferencesActivity.this);
+
+        changePassword = (TextView) findViewById(R.id.changePassword);
+        changePassword.setOnClickListener(preferencesActivity.this);
+
+        notificationcheck = (CheckBox) findViewById(R.id.checkBoxNoti);
+        notificationcheck.setOnClickListener(preferencesActivity.this);
+
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.checkBoxNoti:
+                Toast.makeText(preferencesActivity.this, "Able/Disable notifications", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.changePassword:
+                Toast.makeText(preferencesActivity.this, "Change password fragment", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.notificationsperiod:
+                Toast.makeText(preferencesActivity.this, "Notification fragment", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.explainnoti:
+                Toast.makeText(preferencesActivity.this, "Notification fragment", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

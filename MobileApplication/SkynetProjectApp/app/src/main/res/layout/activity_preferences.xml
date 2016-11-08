@@ -30,20 +30,98 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="597dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
 
-            <android.support.v7.widget.AppCompatTextView
+            <TextView
+                android:text="Notifications"
+                android:layout_width="364dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/notifications"
+                android:typeface="normal"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="24sp"
+                android:lineSpacingExtra="10sp"
+                android:textAlignment="viewStart"
+                android:layout_marginTop="10dp" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBoxNoti"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
-                android:text="Preferences page with nav menu working (Hopefully)" />
-        </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/notificationsperiod"
+                android:text="Notification period"
+                android:typeface="normal"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="24sp"
+                android:lineSpacingExtra="10sp"
+                android:textAlignment="viewStart"
+                android:clickable="true"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/explainnoti"
+                android:layout_weight="1"
+                android:text="How long before the Reservation do you want to be notified."
+                android:typeface="normal"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="12sp"
+                android:lineSpacingExtra="10sp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorAccent"
+                android:clickable="true"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:text="Change Password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:typeface="normal"
+                android:id="@+id/changePassword"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="24sp"
+                android:lineSpacingExtra="10sp"
+                android:textAlignment="viewStart"
+                android:clickable="true"
+                />
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

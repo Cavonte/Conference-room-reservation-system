@@ -91,7 +91,7 @@ public class mainActivity extends AppCompatActivity
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.reserveroom:
-               Toast.makeText(mainActivity.this, "Reserve a room" , Toast.LENGTH_LONG).show();
+               Toast.makeText(mainActivity.this, "Reserve a room" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.reservation:
                 r1.setDay("Day");
@@ -106,31 +106,31 @@ public class mainActivity extends AppCompatActivity
                 r3.postInvalidate();
                 break;
             case R.id.delres1:
-                Toast.makeText(mainActivity.this, "Delete res 1" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Delete res 1" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.editres1:
-                Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.otherres1:
-                Toast.makeText(mainActivity.this, "Other res 1" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Other res 1" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delres2:
-                Toast.makeText(mainActivity.this, "Delete res 2" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Delete res 2" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.editres2:
-                Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.otherres2:
-                Toast.makeText(mainActivity.this, "Other res 2" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Other res 2" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.editres3:
-                Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delres3:
-                Toast.makeText(mainActivity.this, "Delete res 3" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Delete res 3" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.otherres3:
-                Toast.makeText(mainActivity.this, "Other res 3" , Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity.this, "Other res 3" , Toast.LENGTH_SHORT).show();
                 break;
         }
     }
