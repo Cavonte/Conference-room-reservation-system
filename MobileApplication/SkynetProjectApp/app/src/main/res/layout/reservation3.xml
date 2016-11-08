@@ -5,16 +5,18 @@
 
     <com.skynetprojectapp.android.skynetprojectapp.Reservation
         android:id="@+id/reservation3"
-        android:layout_width="366dp"
-        android:layout_height="113dp"
+        android:layout_height="154dp"
         android:background="#ccc"
         android:paddingLeft="20dp"
-        app:exampleColor="#33b5e5"
+        app:exampleColor="#ffffff"
         app:exampleDimension="24sp"
         app:exampleString="string"
         app:room="B-102"
         app:location="H-Building"
         app:day="Friday"
         app:hours="12:00:00 to 13:00:00"
-        app:presentation="No presentation Material"/>
+        app:presentation="No presentation Material"
+        android:onClick="onClick"
+        android:layout_weight="0.24"
+        android:layout_width="310dp" />
 </FrameLayout>

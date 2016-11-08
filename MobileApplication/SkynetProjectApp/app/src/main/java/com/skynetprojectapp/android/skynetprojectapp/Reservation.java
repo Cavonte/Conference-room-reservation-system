@@ -10,6 +10,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+
+
 /**
  * TODO: document your custom view class.
  */
@@ -21,13 +23,15 @@ public class Reservation extends View {
 
 
 
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
+    private int mExampleColor = Color.WHITE; // TODO: use a default from R.color...
     private float mExampleDimension = 0; // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;
 
     private TextPaint mTextPaint;
+    private Paint mPaint;
     private float mTextWidth;
     private float mTextHeight;
+
 
     public Reservation(Context context) {
         super(context);
@@ -44,6 +48,7 @@ public class Reservation extends View {
         init(attrs, defStyle);
     }
 
+
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
@@ -57,27 +62,29 @@ public class Reservation extends View {
         location = a.getString(R.styleable.Reservation_location);
         presentation = a.getString(R.styleable.Reservation_presentation);
 
-        mExampleColor = a.getColor(
-                R.styleable.Reservation_exampleColor,
-                mExampleColor);
+//        mExampleColor = a.getColor(
+//                R.styleable.Reservation_exampleColor,
+//                mExampleColor);
         // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
         // values that should fall on pixel boundaries.
         mExampleDimension = a.getDimension(
                 R.styleable.Reservation_exampleDimension,
                 mExampleDimension);
-
-        if (a.hasValue(R.styleable.Reservation_exampleDrawable)) {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.Reservation_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
-
         a.recycle();
+
+        mPaint = new Paint();
+        mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        mPaint.setColor(Color.WHITE);
 
         // Set up a default TextPaint object
         mTextPaint = new TextPaint();
         mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextAlign(Paint.Align.LEFT);
+        mTextPaint.setColor(getResources().getColor(R.color.colorPrimary));
+//        mTextPaint.setColor(Color.WHITE);
+
+        mTextPaint.setTextSize(10);
 
         // Update TextPaint and text measurements from attributes
         invalidateTextPaintAndMeasurements();
@@ -85,7 +92,7 @@ public class Reservation extends View {
 
     private void invalidateTextPaintAndMeasurements() {
         mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
+//        mTextPaint.setColor(mExampleColor);
         mTextWidth = mTextPaint.measureText(mExampleString);
 
         Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
@@ -95,7 +102,6 @@ public class Reservation extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         // TODO: consider storing these as member variables to reduce
         // allocations per draw cycle.
         int paddingLeft = getPaddingLeft();
@@ -103,9 +109,18 @@ public class Reservation extends View {
         int paddingRight = getPaddingRight();
         int paddingBottom = getPaddingBottom();
 
-
         int contentWidth = getWidth() - paddingLeft - paddingRight;
         int contentHeight = getHeight() - paddingTop - paddingBottom;
+
+//
+        int adjust=20;
+        canvas.drawColor(Color.WHITE);
+        mPaint.setColor(getResources().getColor(R.color.colorPrimary));
+        canvas.drawRoundRect(adjust,paddingTop+ adjust,getWidth()-paddingRight-adjust,getHeight()-paddingBottom-adjust,15,15,mPaint);
+
+        mTextPaint.setColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        mTextPaint.setTextSize(50);
 
         // Draw the text.
         int textPadding= 50;

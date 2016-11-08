@@ -13,80 +13,179 @@
     tools:context="com.skynetprojectapp.android.skynetprojectapp.mainActivity"
     tools:showIn="@layout/app_bar_nav__dawer">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
-                android:paddingBottom="5dp"
-                android:text="My Reservations"
-                android:textSize="30sp" />
-        </FrameLayout>
 
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="130dp"
-            android:id="@+id/r1"
-            layout="@layout/sample_reservation" />
-
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="130dp"
-            android:id="@+id/r2"
-            layout="@layout/reservation2" />
-
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="130dp"
-            android:id="@+id/r3"
-            layout="@layout/reservation3" />
-
-        <FrameLayout
-            android:paddingBottom="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:text="Reserve a room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:id="@+id/button2" />
-
-
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:paddingBottom="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <Button
-            android:text="Go to Favorites"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:id="@+id/button3" />
+            android:orientation="vertical"
+            android:minHeight="185dp">
 
-        </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:paddingBottom="5dp"
+                    android:text="My Reservations"
+                    android:textSize="30sp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r1"
+                    layout="@layout/sample_reservation"
+                     />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_send"
+                        android:id="@+id/delres1"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)" />
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        android:id="@+id/editres1"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_manage"
+                        android:id="@+id/otherres1"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+                </LinearLayout>
+
+            </LinearLayout>
 
 
-    </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r2"
+                    layout="@layout/reservation2" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_send"
+                        android:id="@+id/delres2"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        android:id="@+id/editres2"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_manage"
+                        android:id="@+id/otherres2"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r3"
+                    layout="@layout/reservation3" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_send"
+                        android:id="@+id/delres3"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        android:id="@+id/editres3"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_manage"
+                        android:id="@+id/otherres3"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <Button
+                    android:text="Reserve a room"
+                    android:layout_width="382dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:id="@+id/reserveroom"
+                    android:onClick="onClick (mainActivity)" />
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+
 
 
 
