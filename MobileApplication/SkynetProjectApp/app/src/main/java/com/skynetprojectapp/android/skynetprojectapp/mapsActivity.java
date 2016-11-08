@@ -28,19 +28,9 @@ import android.widget.TextView;
 public class mapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+
     private ViewPager mViewPager;
     private TabHost host;
 
@@ -68,37 +58,37 @@ public class mapsActivity extends AppCompatActivity
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("T1");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("B1");
+        spec.setIndicator("Capstone");
         host.addTab(spec);
 
         //Tab 2
         spec = host.newTabSpec("T2");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("B2");
+        spec.setIndicator("GN");
         host.addTab(spec);
 
         //Tab 3
         spec = host.newTabSpec("T3");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("B3");
+        spec.setIndicator("LB 3rd F");
         host.addTab(spec);
 
         //Tab 4
         spec = host.newTabSpec("T4");
         spec.setContent(R.id.tab4);
-        spec.setIndicator("B4");
+        spec.setIndicator("LB 4rd F");
         host.addTab(spec);
 
         //Tab 5
         spec = host.newTabSpec("T5");
         spec.setContent(R.id.tab5);
-        spec.setIndicator("B5");
+        spec.setIndicator("LB 5rd F");
         host.addTab(spec);
 
         //Tab 6
         spec = host.newTabSpec("T6");
         spec.setContent(R.id.tab6);
-        spec.setIndicator("B6");
+        spec.setIndicator("VL 3rd F");
         host.addTab(spec);
 
         host.setOnTabChangedListener(mapsActivity.this);

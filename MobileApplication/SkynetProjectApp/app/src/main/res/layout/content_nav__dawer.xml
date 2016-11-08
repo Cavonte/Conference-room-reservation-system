@@ -54,7 +54,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_send"
+                        app:srcCompat="@drawable/del"
                         android:id="@+id/delres1"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)" />
@@ -62,7 +62,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        app:srcCompat="@drawable/edit"
                         android:id="@+id/editres1"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -70,7 +70,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_manage"
+                        app:srcCompat="@drawable/ic_menu_share"
                         android:id="@+id/otherres1"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -98,7 +98,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_send"
+                        app:srcCompat="@drawable/del"
                         android:id="@+id/delres2"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -106,7 +106,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        app:srcCompat="@drawable/edit"
                         android:id="@+id/editres2"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -114,7 +114,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_manage"
+                        app:srcCompat="@drawable/ic_menu_share"
                         android:id="@+id/otherres2"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -140,7 +140,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_send"
+                        app:srcCompat="@drawable/del"
                         android:id="@+id/delres3"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -148,7 +148,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_slideshow"
+                        app:srcCompat="@drawable/edit"
                         android:id="@+id/editres3"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
@@ -156,7 +156,7 @@
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_manage"
+                        app:srcCompat="@drawable/ic_menu_share"
                         android:id="@+id/otherres3"
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>

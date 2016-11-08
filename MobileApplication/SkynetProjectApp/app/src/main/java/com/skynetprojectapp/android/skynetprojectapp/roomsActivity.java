@@ -13,10 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TabHost;
 import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
+    private TabHost host;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +39,61 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 
+        host = (TabHost) findViewById(R.id.roomTabs);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("T1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Monday");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("T2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Tuesday");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("T3");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Wednesday");
+        host.addTab(spec);
+
+        //Tab 4
+        spec = host.newTabSpec("T4");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("Thursday");
+        host.addTab(spec);
+
+        //Tab 5
+        spec = host.newTabSpec("T5");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("Friday");
+        host.addTab(spec);
+
+        host.setOnTabChangedListener(roomsActivity.this);
+
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+    @Override
+    public void onTabChanged(String tabId) {
+        if ("T1".equals(tabId)) {
+        }
+        if ("T2".equals(tabId)) {
+        }
+        if ("T3".equals(tabId)) {
+        }
+        if ("T4".equals(tabId)) {
+        }
+        if ("T5".equals(tabId)) {
+        }
+        if ("T6".equals(tabId)) {
+        }
+    }
+
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

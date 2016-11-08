@@ -10,9 +10,9 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:title="Scheduler"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="true">
         <activity
             android:name=".mainActivity"
             android:label="@string/title_activity_nav__dawer"
@@ -29,7 +29,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +42,8 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,7 +56,7 @@
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".preferencesActivity"
             android:label="@string/title_activity_preferences"
@@ -74,7 +76,7 @@
             android:name=".roomsActivity"
             android:label="@string/title_activity_preferences"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
