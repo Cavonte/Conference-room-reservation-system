@@ -10,14 +10,15 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:title="Scheduler"
         android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:supportsRtl="true">
         <activity
             android:name=".mainActivity"
             android:label="@string/title_activity_nav__dawer"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +42,9 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,27 +57,62 @@
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity
             android:name=".preferencesActivity"
             android:label="@string/title_activity_preferences"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+        <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity
             android:name=".aboutActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="aboutActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".helpActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="helpActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".roomsActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="roomsActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

@@ -25,22 +25,17 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+/**
+ * This activity contains the interface that allows you look at the different maps.
+ * Created by Bruce
+ */
+
 public class mapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+
     private ViewPager mViewPager;
     private TabHost host;
 
@@ -68,37 +63,37 @@ public class mapsActivity extends AppCompatActivity
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("T1");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("B1");
+        spec.setIndicator("Capstone");
         host.addTab(spec);
 
         //Tab 2
         spec = host.newTabSpec("T2");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("B2");
+        spec.setIndicator("GN");
         host.addTab(spec);
 
         //Tab 3
         spec = host.newTabSpec("T3");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("B3");
+        spec.setIndicator("LB 3rd F");
         host.addTab(spec);
 
         //Tab 4
         spec = host.newTabSpec("T4");
         spec.setContent(R.id.tab4);
-        spec.setIndicator("B4");
+        spec.setIndicator("LB 4rd F");
         host.addTab(spec);
 
         //Tab 5
         spec = host.newTabSpec("T5");
         spec.setContent(R.id.tab5);
-        spec.setIndicator("B5");
+        spec.setIndicator("LB 5rd F");
         host.addTab(spec);
 
         //Tab 6
         spec = host.newTabSpec("T6");
         spec.setContent(R.id.tab6);
-        spec.setIndicator("B6");
+        spec.setIndicator("VL 3rd F");
         host.addTab(spec);
 
         host.setOnTabChangedListener(mapsActivity.this);
@@ -114,13 +109,12 @@ public class mapsActivity extends AppCompatActivity
         mViewPager.addOnPageChangeListener(mapsActivity.this);
 
 
-
     }
 
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-       }
+    }
 
     @Override
     public void onPageSelected(int position) {
@@ -178,27 +172,14 @@ public class mapsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        public PlaceholderFragment() {
+    public static class Frag1 extends Fragment {
+        public Frag1() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static Frag1 newInstance() {
+            Frag1 fragment = new Frag1();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
@@ -208,23 +189,113 @@ public class mapsActivity extends AppCompatActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText("Hi Frag1");
+            return rootView;
+        }
+    }
 
-            ImageView map = (ImageView) rootView.findViewById(R.id.cmap);
-            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
-                case 1:
-                    map.setImageResource(R.drawable.lb3);
-                case 2:
-                    map.setImageResource(R.drawable.lb3);
-                case 3:
-                    map.setImageResource(R.drawable.logo);
-                case 4:
-                    map.setImageResource(R.drawable.lb3);
-                case 5:
-                    map.setImageResource(R.drawable.lb3);
-                case 6:
-                    map.setImageResource(R.drawable.lb3);
-            }
+    public static class Frag2 extends Fragment {
+        public Frag2() {
+        }
+
+        public static Frag2 newInstance() {
+            Frag2 fragment = new Frag2();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps2, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag2");
+            return rootView;
+        }
+    }
+
+    public static class Frag3 extends Fragment {
+        public Frag3() {
+        }
+
+        public static Frag3 newInstance() {
+            Frag3 fragment = new Frag3();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps3, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag3");
+            return rootView;
+        }
+    }
+
+    public static class Frag4 extends Fragment {
+        public Frag4() {
+        }
+
+        public static Frag4 newInstance() {
+            Frag4 fragment = new Frag4();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps4, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag4");
+            return rootView;
+        }
+    }
+
+
+    public static class Frag5 extends Fragment {
+        public Frag5() {
+        }
+
+        public static Frag5 newInstance() {
+            Frag5 fragment = new Frag5();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps5, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag5");
+            return rootView;
+        }
+    }
+
+    public static class Frag6 extends Fragment {
+        public Frag6() {
+        }
+
+        public static Frag6 newInstance() {
+            Frag6 fragment = new Frag6();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps6, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag6");
             return rootView;
         }
     }
@@ -243,7 +314,21 @@ public class mapsActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    return Frag1.newInstance();
+                case 1:
+                    return Frag2.newInstance();
+                case 2:
+                    return Frag3.newInstance();
+                case 3:
+                    return Frag4.newInstance();
+                case 4:
+                    return Frag5.newInstance();
+                case 5:
+                    return Frag6.newInstance();
+            }
+            return null;
         }
 
         @Override

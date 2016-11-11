@@ -32,6 +32,7 @@ import java.util.List;
 
 
 /**
+ * This activity handles the login, and act as a gatekeeper for the other activities.
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // UI references.
     //private EditText mEmailView;
+    private Button vip;
     private EditText mStudentView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -86,6 +88,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        vip = (Button) findViewById(R.id.vipbutton);
+        vip.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
 
     }
 

@@ -1,0 +1,13 @@
+<resources>
+    <declare-styleable name="Reservation">
+        <attr name="exampleString" format="string" />
+        <attr name="room" format="string" />
+        <attr name="location" format="string" />
+        <attr name="day" format="string" />
+        <attr name="hours" format="string" />
+        <attr name="presentation" format="string" />
+        <attr name="exampleDimension" format="dimension" />
+        <attr name="exampleColor" format="color" />
+        <attr name="exampleDrawable" format="color|reference" />
+    </declare-styleable>
+</resources>

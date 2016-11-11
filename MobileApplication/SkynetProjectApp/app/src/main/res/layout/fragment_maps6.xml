@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity$Frag1">
+    tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity$Frag6">
 
     <TextView
         android:id="@+id/section_label"
@@ -19,7 +19,7 @@
         android:layout_height="fill_parent">
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/gnu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|center_horizontal"
