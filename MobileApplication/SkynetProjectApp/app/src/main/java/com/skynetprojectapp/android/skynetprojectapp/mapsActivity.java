@@ -25,6 +25,11 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+/**
+ * This activity contains the interface that allows you look at the different maps.
+ * Created by Bruce
+ */
+
 public class mapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 

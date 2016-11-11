@@ -13,7 +13,8 @@ import android.view.View;
 
 
 /**
- * TODO: document your custom view class.
+ * This custom class allows to customize and create the view that shows the details of the reservation.
+ * Created by Bruce
  */
 public class Reservation extends View {
     private String mExampleString; // TODO: use a default from R.string...

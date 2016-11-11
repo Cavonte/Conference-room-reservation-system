@@ -15,7 +15,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-
+/**
+ * This activity is the reservation pages where the current reservations/ wait list are being displayed.
+ * Created by Bruce
+ */
 public class mainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener {
 

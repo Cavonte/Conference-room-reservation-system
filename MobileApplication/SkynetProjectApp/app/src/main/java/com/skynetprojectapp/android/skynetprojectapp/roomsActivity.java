@@ -1,8 +1,5 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
-/**
- * Created by Bruce on 11/1/2016.
- */
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +15,10 @@ import android.widget.Toast;
 import android.view.View;
 import android.widget.*;
 
+/**
+ * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
+ * Created by Bruce
+ */
 public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
     private TabHost host;

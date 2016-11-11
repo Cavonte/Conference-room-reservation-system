@@ -32,6 +32,7 @@ import java.util.List;
 
 
 /**
+ * This activity handles the login, and act as a gatekeeper for the other activities.
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {

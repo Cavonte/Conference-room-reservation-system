@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import android.widget.TextView;
 
-
+/**
+ * This activity containts the options/settings available to the user.
+ * Created by Bruce
+ */
 public class preferencesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Toolbar toolbar;

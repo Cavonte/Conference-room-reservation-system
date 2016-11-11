@@ -43,6 +43,7 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,26 +57,31 @@
             android:name=".mapsActivity"
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".preferencesActivity"
             android:label="@string/title_activity_preferences"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".aboutActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="aboutActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".helpActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="helpActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".roomsActivity"
-            android:label="@string/title_activity_preferences"
+            android:label="roomsActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
     </application>
 
