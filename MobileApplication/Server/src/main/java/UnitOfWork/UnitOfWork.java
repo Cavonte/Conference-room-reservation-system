@@ -4,8 +4,6 @@ package UnitOfWork;
  * Created by Emili on 2016-10-26.
  */
 
-import org.junit.Assert;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,29 +24,31 @@ public class UnitOfWork {
     private static ArrayList<DomainObject> removedObjects =     new ArrayList();
 
 
-    public static void registerNew(DomainObject client){
+    public static void registerNew(DomainObject client)
+    {
+        if(existsInLists(client))
+            throw new IllegalArgumentException("Object already exists in one or more of the UnitOfWork lists");
 
-        Assert.assertNotNull(client.getId());
-        Assert.assertTrue(!dirtyObjects.contains(client));
-        Assert.assertTrue(removedObjects.contains(client));
-        Assert.assertTrue(!newObjects.contains(client));
         newObjects.add(client);
     }
 
-    public static void registerDirty(DomainObject obj){
+    private static boolean existsInLists(DomainObject client)
+    {
+        return (dirtyObjects.contains(client) || removedObjects.contains(client) || newObjects.contains(client));
+    }
 
-        Assert.assertNotNull(obj.getId());
-        Assert.assertTrue(!removedObjects.contains(obj));
+    public static void registerDirty(DomainObject obj)
+    {
+        if(removedObjects.contains(obj))
+            throw new IllegalArgumentException("Object already exists in the removed objects list");
 
         if(!dirtyObjects.contains(obj) && !newObjects.contains(obj)){
             dirtyObjects.add(obj);
         }
-
     }
 
-    public static void registerDelete(DomainObject obj){
-        Assert.assertNotNull(obj.getId());
-
+    public static void registerDelete(DomainObject obj)
+    {
         if(newObjects.remove(obj))
             return;
         dirtyObjects.remove(obj);
@@ -58,13 +58,13 @@ public class UnitOfWork {
         }
     }
 
-    public static void commit() throws SQLException {
+    public static void commit() throws ClassNotFoundException,SQLException {
         newSave();
         updateDirty();
         deleteRemoved();
     }
 
-    public static void newSave() throws SQLException{
+    public static void newSave() throws ClassNotFoundException,SQLException{
         for(Iterator<DomainObject> objects = newObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 
@@ -79,15 +79,14 @@ public class UnitOfWork {
             }
 
         }
+        newObjects.clear();
     }
 
-    public static void updateDirty() throws SQLException{
-
-
+    public static void updateDirty() throws ClassNotFoundException,SQLException
+    {
         for(Iterator<DomainObject> objects = dirtyObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 
-            //checkInstanceSaveToMap(obj);
             if(obj instanceof Room){
                 RoomMapper.updateToDB((Room) obj);
             }
@@ -99,9 +98,10 @@ public class UnitOfWork {
             }
 
         }
+        dirtyObjects.clear();
     }
 
-    public static void deleteRemoved() throws SQLException{
+    public static void deleteRemoved() throws ClassNotFoundException,SQLException{
         for(Iterator<DomainObject>objects = removedObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
             if(obj instanceof Room){
@@ -114,17 +114,7 @@ public class UnitOfWork {
                 StudentMapper.deleteToDB((Student)obj);
             }
         }
+        removedObjects.clear();
     }
 
-        /*private static void checkInstanceSaveToMap(DomainObject obj) throws SQLException{
-        if(obj instanceof Room){
-            RoomMapper.saveToDB((Room) obj);
-        }
-        else if(obj instanceof Reservation){
-            ReservationMapper.saveToDB((Reservation) obj);
-        }
-        else if(obj instanceof Student){
-            StudentMapper.saveToDB((Student) obj);
-        }
-    }*/
 }

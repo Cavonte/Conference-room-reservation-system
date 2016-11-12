@@ -1,35 +1,30 @@
 package com.server;
 
+import Core.Student;
+import Mapper.StudentMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.util.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import Core.Student;
 
-import Mapper.StudentMapper;
-import netscape.security.Principal;
-
-/**
- * Created by dias on 16-10-28.
- */
+import java.sql.SQLException;
 
 @RestController
 public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET,produces = "application/json")
-    public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String password){
-        if(!areValidLengths(username, password))
+    public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String password) throws ClassNotFoundException, SQLException
+    {
+        if(!areValidFormat(username, password))
             return false;
 
         password = encrypt(password);
 
         //if log in info correct
-        Student student = StudentMapper.getData(username);//This is wrong now, but I am assuming the method will change once we discuss what the primary keys for the maps should be
+        int studentId = Integer.parseInt(username);
+        Student student = StudentMapper.getData(studentId);
         if(!isValidPassword(student, password))
             return false;
 
@@ -43,11 +38,18 @@ public class AuthenticationController {
      * @param password
      * @return true if it validates properly
      */
-    private boolean areValidLengths(String username, String password)
+    private boolean areValidFormat(String username, String password)
     {
         if(username.length() < 8 || username.length() > 20 || password.length() < 8 || password.length() > 20)
             return false;
-        return true;
+        try {
+            Integer.parseInt(username);
+            return true;
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
     }
 
     /**
