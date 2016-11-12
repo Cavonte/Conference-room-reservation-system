@@ -2,26 +2,39 @@ package com.skynetprojectapp.android.skynetprojectapp;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
+import android.widget.TextView;
+
 import android.view.View;
 import android.widget.*;
+
 
 /**
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
     private TabHost host;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,22 +88,50 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         host.setOnTabChangedListener(roomsActivity.this);
 
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(roomsActivity.this);
+
+
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        host.setCurrentTab(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
     }
 
 
     @Override
     public void onTabChanged(String tabId) {
         if ("T1".equals(tabId)) {
+            mViewPager.setCurrentItem(0);
         }
         if ("T2".equals(tabId)) {
+            mViewPager.setCurrentItem(1);
         }
         if ("T3".equals(tabId)) {
+            mViewPager.setCurrentItem(2);
         }
         if ("T4".equals(tabId)) {
+            mViewPager.setCurrentItem(3);
         }
         if ("T5".equals(tabId)) {
-        }
-        if ("T6".equals(tabId)) {
+            mViewPager.setCurrentItem(4);
         }
     }
 
@@ -123,4 +164,182 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+
+    public static class Frag1 extends Fragment implements View.OnClickListener {
+        Timeslot t91;
+        public Frag1() {
+        }
+
+        public static Frag1 newInstance() {
+            Frag1 fragment = new Frag1();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.monday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Monday");
+
+            t91 = (Timeslot) rootView.findViewById(R.id.timeslot91);
+            t91.setOnClickListener(this);
+            t91.setPassed(Color.GRAY);
+
+            return rootView;
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.timeslot91:
+                    t91.setPassed(Color.BLUE);
+                    t91.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        }
+
+    }
+
+    public static class Frag2 extends Fragment {
+        public Frag2() {
+        }
+
+        public static Frag2 newInstance() {
+            Frag2 fragment = new Frag2();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.tuesday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Tuesday");
+            return rootView;
+        }
+    }
+
+    public static class Frag3 extends Fragment {
+        public Frag3() {
+        }
+
+        public static Frag3 newInstance() {
+            Frag3 fragment = new Frag3();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.wednesday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Wednesday");
+            return rootView;
+        }
+    }
+
+    public static class Frag4 extends Fragment {
+        public Frag4() {
+        }
+
+        public static Frag4 newInstance() {
+            Frag4 fragment = new Frag4();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.thursday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Thursday");
+            return rootView;
+        }
+    }
+
+
+    public static class Frag5 extends Fragment {
+        public Frag5() {
+        }
+
+        public static Frag5 newInstance() {
+            Frag5 fragment = new Frag5();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.friday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Friday");
+            return rootView;
+        }
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            switch (position) {
+                case 0:
+                    return Frag1.newInstance();
+                case 1:
+                    return Frag2.newInstance();
+                case 2:
+                    return Frag3.newInstance();
+                case 3:
+                    return Frag4.newInstance();
+                case 4:
+                    return Frag5.newInstance();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            //Total pages count.
+            return 5;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Monday";
+                case 1:
+                    return "Tuesday";
+                case 2:
+                    return "Wednesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
+
+            }
+            return null;
+        }
+
+
+    }
+
 }
+

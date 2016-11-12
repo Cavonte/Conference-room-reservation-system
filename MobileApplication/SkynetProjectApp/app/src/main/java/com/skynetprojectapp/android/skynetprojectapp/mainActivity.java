@@ -59,7 +59,7 @@ public class mainActivity extends AppCompatActivity
         r3 = (Reservation) findViewById(R.id.reservation3);
         r3.setRoomNumber("LB3");
         r3.setDay("Monday");
-        //r3.setOnClickListener(mainActivity.this);
+
 
 
 

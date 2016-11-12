@@ -10,4 +10,13 @@
         <attr name="exampleColor" format="color" />
         <attr name="exampleDrawable" format="color|reference" />
     </declare-styleable>
+
+    <declare-styleable name="Timeslot">
+        <attr name="status" format="color" />
+        <attr name="passed" format="color" />
+        <attr name="avail" format="color" />
+        <attr name="taken" format="string" />
+    </declare-styleable>
+
+
 </resources>
