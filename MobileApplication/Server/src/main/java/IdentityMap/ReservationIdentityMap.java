@@ -1,6 +1,6 @@
 package IdentityMap;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 import Core.Reservation;
@@ -11,7 +11,7 @@ import Core.Reservation;
 
 public class ReservationIdentityMap {
 
-    private static Map<Integer, Reservation> mapOfRes = new HashMap<Integer, Reservation>();
+    private static Map<Integer, Reservation> mapOfRes = new ConcurrentHashMap<Integer, Reservation>();
 
     public static void addRes(Reservation res){
         mapOfRes.put(res.getId(), res);

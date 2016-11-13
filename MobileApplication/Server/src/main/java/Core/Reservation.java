@@ -2,82 +2,104 @@ package Core;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
  * Created by Emili on 2016-10-24.
  */
 
 public class Reservation extends DomainObject{
-
-    private int roomid;
-    private int studentid;
+    private static final AtomicInteger idCounter = new AtomicInteger();
+    private int roomId;
+    private int studentId;
     private String day;
-    private String startTime;
-    private String endTime;
+    private int startTime;
+    private int endTime;
     private int position;
 
-    public Reservation(int resid, int roomid, int studentid, String d, String st, String et, int p){
-        super(resid);
-        this.roomid = roomid;
-        this.studentid = studentid;
-        day = d;
-        startTime = st;
-        endTime = et;
-        position = p;
+    public Reservation(int resId, int roomId, int studentId, String day, int startTime, int endTime, int position)
+    {
+        super(resId);
+        this.roomId = roomId;
+        this.studentId = studentId;
+        this.day = day;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.position = position;
     }
 
-    public int getRoomid() {
-        return roomid;
+    public static int getNextId()
+    {
+        return idCounter.getAndIncrement();
     }
 
-    public int getStudentid() {
-        return studentid;
+    public int getRoomId()
+    {
+        return roomId;
     }
 
-    public String getDay() {
+    public int getStudentId()
+    {
+        return studentId;
+    }
+
+    public String getDay()
+    {
         return day;
     }
 
-    public String getStartTime() {
+    public int getStartTime()
+    {
         return startTime;
     }
 
-    public int getPosition() {
+    public int getPosition()
+    {
         return position;
     }
 
-    public String getEndTime() {
+    public int getEndTime()
+    {
         return endTime;
     }
 
-    public void setRoomid(int roomid) {
-        this.roomid = roomid;
+    public static void setIdCounter(int value)
+    {
+        idCounter.set(value);
     }
 
-    public void setStudentid(int studentid) {
-        this.studentid = studentid;
+    public void setRoomId(int roomId)
+    {
+        this.roomId = roomId;
     }
 
-    public void setDay(String day) {
+    public void setStudentId(int studentId)
+    {
+        this.studentId = studentId;
+    }
+
+    public void setDay(String day)
+    {
         this.day = day;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(int startTime)
+    {
         this.startTime = startTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(int endTime)
+    {
         this.endTime = endTime;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(int position)
+    {
         this.position = position;
     }
 
     public String toString() {
         return ("Reservation id: " + super.getId() +
-                "\nRoom id: " + roomid +
-                "\nStudent id: " + studentid +
+                "\nRoom id: " + roomId +
+                "\nStudent id: " + studentId +
                 "\nDay of the Week: " + day +
                 "\nStart Time: " + startTime +
                 "\nEnd Time: " + endTime +

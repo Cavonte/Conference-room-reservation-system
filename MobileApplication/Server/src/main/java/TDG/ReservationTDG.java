@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import Core.Reservation;
+import IdentityMap.ReservationIdentityMap;
 
 /**
  * Created by dias on 2016-10-25.
@@ -18,41 +19,24 @@ public class ReservationTDG {
     private static String databasePassword = null;
     
     
-    public ReservationTDG(String username, String password){
-        
+    public ReservationTDG(String username, String password)
+    {
         this.databaseUsername = username;
         this.databasePassword = password;
-        
     }
     
-    public static ResultSet findAll() throws ClassNotFoundException,SQLException {
-
+    public static ResultSet findAll() throws ClassNotFoundException,SQLException
+    {
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
-        /*
-        while(resultSet.next()){
-            
-            int resId = resultSet.getInt("reservationId");
-            int roomId = resultSet.getInt("roomId");
-            int studentId = resultSet.getInt("studentId");
-            String weekDay = resultSet.getString("weekDay");
-            String startTime = resultSet.getString("startTime");
-            String endTime = resultSet.getString("endTime");
-            int position = resultSet.getInt("position");
-            
-            reservationsList.add(new Reservation(roomId, studentId, weekDay, startTime, endTime, position));
-        }
-        
-        resultSet.close();
+
         statement.close();
         connection.close();
-        */
 
         return resultSet;
-        
     }
 
     public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
@@ -64,7 +48,51 @@ public class ReservationTDG {
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
 
         return resultSet;
-        
+    }
+
+    public static ResultSet findInRange(String day, int startTime, int endTime, int roomId) throws ClassNotFoundException,SQLException
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && day = " + day + " && startTime = " + startTime + " && endTime = " + endTime);
+
+        statement.close();
+        connection.close();
+
+        return resultSet;
+    }
+
+    public static void intitializeIdCounter() throws ClassNotFoundException,SQLException
+    {
+        ResultSet results = findAll();
+        int id = getMaxId(results) + 1;
+
+        Reservation.setIdCounter(id);
+
+        results.close();
+    }
+
+    private static int getMaxId(ResultSet results) throws SQLException
+    {
+        int max = 0;
+        while(results.next())
+        {
+            int resId = results.getInt("reservationId");
+            int resRoomId = results.getInt("roomId");
+            int studentId = results.getInt("studentId");
+            String weekDay = results.getString("weekDay");
+            int startTime = results.getInt("startTime");
+            int endTime = results.getInt("endTime");
+            int position = results.getInt("position");
+
+            ReservationIdentityMap.addRes(new Reservation(resId, resRoomId, studentId, weekDay, startTime, endTime, position));
+
+            if(resId>max)
+                max = resId;
+        }
+        return max;
     }
     
     public static void insert(Reservation reservation) throws ClassNotFoundException,SQLException{
@@ -73,7 +101,7 @@ public class ReservationTDG {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getId() + "," + reservation.getRoomid() + "," + reservation.getStudentid() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
+        statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getId() + "," + reservation.getRoomId() + "," + reservation.getStudentId() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
         
         statement.close();
         connection.close();

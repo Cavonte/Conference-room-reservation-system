@@ -1,6 +1,6 @@
 package IdentityMap;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 import Core.Student;
@@ -11,7 +11,7 @@ import Core.Student;
 
 public class StudentIdentityMap {
 
-    private static Map<Integer, Student> mapOfStudents = new HashMap<Integer, Student>();
+    private static Map<Integer, Student> mapOfStudents = new ConcurrentHashMap<Integer, Student>();
 
     public static void addStudent(Student s){
         mapOfStudents.put(s.getId(), s);

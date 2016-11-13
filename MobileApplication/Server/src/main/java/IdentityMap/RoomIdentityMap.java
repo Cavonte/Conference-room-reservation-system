@@ -1,6 +1,6 @@
 package IdentityMap;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 import Core.Room;
@@ -11,7 +11,7 @@ import Core.Room;
 
 public class RoomIdentityMap {
 
-    private static Map<Integer, Room> mapOfRooms = new HashMap<Integer, Room>();
+    private static Map<Integer, Room> mapOfRooms = new ConcurrentHashMap<Integer, Room>();
 
     public static void addRoom(Room ro){
         mapOfRooms.put(ro.getId(), ro);
