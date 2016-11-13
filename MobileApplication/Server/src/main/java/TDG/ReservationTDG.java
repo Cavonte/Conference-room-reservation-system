@@ -28,7 +28,7 @@ public class ReservationTDG {
     public static ResultSet findAll() throws ClassNotFoundException,SQLException
     {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
@@ -42,7 +42,7 @@ public class ReservationTDG {
     public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
 
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
@@ -53,7 +53,7 @@ public class ReservationTDG {
     public static ResultSet findInRange(String day, int startTime, int endTime, int roomId) throws ClassNotFoundException,SQLException
     {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && day = " + day + " && startTime = " + startTime + " && endTime = " + endTime);
@@ -66,11 +66,16 @@ public class ReservationTDG {
 
     public static void intitializeIdCounter() throws ClassNotFoundException,SQLException
     {
-        ResultSet results = findAll();
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Statement statement = connection.createStatement();
+
+        ResultSet results = statement.executeQuery("SELECT * FROM reservations");
         int id = getMaxId(results) + 1;
 
         Reservation.setIdCounter(id);
 
+        statement.close();
+        connection.close();
         results.close();
     }
 
