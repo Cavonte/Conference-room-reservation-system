@@ -22,20 +22,22 @@ public class StudentMapper {
     public StudentMapper(){
     }
 
-    public static Student getData(int stuid) throws ClassNotFoundException, SQLException{
+    public static Student getData(int studentId) throws ClassNotFoundException, SQLException{
 
         readWriteLock.readLock().lock();
 
         try {
-            Student stu = StudentIdentityMap.getStudentFromMap(stuid);
-            if (stu != null) {
-                return stu;
-            } else {
+            Student student = StudentIdentityMap.getStudentFromMap(studentId);
+            if(student != null)
+            {
+                return student;
+            }
+            else
+            {
+                ResultSet resultSet = StudentTDG.find(studentId);
 
-                ResultSet resultSet = StudentTDG.find(stuid);
-
-                if (resultSet.next()) {
-
+                if(resultSet.next())
+                {
                     int username = resultSet.getInt("username");
                     String name = resultSet.getString("FullName");
                     String password = resultSet.getString("password");
@@ -44,8 +46,10 @@ public class StudentMapper {
                     StudentIdentityMap.addStudent(studentDB);
 
                     return studentDB;
-                } else {
-                    throw new SQLException("Error: empty result");
+                }
+                else
+                {
+                    return null;
                 }
             }
         }

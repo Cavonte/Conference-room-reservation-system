@@ -22,24 +22,24 @@ public class ReservationMapper {
     public ReservationMapper(){
     }
 
-    public static Reservation getData(int reId) throws ClassNotFoundException, SQLException
+    public static Reservation getData(int resId) throws ClassNotFoundException, SQLException
     {
         readWriteLock.readLock().lock();
 
         try
         {
-            Reservation res = ReservationIdentityMap.getResFromMap(reId);
-            if (res != null)
+            Reservation reservation = ReservationIdentityMap.getResFromMap(resId);
+            if(reservation != null)
             {
-                return res;
+                return reservation;
             }
             else
             {
-                ResultSet resultSet = ReservationTDG.find(reId);
+                ResultSet resultSet = ReservationTDG.find(resId);
 
                 if (resultSet.next())
                 {
-                    int resId = resultSet.getInt("reservationId");
+                    int reservationId = resultSet.getInt("reservationId");
                     int roomId = resultSet.getInt("roomId");
                     int studentId = resultSet.getInt("studentId");
                     String weekDay = resultSet.getString("weekDay");
@@ -47,14 +47,14 @@ public class ReservationMapper {
                     int endTime = resultSet.getInt("endTime");
                     int position = resultSet.getInt("position");
 
-                    Reservation reservationDB = new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position);
+                    Reservation reservationDB = new Reservation(reservationId, roomId, studentId, weekDay, startTime, endTime, position);
                     ReservationIdentityMap.addRes(reservationDB);
 
                     return reservationDB;
                 }
                 else
                 {
-                    throw new SQLException("Error: empty result");
+                    return null;
                 }
             }
         }

@@ -10,11 +10,11 @@ public class Room extends DomainObject{
     private String description;
     private int roomSize;
 
-    public Room(int i, String rn, String d, int rs){
-        super(i);
-        roomNumber = rn;
-        description = d;
-        roomSize = rs;
+    public Room(int roomId, String roomNumber, String description, int roomSize){
+        super(roomId);
+        this.roomNumber = roomNumber;
+        this.description = description;
+        this.roomSize = roomSize;
     }
 
     public String getRoomNumber() {

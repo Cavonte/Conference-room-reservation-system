@@ -2,6 +2,7 @@ package com.server;
 
 import Core.Student;
 import Mapper.ReservationMapper;
+import Mapper.RoomMapper;
 import Mapper.StudentMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +17,11 @@ import java.sql.SQLException;
 @RestController
 public class NewReservationController {
 
+    //End point that takes in the room id, day, start and end time, and student id so it can add a new reservation or add to the waitlist
     @RequestMapping(value = "/reservation", method = RequestMethod.POST,produces = "application/json")
     public int newReservation(@RequestParam(value="roomId", defaultValue="") int roomId, @RequestParam(value="studentId", defaultValue="") int studentId, @RequestParam(value="day", defaultValue="") String day, @RequestParam(value="startTime", defaultValue="0") int startTime, @RequestParam(value="endTime", defaultValue="0") int endTime) throws ClassNotFoundException, SQLException
     {
-        if(!validParameters(day, startTime, endTime))
+        if(!validParameters(roomId, studentId, day, startTime, endTime))
             return -1;
 
         int position = ReservationMapper.makeNew(roomId, studentId, day, startTime, endTime);
@@ -27,9 +29,23 @@ public class NewReservationController {
         return position;
     }
 
-    private boolean validParameters(String day, int startTime, int endTime)
+    private boolean validParameters(int roomId, int studentId, String day, int startTime, int endTime) throws ClassNotFoundException, SQLException
     {
-        return validDay(day) && validTime(startTime) && validTime(endTime) && endTime == startTime+1;
+        return validRoom(roomId) && validStudent(studentId) && validDay(day) && validTime(startTime) && validTime(endTime) && endTime == startTime+1;
+    }
+
+    private boolean validRoom(int roomId) throws ClassNotFoundException, SQLException
+    {
+        if(RoomMapper.getData(roomId) != null)
+            return true;
+        return false;
+    }
+
+    private boolean validStudent(int studentId) throws ClassNotFoundException, SQLException
+    {
+        if(StudentMapper.getData(studentId) != null)
+            return true;
+        return false;
     }
 
     private boolean validDay(String day)

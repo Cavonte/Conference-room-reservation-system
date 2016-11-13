@@ -22,35 +22,41 @@ public class RoomMapper {
     public RoomMapper(){
     }
 
-    public static Room getData(int rid) throws ClassNotFoundException, SQLException{
+    public static Room getData(int roomId) throws ClassNotFoundException, SQLException{
 
         readWriteLock.readLock().lock();
 
-        try {
-            Room ro = RoomIdentityMap.getRoomFromMap(rid);
-            if (ro != null) {
-                return ro;
-            } else {
+        try
+        {
+            Room room = RoomIdentityMap.getRoomFromMap(roomId);
+            if (room != null)
+            {
+                return room;
+            }
+            else
+            {
+                ResultSet resultSet = RoomsTDG.find(roomId);
 
-                ResultSet resultSet = RoomsTDG.find(rid);
-
-                if (resultSet.next()) {
-                    int roomid1 = resultSet.getInt("roomId");
+                if(resultSet.next())
+                {
+                    int roomId1 = resultSet.getInt("roomId");
                     String roomNumber1 = resultSet.getString("roomNumber");
                     String description = resultSet.getString("description");
                     int roomSize = resultSet.getInt("roomSize");
 
-                    Room roomDB = new Room(roomid1, roomNumber1, description, roomSize);
+                    Room roomDB = new Room(roomId1, roomNumber1, description, roomSize);
                     RoomIdentityMap.addRoom(roomDB);
 
                     return roomDB;
-                } else {
-                    throw new SQLException("Error: empty result");
                 }
-
+                else
+                {
+                    return null;
+                }
             }
         }
-        finally{
+        finally
+        {
             readWriteLock.readLock().unlock();
         }
     }
