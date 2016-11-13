@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.skynetprojectapp.android.skynetprojectapp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.skynetprojectapp.android.skynetprojectapp.Reservation
+        android:id="@+id/reservation2"
+        android:layout_height="154dp"
+        android:background="#ccc"
+        android:paddingLeft="20dp"
+        app:exampleColor="#ffffff"
+        app:exampleDimension="24sp"
+        app:exampleString="string"
+        app:room="B-102"
+        app:location="H-Building"
+        app:day="Friday"
+        app:hours="12:00:00 to 13:00:00"
+        app:presentation="No presentation Material"
+        android:onClick="onClick"
+        android:layout_weight="0.24"
+        android:layout_width="310dp" />
+</FrameLayout>

@@ -1,6 +1,7 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 /**
+ * This activity displayes information about the application. E.g. Team, context etc
  * Created by Bruce on 11/1/2016.
  */
 

@@ -6,22 +6,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="red1">@color/red1</item>-->
-        <!--<item name="red2">@color/red2</item>-->
-        <!--<item name="red3">@color/red3</item>-->
-        <!--<item name="yellow1">@color/yellow1</item>-->
-        <!--<item name="yellow2">@color/yellow2</item>-->
-        <!--<item name="yellow3">@color/yellow3</item>-->
-
+        <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textSize">5sp</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textSize">10sp</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 
 </resources>

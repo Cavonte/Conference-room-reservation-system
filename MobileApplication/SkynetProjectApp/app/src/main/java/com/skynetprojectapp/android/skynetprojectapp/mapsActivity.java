@@ -11,8 +11,10 @@ import android.os.Bundle;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.Toast;
+import android.view.Menu;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,24 +25,19 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class mapsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+/**
+ * This activity contains the interface that allows you look at the different maps.
+ * Created by Bruce
+ */
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+public class mapsActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
+
     private ViewPager mViewPager;
-    private TabHost.TabContentFactory tab;
+    private TabHost host;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +57,48 @@ public class mapsActivity extends AppCompatActivity
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 
+        host = (TabHost) findViewById(R.id.mapTabs);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("T1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Capstone");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("T2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("GN");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("T3");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("LB 3rd F");
+        host.addTab(spec);
+
+        //Tab 4
+        spec = host.newTabSpec("T4");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("LB 4rd F");
+        host.addTab(spec);
+
+        //Tab 5
+        spec = host.newTabSpec("T5");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("LB 5rd F");
+        host.addTab(spec);
+
+        //Tab 6
+        spec = host.newTabSpec("T6");
+        spec.setContent(R.id.tab6);
+        spec.setIndicator("VL 3rd F");
+        host.addTab(spec);
+
+        host.setOnTabChangedListener(mapsActivity.this);
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -67,53 +106,80 @@ public class mapsActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(mapsActivity.this);
+
 
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_maps, menu);
-//        return true;
-//    }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public void onPageSelected(int position) {
+        host.setCurrentTab(position);
+    }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
 
-        public PlaceholderFragment() {
+
+    @Override
+    public void onTabChanged(String tabId) {
+        if ("T1".equals(tabId)) {
+            mViewPager.setCurrentItem(0);
+        }
+        if ("T2".equals(tabId)) {
+            mViewPager.setCurrentItem(1);
+        }
+        if ("T3".equals(tabId)) {
+            mViewPager.setCurrentItem(2);
+        }
+        if ("T4".equals(tabId)) {
+            mViewPager.setCurrentItem(3);
+        }
+        if ("T5".equals(tabId)) {
+            mViewPager.setCurrentItem(4);
+        }
+        if ("T6".equals(tabId)) {
+            mViewPager.setCurrentItem(5);
+
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_maps, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public static class Frag1 extends Fragment {
+        public Frag1() {
+        }
+
+        public static Frag1 newInstance() {
+            Frag1 fragment = new Frag1();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
@@ -123,7 +189,113 @@ public class mapsActivity extends AppCompatActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText("Hi Frag1");
+            return rootView;
+        }
+    }
+
+    public static class Frag2 extends Fragment {
+        public Frag2() {
+        }
+
+        public static Frag2 newInstance() {
+            Frag2 fragment = new Frag2();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps2, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag2");
+            return rootView;
+        }
+    }
+
+    public static class Frag3 extends Fragment {
+        public Frag3() {
+        }
+
+        public static Frag3 newInstance() {
+            Frag3 fragment = new Frag3();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps3, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag3");
+            return rootView;
+        }
+    }
+
+    public static class Frag4 extends Fragment {
+        public Frag4() {
+        }
+
+        public static Frag4 newInstance() {
+            Frag4 fragment = new Frag4();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps4, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag4");
+            return rootView;
+        }
+    }
+
+
+    public static class Frag5 extends Fragment {
+        public Frag5() {
+        }
+
+        public static Frag5 newInstance() {
+            Frag5 fragment = new Frag5();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps5, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag5");
+            return rootView;
+        }
+    }
+
+    public static class Frag6 extends Fragment {
+        public Frag6() {
+        }
+
+        public static Frag6 newInstance() {
+            Frag6 fragment = new Frag6();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_maps6, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Hi Frag6");
             return rootView;
         }
     }
@@ -142,13 +314,27 @@ public class mapsActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    return Frag1.newInstance();
+                case 1:
+                    return Frag2.newInstance();
+                case 2:
+                    return Frag3.newInstance();
+                case 3:
+                    return Frag4.newInstance();
+                case 4:
+                    return Frag5.newInstance();
+                case 5:
+                    return Frag6.newInstance();
+            }
+            return null;
         }
 
         @Override
         public int getCount() {
             //Total pages count.
-            return 4;
+            return 6;
         }
 
         @Override
@@ -162,9 +348,14 @@ public class mapsActivity extends AppCompatActivity
                     return "Map 3";
                 case 4:
                     return "Map 4";
+                case 5:
+                    return "Map 5";
+                case 6:
+                    return "Map 6";
             }
             return null;
         }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -196,4 +387,5 @@ public class mapsActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

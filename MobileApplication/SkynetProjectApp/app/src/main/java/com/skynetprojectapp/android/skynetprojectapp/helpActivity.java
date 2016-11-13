@@ -1,6 +1,7 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 /**
+ * This activity will contain the help and the faq of the Application.
  * Created by Bruce on 11/1/2016.
  */
 

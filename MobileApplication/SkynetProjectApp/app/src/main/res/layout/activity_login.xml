@@ -28,7 +28,7 @@
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -63,7 +63,7 @@
                     android:id="@+id/input_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
@@ -75,30 +75,77 @@
                 android:layout_height="fill_parent">
 
                 <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="15dp"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <Button
                     android:id="@+id/email_sign_in_button"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="end"
                     android:layout_margin="15dp"
-                    android:background="@color/blue"
-                    android:text="Sign In"
-                    android:textColor="@color/grey"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
+
 
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Credentials are admin/admin"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    tools:ignore="HardcodedText" />
+
+
             </FrameLayout>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/vipbutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:background="@color/colorPrimary"
+                    android:text="Vip"
+                    android:textColor="@color/colorPrimaryDark" />
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="cursive"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/def_quote"
+                    android:textSize="24sp"
+                    android:textStyle="normal|italic"
+                    android:typeface="monospace" />
+
+            </FrameLayout>
 
             <FrameLayout
 
@@ -107,8 +154,8 @@
 
                 <ImageView
                     android:id="@+id/logo"
-                    android:layout_width="300dp"
-                    android:layout_height="310dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_margin="15dp"
                     android:src="@drawable/logo"
