@@ -1,13 +1,8 @@
-package com.server;
+package TestControllers;
 
 import Core.Reservation;
-import Core.Room;
-import Core.Student;
 import Mapper.ReservationMapper;
-import Mapper.RoomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +17,7 @@ public class ReservationController {
     @Autowired
     ReservationMapper mockMapper;
 
-    @RequestMapping(value = "/reservation", method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/reservationTest", method = RequestMethod.GET,produces = "application/json")
     public String display(@RequestParam(value="resId", defaultValue="") int resId) throws ClassNotFoundException, SQLException
     {
 
@@ -35,7 +30,7 @@ public class ReservationController {
 
     }
 
-    @RequestMapping(value = "/reservationAll", method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/reservationAllTest", method = RequestMethod.GET,produces = "application/json")
     public String displayAll() throws ClassNotFoundException, SQLException
     {
 

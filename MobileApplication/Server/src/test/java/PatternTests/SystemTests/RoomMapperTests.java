@@ -1,10 +1,9 @@
-package UnitTestPattern;
+package PatternTests.SystemTests;
 
-import Core.Reservation;
 import Core.Room;
-import Mapper.ReservationMapper;
+import IdentityMap.RoomIdentityMap;
 import Mapper.RoomMapper;
-import com.server.RoomController;
+import TestControllers.RoomController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -53,6 +53,19 @@ public class RoomMapperTests {
     }
 
     @Test
+    public void testInsertAndGetData() throws SQLException, ClassNotFoundException {
+        RoomMapper.makeNew(56, "b", "c", 2);
+
+        Room r = RoomIdentityMap.getRoomFromMap(56);
+
+        RoomMapper.set(r, "potato", "banana", 5);
+
+        RoomMapper.erase(r);
+
+        RoomMapper.getAllData();
+    }
+
+    @Test
     public void returnRoom() throws Exception {
         Room room = new Room(1, "LB-351", "This room is located in the Webster Library. It has 1 table, a 46\" LCD screen with an HDMI port, an USB camera and multiple power outlets.\n", 6);
         PowerMockito.mockStatic(RoomMapper.class);
@@ -60,7 +73,7 @@ public class RoomMapperTests {
 
         when(RoomMapper.getData(1)).thenReturn(room);
 
-        this.mockMvc.perform(get("/room?roomId=1")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/roomTest?roomId=1")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(room.toString()));
 
     }
@@ -75,7 +88,7 @@ public class RoomMapperTests {
         rooms.add(new Room(14, "LB-351", "This room is located in the Webster Library. It has 1 table, a 46\" LCD screen with an HDMI port, an USB camera and multiple power outlets.\n", 6));
 
         when(RoomMapper.getAllData()).thenReturn(rooms);
-        this.mockMvc.perform(get("/roomAll")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/roomAllTest")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(rooms.toString()));
     }
 
@@ -87,7 +100,7 @@ public class RoomMapperTests {
         ArrayList<Room> rooms = new ArrayList<Room>();
         when(RoomMapper.getAllData()).thenReturn(rooms);
 
-        this.mockMvc.perform(get("/roomAll")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/roomAllTest")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(""));
 
     }
@@ -100,7 +113,7 @@ public class RoomMapperTests {
 
         when(RoomMapper.getData(70)).thenReturn(null);
 
-        this.mockMvc.perform(get("/room?roomId=70")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/roomTest?roomId=70")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(""));
 
     }
