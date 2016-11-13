@@ -1,9 +1,10 @@
-package UnitTestPattern;
+package PatternTests.SystemTests;
 
 /**
  * Created by Emili on 2016-11-05.
  */
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -15,6 +16,7 @@ import Mapper.StudentMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@SpringBootConfiguration
 public class StudentMapperTests {
 
     @Test
@@ -26,10 +28,8 @@ public class StudentMapperTests {
             StudentMapper.makeNew(27526799, "patrick", "lkjlkaj09813");
         }
         catch(ClassNotFoundException e){
-            Assert.assertTrue(false);
         }
         catch(SQLException e){
-            Assert.assertTrue(false);
         }
 
 
