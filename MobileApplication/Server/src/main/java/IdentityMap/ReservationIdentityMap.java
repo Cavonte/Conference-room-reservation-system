@@ -1,9 +1,9 @@
 package IdentityMap;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Map;
-
 import Core.Reservation;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Emili on 2016-10-25.

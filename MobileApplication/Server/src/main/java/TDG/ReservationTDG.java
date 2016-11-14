@@ -1,34 +1,21 @@
 package TDG;
 
+import Core.Reservation;
+import IdentityMap.ReservationIdentityMap;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import Core.Reservation;
-import IdentityMap.ReservationIdentityMap;
 
 /**
  * Created by dias on 2016-10-25.
  */
 
 public class ReservationTDG {
-    
-    private static String databaseUsername = null;
-    private static String databasePassword = null;
-    
-    
-    public ReservationTDG(String username, String password)
-    {
-        this.databaseUsername = username;
-        this.databasePassword = password;
-    }
-    
     public static ResultSet findAll() throws ClassNotFoundException,SQLException
     {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
@@ -39,10 +26,9 @@ public class ReservationTDG {
         return resultSet;
     }
 
-    public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException{
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+    public static ResultSet find(int reservationId) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE reservationId = " + reservationId);
@@ -52,8 +38,7 @@ public class ReservationTDG {
 
     public static ResultSet findInRange(String day, int startTime, int endTime, int roomId) throws ClassNotFoundException,SQLException
     {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && day = " + day + " && startTime = " + startTime + " && endTime = " + endTime);
@@ -66,7 +51,7 @@ public class ReservationTDG {
 
     public static void intitializeIdCounter() throws ClassNotFoundException,SQLException
     {
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "");
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
 
         ResultSet results = statement.executeQuery("SELECT * FROM reservations");
@@ -100,10 +85,9 @@ public class ReservationTDG {
         return max;
     }
     
-    public static void insert(Reservation reservation) throws ClassNotFoundException,SQLException{
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+    public static void insert(Reservation reservation) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("INSERT INTO reservations " + "VALUES ( " + reservation.getId() + "," + reservation.getRoomId() + "," + reservation.getStudentId() + ", '" + reservation.getDay() + "','" + reservation.getStartTime() + "','" + reservation.getEndTime() + "'," + reservation.getPosition() + ")");
@@ -112,10 +96,9 @@ public class ReservationTDG {
         connection.close();
     }
     
-    public static void update(Reservation reservation) throws ClassNotFoundException,SQLException{
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+    public static void update(Reservation reservation) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getId());
@@ -124,23 +107,20 @@ public class ReservationTDG {
         connection.close();
     }
     
-    public static void delete(Reservation reservation) throws ClassNotFoundException,SQLException{
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+    public static void delete(Reservation reservation) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
         statement.executeUpdate("DELETE FROM reservations " + "WHERE reservationId = " + reservation.getId());
 
         statement.close();
         connection.close();
-        
     }
 
-    public static ResultSet getAllResOfStudent(int studID) throws ClassNotFoundException,SQLException{
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db343?characterEncoding=UTF-8&useSSL=false", "root", "1234");
+    public static ResultSet getAllResOfStudent(int studID) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
 
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE studentId = " + studID);

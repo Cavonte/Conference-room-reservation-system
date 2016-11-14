@@ -1,7 +1,5 @@
 package Core;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Created by Emili on 2016-10-24.
  */

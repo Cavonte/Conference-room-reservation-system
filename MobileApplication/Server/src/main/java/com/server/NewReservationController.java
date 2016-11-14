@@ -1,11 +1,8 @@
 package com.server;
 
-import Core.Student;
 import Mapper.ReservationMapper;
 import Mapper.RoomMapper;
 import Mapper.StudentMapper;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

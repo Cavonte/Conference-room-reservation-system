@@ -1,15 +1,14 @@
 package Mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import Core.Student;
 import IdentityMap.StudentIdentityMap;
 import TDG.StudentTDG;
 import UnitOfWork.UnitOfWork;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by Emili on 2016-10-25.
@@ -58,19 +57,20 @@ public class StudentMapper {
         }
     }
 
-    public static ArrayList<Student> getAllData() throws SQLException {
-
+    public static ArrayList<Student> getAllData() throws SQLException, ClassNotFoundException
+    {
         ResultSet resultSet = StudentTDG.findAll();
         ArrayList<Student> studentList = new ArrayList<Student>();
         readWriteLock.readLock().lock();
 
-        try {
+        try
+        {
             if (resultSet == null)
                 return null;
-            else {
-
-                while (resultSet.next()) {
-
+            else
+            {
+                while (resultSet.next())
+                {
                     int username = resultSet.getInt("username");
                     String name = resultSet.getString("FullName");
                     String password = resultSet.getString("password");
@@ -81,92 +81,101 @@ public class StudentMapper {
                 return studentList;
             }
         }
-        finally{
+        finally
+        {
             readWriteLock.readLock().unlock();
         }
     }
 
-
-    public static void makeNew(int u, String n, String p) throws ClassNotFoundException, SQLException {
-
+    public static void makeNew(int u, String n, String p) throws SQLException, ClassNotFoundException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             Student s = new Student(u, n, p);
             StudentIdentityMap.addStudent(s);
             UnitOfWork.registerNew(s);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
-
     }
 
-    public static void set(Student s, String n, String p) throws ClassNotFoundException, SQLException{
-
+    public static void set(Student s, String n, String p) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             s.setName(n);
             s.setPassword(p);
             UnitOfWork.registerDirty(s);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void erase(Student s) throws ClassNotFoundException, SQLException {
-
+    public static void erase(Student s) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             StudentIdentityMap.delete(s);
             UnitOfWork.registerDelete(s);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void saveToDB(Student s) throws ClassNotFoundException, SQLException{
-
+    public static void saveToDB(Student s) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             StudentTDG.insert(s);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void deleteToDB(Student s) throws ClassNotFoundException, SQLException{
-
+    public static void deleteToDB(Student s) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try{
+        try
+        {
             StudentTDG.delete(s);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
-
     }
 
-    public static void updateToDB(Student s) throws ClassNotFoundException, SQLException{
-
+    public static void updateToDB(Student s) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             StudentTDG.update(s);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 }
-

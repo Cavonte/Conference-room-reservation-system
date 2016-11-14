@@ -1,14 +1,14 @@
 package Mapper;
 
+import Core.Room;
+import IdentityMap.RoomIdentityMap;
+import TDG.RoomsTDG;
+import UnitOfWork.UnitOfWork;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import Core.Room;
-import TDG.RoomsTDG;
-import UnitOfWork.UnitOfWork;
-import IdentityMap.RoomIdentityMap;
 
 /**
  * Created by Emili on 2016-10-25.
