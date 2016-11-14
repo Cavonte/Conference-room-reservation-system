@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * Created by dias on 16-10-28.
  */
 
+//End point that returns all room objects from the database
 @RestController
 public class AllRoomsController {
 
