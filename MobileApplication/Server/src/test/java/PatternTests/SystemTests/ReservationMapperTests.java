@@ -65,14 +65,14 @@ public class ReservationMapperTests {
 
         Student s3 = StudentMapper.getData(27526711);
 
-        ReservationMapper.makeNew(1, r.getId(), s1.getId(), "Friday", "3pm", "4pm", 1);
-        ReservationMapper.makeNew(2, 53, s1.getId(), "Monday", "11am", "12pm", 4);
-        ReservationMapper.makeNew(3, 11, s2.getId(), "Tuesday", "6pm", "7pm", 1);
-        ReservationMapper.makeNew(4, 11, s3.getId(), "Tuesday", "7pm", "8pm", 1);
+        ReservationMapper.makeNew(r.getId(), s1.getId(), "Friday", 15, 16);
+        ReservationMapper.makeNew(53, s1.getId(), "Monday", 11, 12);
+        ReservationMapper.makeNew(11, s2.getId(), "Tuesday", 18, 19);
+        ReservationMapper.makeNew(11, s3.getId(), "Tuesday", 19, 20);
 
         Reservation res = ReservationMapper.getData(1);
 
-        ReservationMapper.set(res, r.getId(), s1.getId(), "Wednesday", "2am", "3am", 2);
+        ReservationMapper.set(res, r.getId(), s1.getId(), "Wednesday", 14, 15, 2);
 
         ReservationMapper.getAllData();
         ReservationMapper.getResForStud(s1.getId());
@@ -89,7 +89,7 @@ public class ReservationMapperTests {
     @Test
     public void returnReservation() throws Exception {
 
-        Reservation r = new Reservation(2,2,1,"Monday", "11:00:00", "12:00:00", 0);
+        Reservation r = new Reservation(2,2,1,"Monday", 11, 12, 0);
         PowerMockito.mockStatic(ReservationMapper.class);
 
 
@@ -107,9 +107,9 @@ public class ReservationMapperTests {
 
         ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 
-        reservations.add(new Reservation(1,1,123123123,"This is a string", "This is another string", "This is another string string",0));
-        reservations.add(new Reservation(4,1,123123123,"This is a string", "This is another string", "This is another string string",0));
-        reservations.add(new Reservation(5,1,123123123,"This is a string", "This is another string", "This is another string string",0));
+        reservations.add(new Reservation(1,1,123123123,"Monday", 12, 13, 0));
+        reservations.add(new Reservation(4,1,123123123,"Tuesday", 14, 15, 0));
+        reservations.add(new Reservation(5,1,123123123,"Wednesday", 16, 17, 0));
 
         when(ReservationMapper.getAllData()).thenReturn(reservations);
 
@@ -128,12 +128,11 @@ public class ReservationMapperTests {
 
         this.mockMvc.perform(get("/reservationAllTest")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(""));
-
     }
 
     @Test
     public void returnReservationError() throws Exception {
-        Reservation r = new Reservation(3,2,1,"Monday", "11:00:00", "12:00:00", 0);
+        Reservation r = new Reservation(3,2,1,"Monday", 11, 12, 0);
         PowerMockito.mockStatic(ReservationMapper.class);
 
 

@@ -1,7 +1,5 @@
 package Core;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * Created by Emili on 2016-10-24.
  */
@@ -11,10 +9,10 @@ public class Student extends DomainObject{
     private String name;
     private String password;
 
-    public Student(int u, String n, String p){
-        super(u);
-        name = n;
-        password = p;
+    public Student(int username, String name, String password){
+        super(username);
+        this.name = name;
+        this.password = password;
     }
 
     public String getName() {
