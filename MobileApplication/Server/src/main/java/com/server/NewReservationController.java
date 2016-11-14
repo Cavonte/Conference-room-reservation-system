@@ -15,11 +15,14 @@ import java.sql.SQLException;
 public class NewReservationController {
 
     //End point that takes in the room id, day, start and end time, and student id so it can add a new reservation or add to the waitlist
+    // @throws IllegalArgumentException if there is a reservation conflict or if the user has too many existing reservations
     @RequestMapping(value = "/reservation", method = RequestMethod.POST,produces = "application/json")
-    public int newReservation(@RequestParam(value="roomId", defaultValue="") int roomId, @RequestParam(value="studentId", defaultValue="") int studentId, @RequestParam(value="day", defaultValue="") String day, @RequestParam(value="startTime", defaultValue="0") int startTime, @RequestParam(value="endTime", defaultValue="0") int endTime) throws ClassNotFoundException, SQLException
+    public int newReservation(@RequestParam(value="roomId", defaultValue="") int roomId, @RequestParam(value="studentId", defaultValue="") int studentId, @RequestParam(value="day", defaultValue="") String day, @RequestParam(value="startTime", defaultValue="0") int startTime, @RequestParam(value="endTime", defaultValue="0") int endTime) throws ClassNotFoundException, SQLException, IllegalArgumentException
     {
         if(!validParameters(roomId, studentId, day, startTime, endTime))
             return -1;
+
+        day = day.toLowerCase();
 
         int position = ReservationMapper.makeNew(roomId, studentId, day, startTime, endTime);
 
@@ -47,7 +50,10 @@ public class NewReservationController {
 
     private boolean validDay(String day)
     {
-        return (!StringUtils.isEmpty(day) && (day.equals("Monday") || day.equals("Tuesday") || day.equals("Wednesday") || day.equals("Thursday") || day.equals("Friday")));
+        if(StringUtils.isEmpty(day))
+            return false;
+        day = day.toLowerCase();
+        return ((day.equals("monday") || day.equals("tuesday") || day.equals("wednesday") || day.equals("thursday") || day.equals("friday")));
     }
 
     private boolean validTime(int time)
