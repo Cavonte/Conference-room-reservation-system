@@ -262,4 +262,42 @@ public class ReservationMapper {
             readWriteLock.readLock().unlock();
         }
     }
+
+    public static ArrayList<Reservation> getFullReservationsForDay(String weekDay) throws SQLException, ClassNotFoundException
+    {
+        readWriteLock.readLock().lock();
+
+        ResultSet resultSet = ReservationTDG.getFullReservationsForDay(weekDay);
+        ArrayList<Reservation> reservationStudentList = new ArrayList<Reservation>();
+
+        try
+        {
+            if (resultSet == null)
+                return null;
+            else
+            {
+                while (resultSet.next())
+                {
+                    int resId = resultSet.getInt("reservationId");
+                    int roomId = resultSet.getInt("roomId");
+                    int resStudentId = resultSet.getInt("studentId");
+                    String day = resultSet.getString("weekDay");
+                    int startTime = resultSet.getInt("startTime");
+                    int endTime = resultSet.getInt("endTime");
+                    int position = resultSet.getInt("position");
+
+                    reservationStudentList.add(new Reservation(resId, roomId, resStudentId, day, startTime, endTime, position));
+
+                    if (ReservationIdentityMap.getResFromMap(resId) == null)
+                        ReservationIdentityMap.addRes(new Reservation(resId, roomId, resStudentId, day, startTime, endTime, position));
+
+                }
+                return reservationStudentList;
+            }
+        }
+        finally
+        {
+            readWriteLock.readLock().unlock();
+        }
+    }
 }
