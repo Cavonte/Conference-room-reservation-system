@@ -41,10 +41,7 @@ public class ReservationTDG {
         Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && day = " + day + " && startTime = " + startTime + " && endTime = " + endTime);
-
-        statement.close();
-        connection.close();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && weekDay = \"" + day + "\" && startTime = " + startTime + " && endTime = " + endTime);
 
         return resultSet;
     }
