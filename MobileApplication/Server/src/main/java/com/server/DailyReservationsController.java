@@ -20,7 +20,7 @@ public class DailyReservationsController {
     //End point to return all reservations at position 0 on the given day
     // @throws IllegalArgumentException if the week day sent is invalid
     @RequestMapping(value = "/dailyReservations", method = RequestMethod.GET,produces = "application/json")
-    public Object[] getDailyReservations(@RequestParam(value="weekDay", defaultValue="") String weekDay) throws SQLException, ClassNotFoundException
+    public Object[] getDailyReservations(@RequestParam(value="weekDay", defaultValue="") String weekDay) throws SQLException, ClassNotFoundException, IllegalArgumentException
     {
         if(!Reservation.validDay(weekDay))
             throw new IllegalArgumentException("Invalid day " + weekDay);

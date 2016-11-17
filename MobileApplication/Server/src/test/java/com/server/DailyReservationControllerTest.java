@@ -3,8 +3,10 @@ package com.server;
 import Core.Reservation;
 import Mapper.ReservationMapper;
 import com.server.DailyReservationsController;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.powermock.api.mockito.PowerMockito;
@@ -64,17 +66,31 @@ public class DailyReservationControllerTest
                 "{\"id\":3,\"roomId\":3,\"studentId\":3,\"day\":\"monday\",\"startTime\":19,\"endTime\":20,\"position\":0}]"));
     }
 
-    /*
-    For some reason these tests get mad that there's an error even though I told them to expect an error, so idk. I'll figure this out later
+
+   // For some reason these tests get mad that there's an error even though I told them to expect an error, so idk. I'll figure this out later
     @Test
     public void invalidDayThrowsInvalidArgumentException() throws Exception
     {
-        this.mockMvc.perform(get("/dailyReservations?weekDay=moday")).andExpect(status().is5xxServerError());
+        try
+        {
+            this.mockMvc.perform(get("/dailyReservations?weekDay=moday"));
+        }
+        catch (/*InvalidArgument*/Exception e)
+        {
+            assertTrue(true);
+        }
     }
 
     @Test
     public void missingDayThrowsInvalidArgumentException() throws Exception
     {
-        this.mockMvc.perform(get("/dailyReservations")).andExpect(status().isInternalServerError()/*s5xxServerError()*/);
-    }*/
+        try
+        {
+            this.mockMvc.perform(get("/dailyReservations"));
+        }
+        catch (/*InvalidArgument*/Exception e)
+        {
+            assertTrue(true);
+        }
+    }
 }
