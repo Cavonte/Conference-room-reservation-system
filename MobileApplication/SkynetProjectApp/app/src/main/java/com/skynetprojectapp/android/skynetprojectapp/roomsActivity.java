@@ -59,31 +59,43 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("T1");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Monday");
+        spec.setIndicator("Su");
         host.addTab(spec);
 
         //Tab 2
         spec = host.newTabSpec("T2");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Tuesday");
+        spec.setIndicator("M");
         host.addTab(spec);
 
         //Tab 3
         spec = host.newTabSpec("T3");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("Wednesday");
+        spec.setIndicator("Tu");
         host.addTab(spec);
 
         //Tab 4
         spec = host.newTabSpec("T4");
         spec.setContent(R.id.tab4);
-        spec.setIndicator("Thursday");
+        spec.setIndicator("W");
         host.addTab(spec);
 
         //Tab 5
         spec = host.newTabSpec("T5");
         spec.setContent(R.id.tab5);
-        spec.setIndicator("Friday");
+        spec.setIndicator("Th");
+        host.addTab(spec);
+
+        //Tab 6
+        spec = host.newTabSpec("T6");
+        spec.setContent(R.id.tab6);
+        spec.setIndicator("F");
+        host.addTab(spec);
+
+        //Tab 7
+        spec = host.newTabSpec("T7");
+        spec.setContent(R.id.tab7);
+        spec.setIndicator("Sa");
         host.addTab(spec);
 
         host.setOnTabChangedListener(roomsActivity.this);
@@ -133,6 +145,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         if ("T5".equals(tabId)) {
             mViewPager.setCurrentItem(4);
         }
+        if ("T6".equals(tabId)) {
+            mViewPager.setCurrentItem(5);
+        }
+        if ("T7".equals(tabId)) {
+            mViewPager.setCurrentItem(6);
+        }
     }
 
 
@@ -177,12 +195,13 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             return fragment;
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.monday_frag, container, false);
+            View rootView = inflater.inflate(R.layout.sunday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Monday");
+            textView.setText("Sunday");
 
             t91 = (Timeslot) rootView.findViewById(R.id.timeslot91);
             t91.setOnClickListener(this);
@@ -202,6 +221,27 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             }
         }
 
+    }
+
+    public static class Frag2a extends Fragment {
+        public Frag2a() {
+        }
+
+        public static Frag2a newInstance() {
+            Frag2a fragment = new Frag2a();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.h_building_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Monday");
+            return rootView;
+        }
     }
 
     public static class Frag2 extends Fragment {
@@ -289,6 +329,27 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
     }
 
+    public static class Frag6 extends Fragment {
+        public Frag6() {
+        }
+
+        public static Frag6 newInstance() {
+            Frag6 fragment = new Frag6();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.saturday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Saturday");
+            return rootView;
+        }
+    }
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -303,13 +364,17 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 case 0:
                     return Frag1.newInstance();
                 case 1:
-                    return Frag2.newInstance();
+                    return Frag2a.newInstance();
                 case 2:
-                    return Frag3.newInstance();
+                    return Frag2.newInstance();
                 case 3:
-                    return Frag4.newInstance();
+                    return Frag3.newInstance();
                 case 4:
+                    return Frag4.newInstance();
+                case 5:
                     return Frag5.newInstance();
+                case 6:
+                    return Frag6.newInstance();
             }
             return null;
         }
@@ -317,23 +382,26 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public int getCount() {
             //Total pages count.
-            return 5;
+            return 7;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Monday";
+                    return "Sunday";
                 case 1:
-                    return "Tuesday";
+                    return "Monday";
                 case 2:
+                    return "Tuesday";
+                case 3:
                     return "Wednesday";
                 case 4:
                     return "Thursday";
                 case 5:
                     return "Friday";
-
+                case 6:
+                    return "Saturday";
             }
             return null;
         }

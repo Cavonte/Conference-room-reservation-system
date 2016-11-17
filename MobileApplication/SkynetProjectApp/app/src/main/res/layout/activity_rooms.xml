@@ -92,6 +92,13 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
                     android:orientation="vertical">
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/tab7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
