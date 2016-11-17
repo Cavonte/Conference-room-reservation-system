@@ -35,4 +35,25 @@ public class Student extends DomainObject{
         return ("Name: " + name +
                 "\nStudent Id: " + super.getId());
     }
+
+    public static boolean isValidUsername(String username)
+    {
+        if(username.length() < 8 || username.length() > 20)
+            return false;
+        try {
+            Integer.parseInt(username);
+            return true;
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
+    }
+
+    public static boolean isValidPassword(String password)
+    {
+        if(password.length() < 8 || password.length() > 20)
+            return false;
+        return true;
+    }
 }
