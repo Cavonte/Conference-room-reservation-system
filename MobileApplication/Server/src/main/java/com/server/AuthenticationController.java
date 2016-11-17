@@ -2,8 +2,8 @@ package com.server;
 
 import Core.Student;
 import Mapper.StudentMapper;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +28,7 @@ public class AuthenticationController {
         if(!isValidPassword(student, password))
             return false;
 
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
+        //SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
         return true;
     }
 

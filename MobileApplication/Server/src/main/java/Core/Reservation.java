@@ -1,5 +1,7 @@
 package Core;
 
+import org.springframework.util.StringUtils;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -8,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Reservation extends DomainObject{
     private static final AtomicInteger idCounter = new AtomicInteger();
+    private static final String[] VALID_DAYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
     private int roomId;
     private int studentId;
     private String day;
@@ -104,5 +107,20 @@ public class Reservation extends DomainObject{
                 "\nStart Time: " + startTime +
                 "\nEnd Time: " + endTime +
                 "\nPosition: " + position);
+    }
+
+    public static boolean validDay(String weekDay)
+    {
+        if(StringUtils.isEmpty(weekDay))
+            return false;
+
+        String lowerDay = weekDay.toLowerCase();
+        for(String validDay: VALID_DAYS)
+        {
+            if(lowerDay.equals(validDay))
+                return true;
+        }
+
+        return false;
     }
 }
