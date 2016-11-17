@@ -3,6 +3,7 @@ package com.server;
 import Mapper.ReservationMapper;
 import Mapper.RoomMapper;
 import Mapper.StudentMapper;
+import Core.Reservation;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ public class NewReservationController {
 
     private boolean validParameters(int roomId, int studentId, String day, int startTime, int endTime) throws ClassNotFoundException, SQLException
     {
-        return validRoom(roomId) && validStudent(studentId) && validDay(day) && validTime(startTime) && validTime(endTime) && endTime == startTime+1;
+        return validRoom(roomId) && validStudent(studentId) && Reservation.validDay(day) && validTime(startTime) && validTime(endTime) && endTime == startTime+1;
     }
 
     private boolean validRoom(int roomId) throws ClassNotFoundException, SQLException
@@ -46,14 +47,6 @@ public class NewReservationController {
         if(StudentMapper.getData(studentId) != null)
             return true;
         return false;
-    }
-
-    private boolean validDay(String day)
-    {
-        if(StringUtils.isEmpty(day))
-            return false;
-        day = day.toLowerCase();
-        return ((day.equals("monday") || day.equals("tuesday") || day.equals("wednesday") || day.equals("thursday") || day.equals("friday")));
     }
 
     private boolean validTime(int time)
