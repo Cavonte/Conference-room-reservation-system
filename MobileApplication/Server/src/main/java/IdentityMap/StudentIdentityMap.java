@@ -30,9 +30,4 @@ public class StudentIdentityMap {
         int id = student.getId();
         mapOfStudents.remove(id);
     }
-
-    public static void set(Student student, int studentId)
-    {
-        mapOfStudents.put(studentId, student);
-    }
 }

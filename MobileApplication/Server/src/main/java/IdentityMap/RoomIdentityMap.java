@@ -32,9 +32,4 @@ public class RoomIdentityMap {
         int id = room.getId();
         mapOfRooms.remove(id);
     }
-
-    public static void set(Room room, int roomId)
-    {
-        mapOfRooms.put(roomId, room);
-    }
 }

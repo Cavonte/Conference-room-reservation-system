@@ -22,35 +22,50 @@ public class ReservationMapper {
     public ReservationMapper() {
     }
 
-    public static Reservation getData(int resId) throws ClassNotFoundException, SQLException {
+    public static Reservation getData(int resId) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.readLock().lock();
 
-        try {
-            Reservation reservation = ReservationIdentityMap.getResFromMap(resId);
-            if (reservation != null) {
-                return reservation;
-            } else {
-                ResultSet resultSet = ReservationTDG.find(resId);
-
-                if (resultSet.next()) {
-                    int reservationId = resultSet.getInt("reservationId");
-                    int roomId = resultSet.getInt("roomId");
-                    int studentId = resultSet.getInt("studentId");
-                    String weekDay = resultSet.getString("weekDay");
-                    int startTime = resultSet.getInt("startTime");
-                    int endTime = resultSet.getInt("endTime");
-                    int position = resultSet.getInt("position");
-
-                    Reservation reservationDB = new Reservation(reservationId, roomId, studentId, weekDay, startTime, endTime, position);
-                    ReservationIdentityMap.addRes(reservationDB);
-
-                    return reservationDB;
-                } else {
-                    return null;
-                }
-            }
-        } finally {
+        try
+        {
+            return getDataNoLock(resId);
+        }
+        finally
+        {
             readWriteLock.readLock().unlock();
+        }
+    }
+
+    private static Reservation getDataNoLock(int resId) throws ClassNotFoundException, SQLException
+    {
+        Reservation reservation = ReservationIdentityMap.getResFromMap(resId);
+        if(reservation != null)
+        {
+            return reservation;
+        }
+        else
+        {
+            ResultSet resultSet = ReservationTDG.find(resId);
+
+            if(resultSet.next())
+            {
+                int reservationId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                int startTime = resultSet.getInt("startTime");
+                int endTime = resultSet.getInt("endTime");
+                int position = resultSet.getInt("position");
+
+                Reservation reservationDB = new Reservation(reservationId, roomId, studentId, weekDay, startTime, endTime, position);
+                ReservationIdentityMap.addRes(reservationDB);
+
+                return reservationDB;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -200,6 +215,9 @@ public class ReservationMapper {
 
         try
         {
+            if(getDataNoLock(reservation.getId()) == null)
+                throw new IllegalArgumentException("Trying to update a reservation that does not exist in the map or database.");
+
             reservation.setRoomId(roomId);
             reservation.setStudentId(studentId);
             reservation.setDay(day);
@@ -207,7 +225,6 @@ public class ReservationMapper {
             reservation.setEndTime(endTime);
             reservation.setPosition(position);
 
-            ReservationIdentityMap.set(reservation, reservation.getId());
             UnitOfWork.registerDirty(reservation);
             UnitOfWork.commit();
         }

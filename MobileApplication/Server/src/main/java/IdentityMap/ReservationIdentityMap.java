@@ -29,9 +29,4 @@ public class ReservationIdentityMap {
         int id = reservation.getId();
         mapOfReservations.remove(id);
     }
-
-    public static void set(Reservation reservation, int reservationId)
-    {
-        mapOfReservations.put(reservationId, reservation);
-    }
 }
