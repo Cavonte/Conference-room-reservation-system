@@ -34,6 +34,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private Spinner spinnerForBuildings;
+    private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,32 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         host.setOnTabChangedListener(roomsActivity.this);
 
+        spinnerForBuildings = (Spinner) findViewById(R.id.spinnerBuildings);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(roomsActivity.this, android.R.layout.simple_spinner_item, buildings);
 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerForBuildings.setAdapter(adapter);
+        spinnerForBuildings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+                                       long arg3) {
+                switch (position){
+                    case 0:
+                        Frag2a hbuildingfrag = new Frag2a();
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                //optionally do something here
+            }
+        });
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -108,7 +135,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(roomsActivity.this);
+        mViewPager.addOnPageChangeListener(this);
 
 
     }
@@ -237,7 +264,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.h_building_frag, container, false);
+            View rootView = inflater.inflate(R.layout.lb_building_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Monday");
             return rootView;

@@ -1,0 +1,1935 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.skynetprojectapp.android.skynetprojectapp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.skynetprojectapp.android.skynetprojectapp.roomsActivity$Frag2a">
+
+    <TextView
+        android:id="@+id/section_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:paddingBottom="150dp"
+            android:paddingTop="30dp"
+            android:layout_width="fill_parent" android:layout_height="fill_parent"
+            android:scrollbars="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Room   "
+
+                                />
+                            <TextView
+                                android:id="@+id/textView011"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="07:00"
+                                android:textSize="24sp"
+                                android:textAlignment="textStart" />
+                            <TextView
+                                android:id="@+id/textView012"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="08:00"
+                                android:textSize="24sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/textView013"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="09:00"
+                                android:textSize="24sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/textView014"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="10:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView015"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="11:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView016"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="12:00"
+
+                                android:textSize="24sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/textView017"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="13:00"
+                                android:textSize="24sp"
+                                />
+
+                            <TextView
+                                android:id="@+id/textView018"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="14:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView019"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="15:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0110"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="16:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0111"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="17:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0112"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="18:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0113"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="19:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0114"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="20:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0115"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="21:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0116"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="22:00"
+                                android:textSize="24sp"
+                                />
+                            <TextView
+                                android:id="@+id/textView0117"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="23:00"
+                                android:textSize="24sp"
+                                />
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView02"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-10"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot021"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot022"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot023"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot024"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot025"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot026"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot027"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot028"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot029"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0210"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0211"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0212"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0213"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0214"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0215"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0216"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0217"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView03"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-11"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot031"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot032"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot033"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot034"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot035"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot036"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot037"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot038"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot039"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0310"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0311"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0312"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0313"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0314"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0315"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0316"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0317"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView04"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-22"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot041"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot042"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot043"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot044"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot045"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot046"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot047"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot048"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot049"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0410"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0411"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0412"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0413"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0414"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0415"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0416"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0417"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView05"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-23"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot051"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot052"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot053"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot054"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot055"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot056"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot057"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot058"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot059"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0510"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0511"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0512"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0513"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0514"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0515"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0516"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0517"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView06"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-24"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot061"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot062"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot063"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot064"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot065"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot066"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot067"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot068"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot069"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0610"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0611"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0612"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0613"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0614"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0615"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0616"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0617"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView07"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-12"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot071"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot072"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot073"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot074"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot075"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot076"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot077"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot078"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot079"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0710"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0711"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0712"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0713"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0714"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0715"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0716"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0717"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView08"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-13"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot081"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot082"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot083"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot084"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot085"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot086"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot087"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot088"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot089"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0810"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0811"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0812"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0813"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0814"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0815"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0816"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0817"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView09"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-20"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot091"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot092"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot093"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot094"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot095"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot096"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot097"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot098"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot099"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0910"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0911"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0912"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0913"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0914"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0915"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0916"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot0917"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/textView10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="VL 301-21"
+                                />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot101"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="07:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp"
+                                android:clickable="true" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot102"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="08:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot103"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="09:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot104"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="10:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot105"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="11:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot106"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="12:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot107"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="13:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot108"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="14:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot109"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="15:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1010"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="16:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1011"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="17:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1012"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="18:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1013"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="19:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1014"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="20:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1015"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="21:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1016"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="22:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+
+                            <com.skynetprojectapp.android.skynetprojectapp.Timeslot
+                                android:id="@+id/timeslot1017"
+                                android:background="#ccc"
+                                app:exampleColor="#ffffff"
+                                app:exampleDimension="24sp"
+                                app:exampleString="23:00"
+                                android:onClick="onClick"
+                                android:layout_width="101dp"
+                                android:layout_height="50dp" />
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+            </HorizontalScrollView>
+        </ScrollView>
+
+    </FrameLayout>
+
+</RelativeLayout>

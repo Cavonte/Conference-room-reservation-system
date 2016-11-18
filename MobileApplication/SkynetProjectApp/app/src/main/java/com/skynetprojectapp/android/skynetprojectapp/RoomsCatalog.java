@@ -23,6 +23,7 @@ public class RoomsCatalog {
         rooms.add("LB-547");
         rooms.add("LB-583");
         rooms.add("LB-520");
+
         rooms.add("VL 301-10");
         rooms.add("VL 301-11");
         rooms.add("VL 301-22");
@@ -63,7 +64,6 @@ public class RoomsCatalog {
         rooms.add("H961-26");
         rooms.add("H961-27");
         rooms.add("H961-28");
-
         rooms.add("H961-29");
         rooms.add("H961-31");
         rooms.add("H961-33");
