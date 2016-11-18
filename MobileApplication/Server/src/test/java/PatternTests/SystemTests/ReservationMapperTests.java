@@ -75,7 +75,7 @@ public class ReservationMapperTests {
         ReservationMapper.set(res, r.getId(), s1.getId(), "Wednesday", 14, 15, 2);
 
         ReservationMapper.getAllData();
-        ReservationMapper.getResForStud(s1.getId());
+        ReservationMapper.getAllResOfStudent(s1.getId());
 
         ReservationMapper.erase(res);
         Reservation res2 = ReservationMapper.getData(2);
