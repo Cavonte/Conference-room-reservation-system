@@ -13,20 +13,26 @@ public class StudentIdentityMap {
 
     private static Map<Integer, Student> mapOfStudents = new ConcurrentHashMap<Integer, Student>();
 
-    public static void addStudent(Student s){
-        mapOfStudents.put(s.getId(), s);
+    public static void addStudent(Student student)
+    {
+        mapOfStudents.put(student.getId(), student);
     }
 
     public static Student getStudentFromMap(int studentID){
-        Student s = mapOfStudents.get(studentID);
-        if (s == null){
+        Student student = mapOfStudents.get(studentID);
+        if (student == null){
             return null;
         }
-        return s;
+        return student;
     }
 
-    public static void delete(Student s){
-        int id = s.getId();
+    public static void delete(Student student){
+        int id = student.getId();
         mapOfStudents.remove(id);
+    }
+
+    public static void set(Student student, int studentId)
+    {
+        mapOfStudents.put(studentId, student);
     }
 }

@@ -198,16 +198,21 @@ public class ReservationMapper {
     public static void set(Reservation reservation, int roomId, int studentId, String day, int startTime, int endTime, int position) throws ClassNotFoundException, SQLException {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             reservation.setRoomId(roomId);
             reservation.setStudentId(studentId);
             reservation.setDay(day);
             reservation.setStartTime(startTime);
             reservation.setEndTime(endTime);
             reservation.setPosition(position);
+
+            ReservationIdentityMap.set(reservation, reservation.getId());
             UnitOfWork.registerDirty(reservation);
             UnitOfWork.commit();
-        } finally {
+        }
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }

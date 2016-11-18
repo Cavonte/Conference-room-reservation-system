@@ -111,15 +111,17 @@ public class StudentMapper {
         }
     }
 
-    public static void set(Student s, String n, String p) throws ClassNotFoundException, SQLException
+    public static void set(Student student, String name, String password) throws ClassNotFoundException, SQLException
     {
         readWriteLock.writeLock().lock();
 
         try
         {
-            s.setName(n);
-            s.setPassword(p);
-            UnitOfWork.registerDirty(s);
+            student.setName(name);
+            student.setPassword(password);
+
+            StudentIdentityMap.set(student, student.getId());
+            UnitOfWork.registerDirty(student);
             UnitOfWork.commit();
         }
         finally

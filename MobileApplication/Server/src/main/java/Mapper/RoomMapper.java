@@ -102,29 +102,35 @@ public class RoomMapper {
 
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             Room ro = new Room(i, rn, d, rs);
             RoomIdentityMap.addRoom(ro);
             UnitOfWork.registerNew(ro);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void set(Room r, String rn, String d, int rs) throws ClassNotFoundException, SQLException{
+    public static void set(Room room, String roomNumber, String description, int roomSize) throws ClassNotFoundException, SQLException{
 
         readWriteLock.writeLock().lock();
 
-        try {
-            r.setRoomNumber(rn);
-            r.setDescription(d);
-            r.setRoomSize(rs);
-            UnitOfWork.registerDirty(r);
+        try
+        {
+            room.setRoomNumber(roomNumber);
+            room.setDescription(description);
+            room.setRoomSize(roomSize);
+
+            RoomIdentityMap.set(room, room.getId());
+            UnitOfWork.registerDirty(room);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }

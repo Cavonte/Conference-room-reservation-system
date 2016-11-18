@@ -11,22 +11,27 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ReservationIdentityMap {
 
-    private static Map<Integer, Reservation> mapOfRes = new ConcurrentHashMap<Integer, Reservation>();
+    private static Map<Integer, Reservation> mapOfReservations = new ConcurrentHashMap<Integer, Reservation>();
 
-    public static void addRes(Reservation res){
-        mapOfRes.put(res.getId(), res);
+    public static void addRes(Reservation reservation){
+        mapOfReservations.put(reservation.getId(), reservation);
     }
 
-    public static Reservation getResFromMap(int resID)  {
-        Reservation res = mapOfRes.get(resID);
-        if (res == null){
+    public static Reservation getResFromMap(int reservationId)  {
+        Reservation reservation = mapOfReservations.get(reservationId);
+        if (reservation == null){
             return null;
         }
-        return res;
+        return reservation;
     }
 
-    public static void delete(Reservation re){
-        int id = re.getId();
-        mapOfRes.remove(id);
+    public static void delete(Reservation reservation){
+        int id = reservation.getId();
+        mapOfReservations.remove(id);
+    }
+
+    public static void set(Reservation reservation, int reservationId)
+    {
+        mapOfReservations.put(reservationId, reservation);
     }
 }
