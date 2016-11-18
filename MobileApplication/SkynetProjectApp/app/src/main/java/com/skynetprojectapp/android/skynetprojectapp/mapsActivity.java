@@ -1,29 +1,25 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.os.Bundle;
-
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.Toast;
-import android.view.Menu;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This activity contains the interface that allows you look at the different maps.
@@ -365,6 +361,8 @@ public class mapsActivity extends AppCompatActivity
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(mapsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } else if(id == R.id.nav_Waitlist){
+            startActivity(new Intent(mapsActivity.this, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Rooms) {
             startActivity(new Intent(mapsActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {

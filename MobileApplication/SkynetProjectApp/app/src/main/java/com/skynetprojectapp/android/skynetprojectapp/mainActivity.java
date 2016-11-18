@@ -180,7 +180,11 @@ public class mainActivity extends AppCompatActivity
         if (id == R.id.nav_Reservations) {
 //            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Rooms) {
+        }
+        else if(id == R.id.nav_Waitlist){
+            startActivity(new Intent(mainActivity.this, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
+        else if (id == R.id.nav_Rooms) {
             startActivity(new Intent(mainActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {
             startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
