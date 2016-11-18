@@ -40,16 +40,7 @@ public class AuthenticationController {
      */
     private boolean areValidFormat(String username, String password)
     {
-        if(username.length() < 8 || username.length() > 20 || password.length() < 8 || password.length() > 20)
-            return false;
-        try {
-            Integer.parseInt(username);
-            return true;
-        }
-        catch(NumberFormatException e)
-        {
-            return false;
-        }
+        return Student.isValidUsername(username) && Student.isValidPassword(password);
     }
 
     /**

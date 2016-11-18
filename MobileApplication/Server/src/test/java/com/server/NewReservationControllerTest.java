@@ -48,20 +48,17 @@ public class NewReservationControllerTest
         PowerMockito.mockStatic(StudentMapper.class);
         PowerMockito.mockStatic(RoomMapper.class);
 
-        Student student = new Student(123, "James Smith", "password");
-        Room room = new Room(12, "H523", "Description", 4);
-
         when(ReservationMapper.makeNew(0, 0, "Monday", 12, 13)).thenReturn(0);
-        when(StudentMapper.getData(0)).thenReturn(student);
-        when(StudentMapper.getData(1)).thenReturn(null);
-        when(RoomMapper.getData(0)).thenReturn(room);
-        when(RoomMapper.getData(1)).thenReturn(null);
+        when(StudentMapper.validStudent(12345678)).thenReturn(true);
+        when(StudentMapper.validStudent(12345679)).thenReturn(false);
+        when(RoomMapper.validRoom(0)).thenReturn(true);
+        when(RoomMapper.validRoom(1)).thenReturn(false);
     }
 
     @Test
     public void normalCaseReturnsPosition() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "0").param("day", "Monday").param("startTime", "12").param("endTime", "13")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "12345678").param("day", "Monday").param("startTime", "12").param("endTime", "13")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("0"));
     }
 
@@ -69,35 +66,35 @@ public class NewReservationControllerTest
     @Test
     public void tooBigRangeInvalid() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "0").param("day", "Monday").param("startTime", "12").param("endTime", "10")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "12345678").param("day", "Monday").param("startTime", "12").param("endTime", "10")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("-1"));
     }
 
     @Test
     public void notRealStudent() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "1").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "12345679").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("-1"));
     }
 
     @Test
     public void notRealRoom() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "1").param("studentId", "0").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "1").param("studentId", "12345678").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("-1"));
     }
 
     @Test
     public void invalidTimes() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "0").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "12345678").param("day", "Monday").param("startTime", "-1").param("endTime", "0")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("-1"));
     }
 
     @Test
     public void invalidDay() throws Exception
     {
-        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "0").param("day", "341").param("startTime", "12").param("endTime", "13")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/reservation").param("roomId", "0").param("studentId", "12345678").param("day", "341").param("startTime", "12").param("endTime", "13")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("-1"));
     }
 }
