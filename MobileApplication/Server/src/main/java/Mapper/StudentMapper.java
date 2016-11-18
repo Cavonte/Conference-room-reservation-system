@@ -57,6 +57,13 @@ public class StudentMapper {
         }
     }
 
+    public static boolean validStudent(int studentId) throws ClassNotFoundException, SQLException
+    {
+        if(StudentMapper.getData(studentId) != null)
+            return true;
+        return false;
+    }
+
     public static ArrayList<Student> getAllData() throws SQLException, ClassNotFoundException
     {
         ResultSet resultSet = StudentTDG.findAll();

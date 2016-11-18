@@ -1,7 +1,9 @@
 package com.server;
 
 import Core.Reservation;
+import Core.Student;
 import Mapper.ReservationMapper;
+import Mapper.StudentMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@PrepareForTest({ReservationMapper.class})
+@PrepareForTest({ReservationMapper.class, StudentMapper.class})
 @RunWith(PowerMockRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -56,8 +58,10 @@ public class UserReservationsControllerTest
         reservationArrayList.add(reservation3);
 
         PowerMockito.mockStatic(ReservationMapper.class);
+        PowerMockito.mockStatic(StudentMapper.class);
 
-        when(ReservationMapper.getResForStud(27511876)).thenReturn(reservationArrayList);
+        when(ReservationMapper.getAllResOfStudent(27511876)).thenReturn(reservationArrayList);
+        when(StudentMapper.validStudent(27511876)).thenReturn(true);
 
         this.mockMvc.perform(get("/userReservations?studentId=27511876")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("[{\"id\":1,\"roomId\":1,\"studentId\":1,\"day\":\"monday\",\"startTime\":8,\"endTime\":9,\"position\":0},"+
@@ -73,7 +77,25 @@ public class UserReservationsControllerTest
             this.mockMvc.perform(get("/userReservations?studentId=1"));
             fail();
         }
-        catch (/*InvalidArgument*/Exception e)
+        catch (/*IllegalArgument*/Exception e)
+        {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void nonExistantStudentIdThrowsIllegalArgumentException() throws Exception
+    {
+        PowerMockito.mockStatic(StudentMapper.class);
+
+        when(StudentMapper.validStudent(33333333)).thenReturn(false);
+
+        try
+        {
+            this.mockMvc.perform(get("/userReservations?studentId=33333333"));
+            fail();
+        }
+        catch (/*IllegalArgument*/Exception e)
         {
             assertTrue(true);
         }

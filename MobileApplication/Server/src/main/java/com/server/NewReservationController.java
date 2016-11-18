@@ -32,25 +32,6 @@ public class NewReservationController {
 
     private boolean validParameters(int roomId, int studentId, String day, int startTime, int endTime) throws ClassNotFoundException, SQLException
     {
-        return validRoom(roomId) && validStudent(studentId) && Reservation.validDay(day) && validTime(startTime) && validTime(endTime) && endTime == startTime+1;
-    }
-
-    private boolean validRoom(int roomId) throws ClassNotFoundException, SQLException
-    {
-        if(RoomMapper.getData(roomId) != null)
-            return true;
-        return false;
-    }
-
-    private boolean validStudent(int studentId) throws ClassNotFoundException, SQLException
-    {
-        if(StudentMapper.getData(studentId) != null)
-            return true;
-        return false;
-    }
-
-    private boolean validTime(int time)
-    {
-        return (time >= 8 && time <= 23);
+        return RoomMapper.validRoom(roomId) && StudentMapper.validStudent(studentId) && Reservation.validDay(day) && Reservation.validTime(startTime) && Reservation.validTime(endTime) && endTime == startTime+1;
     }
 }

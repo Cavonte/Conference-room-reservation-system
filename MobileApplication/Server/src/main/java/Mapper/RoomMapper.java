@@ -61,6 +61,13 @@ public class RoomMapper {
         }
     }
 
+    public static boolean validRoom(int roomId) throws ClassNotFoundException, SQLException
+    {
+        if(RoomMapper.getData(roomId) != null)
+            return true;
+        return false;
+    }
+
     public static ArrayList<Room> getAllData() throws SQLException, ClassNotFoundException {
 
         readWriteLock.readLock().lock();
