@@ -299,12 +299,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
+        private TableLayout table;
         private TableRow row, row1;
         HashMap<String, Timeslot> map;
+        HashMap<String, TableRow> mapRow;
         private Timeslot t91, t92, t93, t94;
 
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
+            mapRow = new HashMap<String, TableRow>();
 
 //            for (int i = 1; i < 3; i++) {
 //                for (int j = 1; j < 3; j++) {
@@ -335,14 +338,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);//
-            row = (TableRow) rootView.findViewById(R.id.row2);
-            row1 = (TableRow) rootView.findViewById(R.id.row3);
             spinner.setOnItemSelectedListener(this);
 
             for (int i = 1; i < 3; i++) {
                 for (int j = 1; j < 3; j++) {
                     String key = i + "u" + j;
-                    String id= "timeslot" + key;
+                    String id = "timeslot" + key;
                     int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
                     map.put(key, (Timeslot) rootView.findViewById(resID));
                     map.get(key).setOnClickListener(this);
@@ -350,13 +351,20 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
-            //@+id/textView17
-//            String id = "timeslot" + "1u9";
-//            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-//            //getActivity().getApplicationContext().getResources().getIdentifier(id, "id", )
-//            Timeslot ts = (Timeslot) rootView.findViewById(resID);
+            row = (TableRow) rootView.findViewById(R.id.row2);
+            row1 = (TableRow) rootView.findViewById(R.id.row3);
 
-//            map.put("1u9", ts);
+            table = (TableLayout) rootView.findViewById(R.id.table);
+            for (int i = 0, j = table.getChildCount(); i < j; i++) {
+                View view = table.getChildAt(i);
+                if (view instanceof TableRow) {
+                    String id = "row" + (i+1);
+                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                    mapRow.put((i+1)+ "", (TableRow) rootView.findViewById(resID));
+                }
+            }
+
+
             return rootView;
         }
 
@@ -365,8 +373,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                    long arg3) {
             switch (position) {
                 case 0:
-//                    row.setVisibility(View.GONE);
-//                    row1.setVisibility(View.GONE);
+                    mapRow.get("1").setVisibility(View.VISIBLE);
+                    mapRow.get("2").setVisibility(View.VISIBLE);
+                    mapRow.get("3").setVisibility(View.VISIBLE);
+                    mapRow.get("4").setVisibility(View.VISIBLE);
                     break;
                 case 1:
                     // row1.setVisibility(View.VISIBLE);
@@ -381,9 +391,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                     break;
                 case 2:
-                    //  row.setVisibility(View.VISIBLE);
+                    mapRow.get("1").setVisibility(View.GONE);
                     break;
                 case 3:
+                    mapRow.get("2").setVisibility(View.GONE);
+                    mapRow.get("3").setVisibility(View.GONE);
                     break;
             }
         }
@@ -395,40 +407,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()) {
-
-//                case R.id.timeslot92:
-//                    t92.setPassed(Color.BLUE);
-//                    t92.postInvalidate();
-//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.timeslot93:
-//                    t93.setPassed(Color.BLUE);
-//                    t93.postInvalidate();
-//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case R.id.timeslot94:
-//                    t94.setPassed(Color.BLUE);
-//                    t94.postInvalidate();
-//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-//                    break;
-            }
-
-
             Iterator<String> keySetIterator = map.keySet().iterator();
-            while(keySetIterator.hasNext()){
+            while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
                 System.out.println("key: " + key + " value: " + map.get(key));
-                String id= "timeslot" + key;
-                if (view.getId()== getResources().getIdentifier(id, "id", getContext().getPackageName())) {
+                String id = "timeslot" + key;
+                if (view.getId() == getResources().getIdentifier(id, "id", getContext().getPackageName())) {
                     map.get(key).setPassed(Color.RED);
                     map.get(key).postInvalidate();
                 }
             }
-
-
-
-
         }
     }
 
