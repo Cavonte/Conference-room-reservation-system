@@ -213,6 +213,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     public static class Frag1 extends Fragment implements View.OnClickListener {
         Timeslot t91;
         public Frag1() {
+
         }
 
         public static Frag1 newInstance() {

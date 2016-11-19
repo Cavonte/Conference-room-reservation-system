@@ -42,12 +42,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
 //        r1.setRoomNumber("LB1");
         //r1.setOnClickListener(mainActivity.this);
 
-
-
-
     }
-
-
 
     @Override
     public void onBackPressed() {

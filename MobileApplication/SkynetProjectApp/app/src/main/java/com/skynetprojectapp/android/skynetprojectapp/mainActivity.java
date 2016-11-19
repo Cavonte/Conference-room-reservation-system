@@ -1,11 +1,13 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -23,8 +25,9 @@ public class mainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener {
 
     private Button reserve;
-    private ImageButton del1,del2,del3, ed1,ed2,ed3,ot1,ot2,ot3;
+    private ImageButton del1,del2,del3, ed1,ed2,ed3;
     private  Reservation r1,r2,r3;
+    private AlertDialog alertDialog;
 
 
     @Override
@@ -80,14 +83,28 @@ public class mainActivity extends AppCompatActivity
         ed3 = (ImageButton) findViewById(R.id.editres3);
         ed3.setOnClickListener(mainActivity.this);
 
-        ot1 = (ImageButton) findViewById(R.id.otherres1);
-        ot1.setOnClickListener(mainActivity.this);
-        ot2 = (ImageButton) findViewById(R.id.otherres2);
-        ot2.setOnClickListener(mainActivity.this);
-        ot3 = (ImageButton) findViewById(R.id.otherres3);
-        ot3.setOnClickListener(mainActivity.this);
 
 
+
+    }
+
+    private void alert(String msg){
+        alertDialog = new AlertDialog.Builder(mainActivity.this).create();
+        alertDialog.setTitle("Confirmation");
+        alertDialog.setMessage("Are you sure you want to " + msg + " ?");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(mainActivity.this, "YES", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(mainActivity.this, "NO", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertDialog.show();
     }
 
     @Override
@@ -110,30 +127,24 @@ public class mainActivity extends AppCompatActivity
                 break;
             case R.id.delres1:
                 Toast.makeText(mainActivity.this, "Delete res 1" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
                 break;
             case R.id.editres1:
                 Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.otherres1:
-                Toast.makeText(mainActivity.this, "Other res 1" , Toast.LENGTH_SHORT).show();
-                break;
             case R.id.delres2:
                 Toast.makeText(mainActivity.this, "Delete res 2" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
                 break;
             case R.id.editres2:
                 Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.otherres2:
-                Toast.makeText(mainActivity.this, "Other res 2" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.editres3:
                 Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delres3:
                 Toast.makeText(mainActivity.this, "Delete res 3" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.otherres3:
-                Toast.makeText(mainActivity.this, "Other res 3" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
                 break;
         }
     }
