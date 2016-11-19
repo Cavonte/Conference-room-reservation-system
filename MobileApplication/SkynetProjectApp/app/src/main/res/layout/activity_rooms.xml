@@ -124,19 +124,6 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
                 </FrameLayout>
             </LinearLayout>
         </TabHost>
-
-        <LinearLayout
-            android:paddingLeft="10dp"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <Spinner
-                android:id="@+id/spinnerBuildings"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </Spinner>
-        </LinearLayout>
-
     </android.support.design.widget.AppBarLayout>
 
 </android.support.design.widget.CoordinatorLayout>

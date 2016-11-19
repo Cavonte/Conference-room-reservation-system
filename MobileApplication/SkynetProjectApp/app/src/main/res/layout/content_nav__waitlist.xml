@@ -67,6 +67,13 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_share"
+                        android:id="@+id/otherres1"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -104,6 +111,13 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_share"
+                        android:id="@+id/otherres2"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -139,6 +153,13 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
+                    <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_menu_share"
+                        android:id="@+id/otherres3"
+                        android:layout_weight="1"
+                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -34,8 +34,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    private Spinner spinnerForBuildings;
-    private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,32 +101,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         host.setOnTabChangedListener(roomsActivity.this);
 
-        spinnerForBuildings = (Spinner) findViewById(R.id.spinnerBuildings);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(roomsActivity.this, android.R.layout.simple_spinner_item, buildings);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerForBuildings.setAdapter(adapter);
-        spinnerForBuildings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
-                                       long arg3) {
-                switch (position){
-                    case 0:
-                        Frag2a hbuildingfrag = new Frag2a();
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                //optionally do something here
-            }
-        });
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -210,14 +183,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public static class Frag1 extends Fragment implements View.OnClickListener {
-        Timeslot t91;
-        public Frag1() {
-
+    public static class FragSunday extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+        private Spinner spinner;
+        private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
+        private TableRow row, row1;
+        private Timeslot t021, t031, t041, t051;
+        public FragSunday() {
         }
 
-        public static Frag1 newInstance() {
-            Frag1 fragment = new Frag1();
+        public static FragSunday newInstance() {
+            FragSunday fragment = new FragSunday();
             Bundle args = new Bundle();
             fragment.setArguments(args);
             return fragment;
@@ -227,15 +202,169 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.sunday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Sunday");
+            View rootView = inflater.inflate(R.layout.sunday_frag, container, false); //inflate the layout
+
+            //Adapter
+            spinner = (Spinner) rootView.findViewById(R.id.spinner);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);//
+            row = (TableRow) rootView.findViewById(R.id.row2);
+            row1 = (TableRow) rootView.findViewById(R.id.row3);
+
+            spinner.setOnItemSelectedListener(this);
+
+            t021 = (Timeslot) rootView.findViewById(R.id.timeslot021);
+            t021.setOnClickListener(this);
+            t021.setPassed(Color.GRAY);
+
+            t031 = (Timeslot) rootView.findViewById(R.id.timeslot031);
+            t031.setOnClickListener(this);
+            t031.setPassed(Color.GRAY);
+
+            t041 = (Timeslot) rootView.findViewById(R.id.timeslot041);
+            t041.setOnClickListener(this);
+            t041.setPassed(Color.GRAY);
+
+            t051 = (Timeslot) rootView.findViewById(R.id.timeslot051);
+            t051.setOnClickListener(this);
+            t051.setPassed(Color.GRAY);
+
+
+            return rootView;
+        }
+
+
+        // beginning of the listeners
+        @Override
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+                                   long arg3) {
+            switch (position) {
+                case 0:
+                    break;
+                case 1:
+                    row1.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    row.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    row.setVisibility(View.GONE);
+                    row1.setVisibility(View.GONE);
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            //optionally do something here
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.timeslot91:
+                   // t91.setPassed(Color.BLUE);
+                    //t91.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.timeslot92:
+                   // t92.setPassed(Color.BLUE);
+                    //t92.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.timeslot93:
+                    //t93.setPassed(Color.BLUE);
+                    //t93.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.timeslot94:
+                    //t94.setPassed(Color.BLUE);
+                    //t94.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+
+        }
+
+        //end listeners
+
+    }
+
+    public static class FragMonday extends Fragment  implements AdapterView.OnItemSelectedListener , View.OnClickListener {
+        private Spinner spinner;
+        private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
+        private TableRow row, row1;
+        private Timeslot t91, t92, t93, t94;
+
+        public FragMonday() {
+        }
+
+        public static FragMonday newInstance() {
+            FragMonday fragment = new FragMonday();
+            Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+
+            View rootView = inflater.inflate(R.layout.monday_frag, container, false);
+            spinner = (Spinner) rootView.findViewById(R.id.spinner);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);//
+            row = (TableRow) rootView.findViewById(R.id.row2);
+            row1 = (TableRow) rootView.findViewById(R.id.row3);
+
+            spinner.setOnItemSelectedListener(this);
 
             t91 = (Timeslot) rootView.findViewById(R.id.timeslot91);
             t91.setOnClickListener(this);
             t91.setPassed(Color.GRAY);
 
+            t92 = (Timeslot) rootView.findViewById(R.id.timeslot92);
+            t92.setOnClickListener(this);
+            t92.setPassed(Color.GRAY);
+
+            t93 = (Timeslot) rootView.findViewById(R.id.timeslot93);
+            t93.setOnClickListener(this);
+            t93.setPassed(Color.GRAY);
+
+            t94 = (Timeslot) rootView.findViewById(R.id.timeslot94);
+            t94.setOnClickListener(this);
+            t94.setPassed(Color.GRAY);
+
             return rootView;
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+                                   long arg3) {
+            switch (position) {
+                case 0:
+                    row.setVisibility(View.GONE);
+                    row1.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    row1.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    row.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            //optionally do something here
         }
 
         @Override
@@ -246,29 +375,23 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     t91.postInvalidate();
                     Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
                     break;
+                case R.id.timeslot92:
+                    t92.setPassed(Color.BLUE);
+                    t92.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.timeslot93:
+                    t93.setPassed(Color.BLUE);
+                    t93.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.timeslot94:
+                    t94.setPassed(Color.BLUE);
+                    t94.postInvalidate();
+                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+                    break;
             }
-        }
 
-    }
-
-    public static class Frag2a extends Fragment {
-        public Frag2a() {
-        }
-
-        public static Frag2a newInstance() {
-            Frag2a fragment = new Frag2a();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.lb_building_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Monday");
-            return rootView;
         }
     }
 
@@ -390,9 +513,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return Frag1.newInstance();
+                    return FragSunday.newInstance();
                 case 1:
-                    return Frag2a.newInstance();
+                    return FragMonday.newInstance();
                 case 2:
                     return Frag2.newInstance();
                 case 3:
