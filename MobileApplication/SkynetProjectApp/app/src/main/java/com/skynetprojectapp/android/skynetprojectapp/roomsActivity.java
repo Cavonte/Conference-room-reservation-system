@@ -214,9 +214,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);//
-            row = (TableRow) rootView.findViewById(R.id.row2);
-            row1 = (TableRow) rootView.findViewById(R.id.row3);
-
             spinner.setOnItemSelectedListener(this);
 
             t021 = (Timeslot) rootView.findViewById(R.id.timeslot021);
@@ -331,7 +328,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-
             View rootView = inflater.inflate(R.layout.monday_frag, container, false);
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
@@ -340,8 +336,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);//
             spinner.setOnItemSelectedListener(this);
 
-            for (int i = 1; i < 3; i++) {
-                for (int j = 1; j < 3; j++) {
+            for (int i = 1; i < 56; i++) {
+                for (int j = 7; j < 23; j++) {
                     String key = i + "u" + j;
                     String id = "timeslot" + key;
                     int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
@@ -351,19 +347,13 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
-            row = (TableRow) rootView.findViewById(R.id.row2);
-            row1 = (TableRow) rootView.findViewById(R.id.row3);
-
             table = (TableLayout) rootView.findViewById(R.id.table);
-            for (int i = 0, j = table.getChildCount(); i < j; i++) {
-                View view = table.getChildAt(i);
-                if (view instanceof TableRow) {
-                    String id = "row" + (i+1);
-                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-                    mapRow.put((i+1)+ "", (TableRow) rootView.findViewById(resID));
-                }
+            for (int i = 1; i < 56; i++) {
+                String id = "row" + (i);
+                int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
+                mapRow.get(i + "").setVisibility(View.GONE);
             }
-
 
             return rootView;
         }
@@ -373,36 +363,49 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                    long arg3) {
             switch (position) {
                 case 0:
-                    mapRow.get("1").setVisibility(View.VISIBLE);
-                    mapRow.get("2").setVisibility(View.VISIBLE);
-                    mapRow.get("3").setVisibility(View.VISIBLE);
-                    mapRow.get("4").setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    // row1.setVisibility(View.VISIBLE);
-                    map.get("1u1").setPassed(Color.YELLOW);
-                    map.get("1u1").postInvalidate();
-                    map.get("1u2").setPassed(Color.YELLOW);
-                    map.get("1u2").postInvalidate();
-                    map.get("2u1").setPassed(Color.YELLOW);
-                    map.get("2u1").postInvalidate();
-                    map.get("2u2").setPassed(Color.YELLOW);
-                    map.get("2u2").postInvalidate();
+                    for (int i = 1; i < 56; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    for (int i = 1; i < 12; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    mapRow.get((55) + "").setVisibility(View.VISIBLE);
 
                     break;
+                case 1:
+                    for (int i = 1; i < 56; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    for (int i = 35; i < 54; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    break;
                 case 2:
-                    mapRow.get("1").setVisibility(View.GONE);
+                    for (int i = 1; i < 56; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    for (int i = 12; i < 21; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+
                     break;
                 case 3:
-                    mapRow.get("2").setVisibility(View.GONE);
-                    mapRow.get("3").setVisibility(View.GONE);
+                    for (int i = 1; i < 56; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    for (int i = 21; i < 35; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+
                     break;
             }
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
-            //optionally do something here
+            for (int i = 0; i < 56; i++) {
+                mapRow.get((i + 1) + "").setVisibility(View.GONE);
+            }
         }
 
         @Override
