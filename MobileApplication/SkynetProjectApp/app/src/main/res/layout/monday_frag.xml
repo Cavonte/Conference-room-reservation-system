@@ -127,7 +127,7 @@
                             />
 
                         <com.skynetprojectapp.android.skynetprojectapp.Timeslot
-                            android:id="@+id/timeslot91"
+                            android:id="@+id/timeslot1u1"
                             android:background="#ccc"
                             app:exampleColor="#ffffff"
                             app:exampleDimension="24sp"
@@ -138,7 +138,7 @@
                             android:clickable="true" />
 
                         <com.skynetprojectapp.android.skynetprojectapp.Timeslot
-                            android:id="@+id/timeslot101"
+                            android:id="@+id/timeslot1u2"
                             android:background="#ccc"
                             app:exampleColor="#ffffff"
                             app:exampleDimension="24sp"
@@ -148,7 +148,7 @@
                             android:layout_height="50dp" />
 
                         <com.skynetprojectapp.android.skynetprojectapp.Timeslot
-                            android:id="@+id/timeslot111"
+                            android:id="@+id/timeslot2u1"
                             android:background="#ccc"
                             app:exampleColor="#ffffff"
                             app:exampleDimension="24sp"
@@ -159,7 +159,7 @@
 
 
                         <com.skynetprojectapp.android.skynetprojectapp.Timeslot
-                            android:id="@+id/timeslot121"
+                            android:id="@+id/timeslot2u2"
                             android:background="#ccc"
                             app:exampleColor="#ffffff"
                             app:exampleDimension="24sp"

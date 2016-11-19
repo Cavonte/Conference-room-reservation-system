@@ -24,6 +24,9 @@ import android.widget.TextView;
 import android.view.View;
 import android.widget.*;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 
 /**
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
@@ -188,6 +191,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableRow row, row1;
         private Timeslot t021, t031, t041, t051;
+
         public FragSunday() {
         }
 
@@ -265,12 +269,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.timeslot91:
-                   // t91.setPassed(Color.BLUE);
+                    // t91.setPassed(Color.BLUE);
                     //t91.postInvalidate();
                     Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.timeslot92:
-                   // t92.setPassed(Color.BLUE);
+                    // t92.setPassed(Color.BLUE);
                     //t92.postInvalidate();
                     Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
                     break;
@@ -292,13 +296,25 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
-    public static class FragMonday extends Fragment  implements AdapterView.OnItemSelectedListener , View.OnClickListener {
+    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableRow row, row1;
+        HashMap<String, Timeslot> map;
         private Timeslot t91, t92, t93, t94;
 
         public FragMonday() {
+            map = new HashMap<String, Timeslot>();
+
+//            for (int i = 1; i < 3; i++) {
+//                for (int j = 1; j < 3; j++) {
+//                    String key = i + "u" + j;
+//                    Timeslot temp = new Timeslot(getContext());
+//                    temp.setPassed(Color.GREEN);
+//                    temp.setOnClickListener(this);
+//                    map.put(key, temp);
+//                }
+//            }
         }
 
         public static FragMonday newInstance() {
@@ -321,25 +337,26 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);//
             row = (TableRow) rootView.findViewById(R.id.row2);
             row1 = (TableRow) rootView.findViewById(R.id.row3);
-
             spinner.setOnItemSelectedListener(this);
 
-            t91 = (Timeslot) rootView.findViewById(R.id.timeslot91);
-            t91.setOnClickListener(this);
-            t91.setPassed(Color.GRAY);
+            for (int i = 1; i < 3; i++) {
+                for (int j = 1; j < 3; j++) {
+                    String key = i + "u" + j;
+                    String id= "timeslot" + key;
+                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                    map.put(key, (Timeslot) rootView.findViewById(resID));
+                    map.get(key).setOnClickListener(this);
+                    map.get(key).setPassed(Color.GREEN);
+                }
+            }
 
-            t92 = (Timeslot) rootView.findViewById(R.id.timeslot92);
-            t92.setOnClickListener(this);
-            t92.setPassed(Color.GRAY);
+            //@+id/textView17
+//            String id = "timeslot" + "1u9";
+//            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+//            //getActivity().getApplicationContext().getResources().getIdentifier(id, "id", )
+//            Timeslot ts = (Timeslot) rootView.findViewById(resID);
 
-            t93 = (Timeslot) rootView.findViewById(R.id.timeslot93);
-            t93.setOnClickListener(this);
-            t93.setPassed(Color.GRAY);
-
-            t94 = (Timeslot) rootView.findViewById(R.id.timeslot94);
-            t94.setOnClickListener(this);
-            t94.setPassed(Color.GRAY);
-
+//            map.put("1u9", ts);
             return rootView;
         }
 
@@ -348,14 +365,23 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                    long arg3) {
             switch (position) {
                 case 0:
-                    row.setVisibility(View.GONE);
-                    row1.setVisibility(View.GONE);
+//                    row.setVisibility(View.GONE);
+//                    row1.setVisibility(View.GONE);
                     break;
                 case 1:
-                    row1.setVisibility(View.VISIBLE);
+                    // row1.setVisibility(View.VISIBLE);
+                    map.get("1u1").setPassed(Color.YELLOW);
+                    map.get("1u1").postInvalidate();
+                    map.get("1u2").setPassed(Color.YELLOW);
+                    map.get("1u2").postInvalidate();
+                    map.get("2u1").setPassed(Color.YELLOW);
+                    map.get("2u1").postInvalidate();
+                    map.get("2u2").setPassed(Color.YELLOW);
+                    map.get("2u2").postInvalidate();
+
                     break;
                 case 2:
-                    row.setVisibility(View.VISIBLE);
+                    //  row.setVisibility(View.VISIBLE);
                     break;
                 case 3:
                     break;
@@ -370,27 +396,38 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.timeslot91:
-                    t91.setPassed(Color.BLUE);
-                    t91.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot92:
-                    t92.setPassed(Color.BLUE);
-                    t92.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot93:
-                    t93.setPassed(Color.BLUE);
-                    t93.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot94:
-                    t94.setPassed(Color.BLUE);
-                    t94.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
+
+//                case R.id.timeslot92:
+//                    t92.setPassed(Color.BLUE);
+//                    t92.postInvalidate();
+//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+//                    break;
+//                case R.id.timeslot93:
+//                    t93.setPassed(Color.BLUE);
+//                    t93.postInvalidate();
+//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+//                    break;
+//                case R.id.timeslot94:
+//                    t94.setPassed(Color.BLUE);
+//                    t94.postInvalidate();
+//                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
+//                    break;
             }
+
+
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while(keySetIterator.hasNext()){
+                String key = keySetIterator.next();
+                System.out.println("key: " + key + " value: " + map.get(key));
+                String id= "timeslot" + key;
+                if (view.getId()== getResources().getIdentifier(id, "id", getContext().getPackageName())) {
+                    map.get(key).setPassed(Color.RED);
+                    map.get(key).postInvalidate();
+                }
+            }
+
+
+
 
         }
     }
