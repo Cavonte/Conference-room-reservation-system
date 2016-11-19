@@ -58,13 +58,15 @@ public class UnitOfWork {
         }
     }
 
-    public static void commit() throws ClassNotFoundException,SQLException {
+    public static void commit() throws ClassNotFoundException,SQLException
+    {
         newSave();
         updateDirty();
         deleteRemoved();
     }
 
-    public static void newSave() throws ClassNotFoundException,SQLException{
+    public static void newSave() throws ClassNotFoundException,SQLException
+    {
         for(Iterator<DomainObject> objects = newObjects.iterator(); objects.hasNext();){
             DomainObject obj = objects.next();
 

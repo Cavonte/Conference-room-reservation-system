@@ -22,42 +22,47 @@ public class RoomMapper {
     public RoomMapper(){
     }
 
-    public static Room getData(int roomId) throws ClassNotFoundException, SQLException{
-
+    public static Room getData(int roomId) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.readLock().lock();
 
         try
         {
-            Room room = RoomIdentityMap.getRoomFromMap(roomId);
-            if (room != null)
-            {
-                return room;
-            }
-            else
-            {
-                ResultSet resultSet = RoomsTDG.find(roomId);
-
-                if(resultSet.next())
-                {
-                    int roomId1 = resultSet.getInt("roomId");
-                    String roomNumber1 = resultSet.getString("roomNumber");
-                    String description = resultSet.getString("description");
-                    int roomSize = resultSet.getInt("roomSize");
-
-                    Room roomDB = new Room(roomId1, roomNumber1, description, roomSize);
-                    RoomIdentityMap.addRoom(roomDB);
-
-                    return roomDB;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            return getDataNoLock(roomId);
         }
         finally
         {
             readWriteLock.readLock().unlock();
+        }
+    }
+
+    private static Room getDataNoLock(int roomId) throws ClassNotFoundException, SQLException
+    {
+        Room room = RoomIdentityMap.getRoomFromMap(roomId);
+        if (room != null)
+        {
+            return room;
+        }
+        else
+        {
+            ResultSet resultSet = RoomsTDG.find(roomId);
+
+            if(resultSet.next())
+            {
+                int roomId1 = resultSet.getInt("roomId");
+                String roomNumber1 = resultSet.getString("roomNumber");
+                String description = resultSet.getString("description");
+                int roomSize = resultSet.getInt("roomSize");
+
+                Room roomDB = new Room(roomId1, roomNumber1, description, roomSize);
+                RoomIdentityMap.addRoom(roomDB);
+
+                return roomDB;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -102,29 +107,37 @@ public class RoomMapper {
 
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             Room ro = new Room(i, rn, d, rs);
             RoomIdentityMap.addRoom(ro);
             UnitOfWork.registerNew(ro);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void set(Room r, String rn, String d, int rs) throws ClassNotFoundException, SQLException{
-
+    public static void set(Room room, String roomNumber, String description, int roomSize) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
-            r.setRoomNumber(rn);
-            r.setDescription(d);
-            r.setRoomSize(rs);
-            UnitOfWork.registerDirty(r);
+        try
+        {
+            if(getDataNoLock(room.getId()) == null)
+                throw new IllegalArgumentException("Trying to update a room that does not exist in the map or database.");
+
+            room.setRoomNumber(roomNumber);
+            room.setDescription(description);
+            room.setRoomSize(roomSize);
+
+            UnitOfWork.registerDirty(room);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }

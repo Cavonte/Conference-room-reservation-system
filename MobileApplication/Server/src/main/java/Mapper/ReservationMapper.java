@@ -22,49 +22,68 @@ public class ReservationMapper {
     public ReservationMapper() {
     }
 
-    public static Reservation getData(int resId) throws ClassNotFoundException, SQLException {
+    public static Reservation getData(int resId) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.readLock().lock();
 
-        try {
-            Reservation reservation = ReservationIdentityMap.getResFromMap(resId);
-            if (reservation != null) {
-                return reservation;
-            } else {
-                ResultSet resultSet = ReservationTDG.find(resId);
-
-                if (resultSet.next()) {
-                    int reservationId = resultSet.getInt("reservationId");
-                    int roomId = resultSet.getInt("roomId");
-                    int studentId = resultSet.getInt("studentId");
-                    String weekDay = resultSet.getString("weekDay");
-                    int startTime = resultSet.getInt("startTime");
-                    int endTime = resultSet.getInt("endTime");
-                    int position = resultSet.getInt("position");
-
-                    Reservation reservationDB = new Reservation(reservationId, roomId, studentId, weekDay, startTime, endTime, position);
-                    ReservationIdentityMap.addRes(reservationDB);
-
-                    return reservationDB;
-                } else {
-                    return null;
-                }
-            }
-        } finally {
+        try
+        {
+            return getDataNoLock(resId);
+        }
+        finally
+        {
             readWriteLock.readLock().unlock();
         }
     }
 
-    public static ArrayList<Reservation> getAllData() throws SQLException, ClassNotFoundException {
+    private static Reservation getDataNoLock(int resId) throws ClassNotFoundException, SQLException
+    {
+        Reservation reservation = ReservationIdentityMap.getResFromMap(resId);
+        if(reservation != null)
+        {
+            return reservation;
+        }
+        else
+        {
+            ResultSet resultSet = ReservationTDG.find(resId);
+
+            if(resultSet.next())
+            {
+                int reservationId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                int startTime = resultSet.getInt("startTime");
+                int endTime = resultSet.getInt("endTime");
+                int position = resultSet.getInt("position");
+
+                Reservation reservationDB = new Reservation(reservationId, roomId, studentId, weekDay, startTime, endTime, position);
+                ReservationIdentityMap.addRes(reservationDB);
+
+                return reservationDB;
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    public static ArrayList<Reservation> getAllData() throws SQLException, ClassNotFoundException
+    {
         readWriteLock.readLock().lock();
 
-        try {
+        try
+        {
             ResultSet resultSet = ReservationTDG.findAll();
             ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
 
             if (resultSet == null)
                 return null;
-            else {
-                while (resultSet.next()) {
+            else
+            {
+                while (resultSet.next())
+                {
                     int resId = resultSet.getInt("reservationId");
                     int roomId = resultSet.getInt("roomId");
                     int studentId = resultSet.getInt("studentId");
@@ -78,7 +97,9 @@ public class ReservationMapper {
                 }
                 return reservationList;
             }
-        } finally {
+        }
+        finally
+        {
             readWriteLock.readLock().unlock();
         }
     }
@@ -198,34 +219,98 @@ public class ReservationMapper {
     public static void set(Reservation reservation, int roomId, int studentId, String day, int startTime, int endTime, int position) throws ClassNotFoundException, SQLException {
         readWriteLock.writeLock().lock();
 
-        try {
-            reservation.setRoomId(roomId);
-            reservation.setStudentId(studentId);
-            reservation.setDay(day);
-            reservation.setStartTime(startTime);
-            reservation.setEndTime(endTime);
-            reservation.setPosition(position);
-            UnitOfWork.registerDirty(reservation);
-            UnitOfWork.commit();
-        } finally {
+        try
+        {
+            setNoLock(reservation, roomId, studentId, day, startTime, endTime, position);
+        }
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void erase(Reservation reservation) throws ClassNotFoundException, SQLException {
+    private static void setNoLock(Reservation reservation, int roomId, int studentId, String day, int startTime, int endTime, int position) throws ClassNotFoundException, SQLException
+    {
+        if(getDataNoLock(reservation.getId()) == null)
+            throw new IllegalArgumentException("Trying to update a reservation that does not exist in the map or database.");
+
+        reservation.setRoomId(roomId);
+        reservation.setStudentId(studentId);
+        reservation.setDay(day);
+        reservation.setStartTime(startTime);
+        reservation.setEndTime(endTime);
+        reservation.setPosition(position);
+
+        UnitOfWork.registerDirty(reservation);
+        UnitOfWork.commit();
+    }
+
+    public static void erase(Reservation reservation) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             eraseNoLock(reservation);
-        } finally {
+        }
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    private static void eraseNoLock(Reservation reservation) throws ClassNotFoundException, SQLException {
+    private static void eraseNoLock(Reservation reservation) throws ClassNotFoundException, SQLException
+    {
+        updateProceedingWaitlistPositionsNoLock(reservation);
         ReservationIdentityMap.delete(reservation);
         UnitOfWork.registerDelete(reservation);
         UnitOfWork.commit();
+    }
+
+    //Sets all reservations for the same timeslot and room to one position lower. Meant to be used before deleting the reservation that is being passed
+    private static void updateProceedingWaitlistPositionsNoLock(Reservation reservation) throws SQLException, ClassNotFoundException
+    {
+        ArrayList<Reservation> proceedingWaitlist = getProceedingWaitlistNoLock(reservation);
+
+        for(Reservation waitlistReservation: proceedingWaitlist)
+        {
+            setNoLock(waitlistReservation, waitlistReservation.getRoomId(), waitlistReservation.getStudentId(), waitlistReservation.getDay(), waitlistReservation.getStartTime(), waitlistReservation.getEndTime(), waitlistReservation.getPosition()-1);
+        }
+    }
+
+    public static ArrayList<Reservation> getProceedingWaitlistNoLock(Reservation reservation) throws SQLException, ClassNotFoundException
+    {
+        readWriteLock.readLock().lock();
+
+        try
+        {
+            ResultSet resultSet = ReservationTDG.findProceedingWaitlist(reservation);
+            ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
+
+            if (resultSet == null)
+                return null;
+            else
+            {
+                while (resultSet.next())
+                {
+                    int resId = resultSet.getInt("reservationId");
+                    int roomId = resultSet.getInt("roomId");
+                    int studentId = resultSet.getInt("studentId");
+                    String weekDay = resultSet.getString("weekDay");
+                    int startTime = resultSet.getInt("startTime");
+                    int endTime = resultSet.getInt("endTime");
+                    int position = resultSet.getInt("position");
+
+                    reservationList.add(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+                    ReservationIdentityMap.addRes(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+                }
+                return reservationList;
+            }
+        }
+        finally
+        {
+            readWriteLock.readLock().unlock();
+        }
     }
 
     public static void saveToDB(Reservation reservation) throws ClassNotFoundException, SQLException {

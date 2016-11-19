@@ -20,9 +20,6 @@ public class ReservationTDG {
         
         ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations");
 
-        statement.close();
-        connection.close();
-
         return resultSet;
     }
 
@@ -36,12 +33,22 @@ public class ReservationTDG {
         return resultSet;
     }
 
+    public static ResultSet findProceedingWaitlist(Reservation reservation) throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomId = " + reservation.getRoomId() + " && weekDay = \"" + reservation.getDay() + "\" && startTime = " + reservation.getStartTime() + " && endTime = " + reservation.getEndTime() + " && position > " + reservation.getPosition());
+
+        return resultSet;
+    }
+
     public static ResultSet findInRange(String day, int startTime, int endTime, int roomId) throws ClassNotFoundException,SQLException
     {
         Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
 
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomid = " + roomId + " && weekDay = \"" + day + "\" && startTime = " + startTime + " && endTime = " + endTime);
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations WHERE roomId = " + roomId + " && weekDay = \"" + day + "\" && startTime = " + startTime + " && endTime = " + endTime);
 
         return resultSet;
     }
@@ -98,7 +105,7 @@ public class ReservationTDG {
         Connection connection = DatabaseUtils.getConnection();
         Statement statement = connection.createStatement();
         
-        statement.executeUpdate("UPDATE reservations " + "SET weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "' WHERE reservationId = " + reservation.getId());
+        statement.executeUpdate("UPDATE reservations " + "SET roomId = " + reservation.getRoomId() + ", studentId = " + reservation.getStudentId() + ", weekDay = '" + reservation.getDay() + "', startTime = '" + reservation.getStartTime() + "', endTime = '" + reservation.getEndTime() + "', position = " + reservation.getPosition() + " WHERE reservationId = " + reservation.getId());
 
         statement.close();
         connection.close();
