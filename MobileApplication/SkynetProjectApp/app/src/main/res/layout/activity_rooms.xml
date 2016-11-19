@@ -47,6 +47,8 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
             android:theme="@style/AppTheme.NoActionBar"
             />
 
+
+
         <TabHost
             android:layout_width="match_parent"
             android:layout_height="match_parent"
