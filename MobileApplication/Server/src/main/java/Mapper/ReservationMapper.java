@@ -451,4 +451,11 @@ public class ReservationMapper {
             readWriteLock.readLock().unlock();
         }
     }
+
+    public static void resetReservations() throws ClassNotFoundException, SQLException
+    {
+        ReservationIdentityMap.reset();
+        ReservationTDG.reset();
+        Reservation.setIdCounter(1);
+    }
 }

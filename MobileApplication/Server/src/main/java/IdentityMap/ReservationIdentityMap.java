@@ -29,4 +29,9 @@ public class ReservationIdentityMap {
         int id = reservation.getId();
         mapOfReservations.remove(id);
     }
+
+    public static void reset()
+    {
+        mapOfReservations.clear();
+    }
 }

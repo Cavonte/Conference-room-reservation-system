@@ -14,8 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @RestController
-public class ModifyReservationController {
-
+public class ModifyReservationController
+{
     //End point that modifies the given reservation for the given student to the new one defined in the parameters
     // @throws IllegalArgumentException if there are validation issues while adding or removing reservations
     // @throws ConcurrencyFailureException if the user is expecting to be added as a full reservation, but can only be added to the waitlist

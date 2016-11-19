@@ -141,4 +141,12 @@ public class ReservationTDG {
 
         return resultSet;
     }
+
+    public static void reset() throws ClassNotFoundException,SQLException
+    {
+        Connection connection = DatabaseUtils.getConnection();
+        Statement statement = connection.createStatement();
+
+        statement.executeUpdate("DELETE FROM reservations");
+    }
 }
