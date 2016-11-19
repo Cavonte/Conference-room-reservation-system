@@ -32,7 +32,7 @@ import java.util.Iterator;
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -57,105 +57,109 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         NavigationView view = (NavigationView) findViewById(R.id.nav_view);
         view.setNavigationItemSelectedListener(this);
 
-        host = (TabHost) findViewById(R.id.roomTabs);
-        host.setup();
+        final Thread tabthread = new Thread() {
+            public void run() {
 
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("T1");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Su");
-        host.addTab(spec);
+                host = (TabHost) findViewById(R.id.roomTabs);
+                host.setup();
 
-        //Tab 2
-        spec = host.newTabSpec("T2");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("M");
-        host.addTab(spec);
+                //Tab 1
+                TabHost.TabSpec spec = host.newTabSpec("T1");
+                spec.setContent(R.id.tab1);
+                spec.setIndicator("Su");
+                host.addTab(spec);
 
-        //Tab 3
-        spec = host.newTabSpec("T3");
-        spec.setContent(R.id.tab3);
-        spec.setIndicator("Tu");
-        host.addTab(spec);
+                //Tab 2
+                spec = host.newTabSpec("T2");
+                spec.setContent(R.id.tab2);
+                spec.setIndicator("M");
+                host.addTab(spec);
 
-        //Tab 4
-        spec = host.newTabSpec("T4");
-        spec.setContent(R.id.tab4);
-        spec.setIndicator("W");
-        host.addTab(spec);
+                //Tab 3
+                spec = host.newTabSpec("T3");
+                spec.setContent(R.id.tab3);
+                spec.setIndicator("Tu");
+                host.addTab(spec);
 
-        //Tab 5
-        spec = host.newTabSpec("T5");
-        spec.setContent(R.id.tab5);
-        spec.setIndicator("Th");
-        host.addTab(spec);
+                //Tab 4
+                spec = host.newTabSpec("T4");
+                spec.setContent(R.id.tab4);
+                spec.setIndicator("W");
+                host.addTab(spec);
 
-        //Tab 6
-        spec = host.newTabSpec("T6");
-        spec.setContent(R.id.tab6);
-        spec.setIndicator("F");
-        host.addTab(spec);
+                //Tab 5
+                spec = host.newTabSpec("T5");
+                spec.setContent(R.id.tab5);
+                spec.setIndicator("Th");
+                host.addTab(spec);
 
-        //Tab 7
-        spec = host.newTabSpec("T7");
-        spec.setContent(R.id.tab7);
-        spec.setIndicator("Sa");
-        host.addTab(spec);
+                //Tab 6
+                spec = host.newTabSpec("T6");
+                spec.setContent(R.id.tab6);
+                spec.setIndicator("F");
+                host.addTab(spec);
 
-        host.setOnTabChangedListener(roomsActivity.this);
+                //Tab 7
+                spec = host.newTabSpec("T7");
+                spec.setContent(R.id.tab7);
+                spec.setIndicator("Sa");
+                host.addTab(spec);
+
+
+                host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
+                    public void onTabChanged(String tabId) {
+                        if ("T1".equals(tabId)) {
+                            mViewPager.setCurrentItem(0);
+                        }
+                        if ("T2".equals(tabId)) {
+                            mViewPager.setCurrentItem(1);
+                        }
+                        if ("T3".equals(tabId)) {
+                            mViewPager.setCurrentItem(2);
+                        }
+                        if ("T4".equals(tabId)) {
+                            mViewPager.setCurrentItem(3);
+                        }
+                        if ("T5".equals(tabId)) {
+                            mViewPager.setCurrentItem(4);
+                        }
+                        if ("T6".equals(tabId)) {
+                            mViewPager.setCurrentItem(5);
+                        }
+                        if ("T7".equals(tabId)) {
+                            mViewPager.setCurrentItem(6);
+                        }
+                    }
+                });
+
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(this);
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+                mViewPager = (ViewPager) findViewById(R.id.container);
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    public void onPageScrollStateChanged(int state) {
+                    }
+
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    }
+
+                    public void onPageSelected(int position) {
+                        host.setCurrentTab(position);
+                    }
+                });
+
+            }
+        };
+
+        tabthread.start();
 
 
     }
-
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        host.setCurrentTab(position);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
-
-    @Override
-    public void onTabChanged(String tabId) {
-        if ("T1".equals(tabId)) {
-            mViewPager.setCurrentItem(0);
-        }
-        if ("T2".equals(tabId)) {
-            mViewPager.setCurrentItem(1);
-        }
-        if ("T3".equals(tabId)) {
-            mViewPager.setCurrentItem(2);
-        }
-        if ("T4".equals(tabId)) {
-            mViewPager.setCurrentItem(3);
-        }
-        if ("T5".equals(tabId)) {
-            mViewPager.setCurrentItem(4);
-        }
-        if ("T6".equals(tabId)) {
-            mViewPager.setCurrentItem(5);
-        }
-        if ("T7".equals(tabId)) {
-            mViewPager.setCurrentItem(6);
-        }
-    }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -186,11 +190,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public static class FragSunday extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+    public static class FragSunday extends Fragment implements  AdapterView.OnItemSelectedListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableRow row, row1;
-        private Timeslot t021, t031, t041, t051;
+
 
         public FragSunday() {
         }
@@ -215,23 +219,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);//
             spinner.setOnItemSelectedListener(this);
-
-            t021 = (Timeslot) rootView.findViewById(R.id.timeslot021);
-            t021.setOnClickListener(this);
-            t021.setPassed(Color.GRAY);
-
-            t031 = (Timeslot) rootView.findViewById(R.id.timeslot031);
-            t031.setOnClickListener(this);
-            t031.setPassed(Color.GRAY);
-
-            t041 = (Timeslot) rootView.findViewById(R.id.timeslot041);
-            t041.setOnClickListener(this);
-            t041.setPassed(Color.GRAY);
-
-            t051 = (Timeslot) rootView.findViewById(R.id.timeslot051);
-            t051.setOnClickListener(this);
-            t051.setPassed(Color.GRAY);
-
 
             return rootView;
         }
@@ -262,45 +249,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             //optionally do something here
         }
 
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.timeslot91:
-                    // t91.setPassed(Color.BLUE);
-                    //t91.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot92:
-                    // t92.setPassed(Color.BLUE);
-                    //t92.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot93:
-                    //t93.setPassed(Color.BLUE);
-                    //t93.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.timeslot94:
-                    //t94.setPassed(Color.BLUE);
-                    //t94.postInvalidate();
-                    Toast.makeText(getActivity(), "Opening reservation framgment and subsequent server calls", Toast.LENGTH_SHORT).show();
-                    break;
-            }
 
-        }
-
-        //end listeners
 
     }
 
-    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
-        private TableRow row, row1;
         HashMap<String, Timeslot> map;
         HashMap<String, TableRow> mapRow;
-        private Timeslot t91, t92, t93, t94;
 
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
@@ -327,8 +285,23 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.monday_frag, container, false);
 
-            View rootView = inflater.inflate(R.layout.monday_frag, container, false);
+//            Thread initializeStateThread = new Thread() {
+//                public void run() {
+            for (int i = 1; i < 56; i++) {
+                for (int j = 7; j < 23; j++) {
+                    String key = i + "u" + j;
+                    String id = "timeslot" + key;
+                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                    map.put(key, (Timeslot) rootView.findViewById(resID));
+                }
+            }
+//                }
+//            };
+//            initializeStateThread.start();
+
+
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
 
@@ -336,16 +309,39 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);//
             spinner.setOnItemSelectedListener(this);
 
-            for (int i = 1; i < 56; i++) {
-                for (int j = 7; j < 23; j++) {
-                    String key = i + "u" + j;
-                    String id = "timeslot" + key;
-                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-                    map.put(key, (Timeslot) rootView.findViewById(resID));
-                    map.get(key).setOnClickListener(this);
-                    map.get(key).setPassed(Color.GREEN);
+
+            Thread listeners = new Thread() {
+                public void run() {
+                    Iterator<String> keySetIterator = map.keySet().iterator();
+                    while (keySetIterator.hasNext()) {
+                        String key = keySetIterator.next();
+                        System.out.println("key: " + key + " value: " + map.get(key));
+                        String id = "timeslot" + key;
+                        Timeslot temp = map.get(key);
+                        temp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Timeslot temp = (Timeslot) v;
+                                temp.setPassed(Color.RED);
+                                temp.postInvalidate();
+                            }
+                        });
+                    }
                 }
-            }
+            };
+            listeners.start();
+
+
+//            for (int i = 1; i < 56; i++) {
+//                for (int j = 7; j < 23; j++) {
+//                    String key = i + "u" + j;
+//                    String id = "timeslot" + key;
+//                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+//                    map.put(key, (Timeslot) rootView.findViewById(resID));
+//                    map.get(key).setOnClickListener(this);
+//                    map.get(key).setPassed(Color.GREEN);
+//                }
+//            }
 
             table = (TableLayout) rootView.findViewById(R.id.table);
             for (int i = 1; i < 56; i++) {
@@ -403,24 +399,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
-            for (int i = 0; i < 56; i++) {
-                mapRow.get((i + 1) + "").setVisibility(View.GONE);
-            }
+//            for (int i = 0; i < 56; i++) {
+//                mapRow.get((i + 1) + "").setVisibility(View.GONE);
+//            }
         }
 
-        @Override
-        public void onClick(View view) {
-            Iterator<String> keySetIterator = map.keySet().iterator();
-            while (keySetIterator.hasNext()) {
-                String key = keySetIterator.next();
-                System.out.println("key: " + key + " value: " + map.get(key));
-                String id = "timeslot" + key;
-                if (view.getId() == getResources().getIdentifier(id, "id", getContext().getPackageName())) {
-                    map.get(key).setPassed(Color.RED);
-                    map.get(key).postInvalidate();
-                }
-            }
-        }
     }
 
     public static class Frag2 extends Fragment {
