@@ -1,7 +1,10 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +14,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
@@ -54,7 +59,7 @@ import java.util.Iterator;
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
     public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -82,97 +87,85 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         naview = (NavigationView) findViewById(R.id.nav_view);
         naview.setNavigationItemSelectedListener(this);
 
-        final Thread tabthread = new Thread() {
-            public void run() {
+//        final Thread tabthread = new Thread() {
+//            public void run() {
 
-                host = (TabHost) findViewById(R.id.roomTabs);
-                host.setup();
+        host = (TabHost) findViewById(R.id.roomTabs);
+        host.setup();
 
-                //Tab 1
-                TabHost.TabSpec spec = host.newTabSpec("T1");
-                spec.setContent(R.id.tab1);
-                spec.setIndicator("Su");
-                host.addTab(spec);
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("T1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Su");
+        host.addTab(spec);
 
-                //Tab 2
-                spec = host.newTabSpec("T2");
-                spec.setContent(R.id.tab2);
-                spec.setIndicator("M");
-                host.addTab(spec);
+        //Tab 2
+        spec = host.newTabSpec("T2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("M");
+        host.addTab(spec);
 
-                //Tab 3
-                spec = host.newTabSpec("T3");
-                spec.setContent(R.id.tab3);
-                spec.setIndicator("Tu");
-                host.addTab(spec);
+        //Tab 3
+        spec = host.newTabSpec("T3");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Tu");
+        host.addTab(spec);
 
-                //Tab 4
-                spec = host.newTabSpec("T4");
-                spec.setContent(R.id.tab4);
-                spec.setIndicator("W");
-                host.addTab(spec);
+        //Tab 4
+        spec = host.newTabSpec("T4");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("W");
+        host.addTab(spec);
 
-                //Tab 5
-                spec = host.newTabSpec("T5");
-                spec.setContent(R.id.tab5);
-                spec.setIndicator("Th");
-                host.addTab(spec);
+        //Tab 5
+        spec = host.newTabSpec("T5");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("Th");
+        host.addTab(spec);
 
-                //Tab 6
-                spec = host.newTabSpec("T6");
-                spec.setContent(R.id.tab6);
-                spec.setIndicator("F");
-                host.addTab(spec);
+        //Tab 6
+        spec = host.newTabSpec("T6");
+        spec.setContent(R.id.tab6);
+        spec.setIndicator("F");
+        host.addTab(spec);
 
-                //Tab 7
-                spec = host.newTabSpec("T7");
-                spec.setContent(R.id.tab7);
-                spec.setIndicator("Sa");
-                host.addTab(spec);
+        //Tab 7
+        spec = host.newTabSpec("T7");
+        spec.setContent(R.id.tab7);
+        spec.setIndicator("Sa");
+        host.addTab(spec);
 
-                //int position = host.getCurrentTab();
+        host.setOnTabChangedListener(this);
 
-                host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-                    public void onTabChanged(String tabId) {
-                        if ("T1".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(0);
-                            FragMonday.setTabPosition(0);
-                        }
-                        if ("T2".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(1);
-                            FragMonday.setTabPosition(1);
-                        }
-                        if ("T3".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(2);
-                            FragMonday.setTabPosition(2);
-                        }
-                        if ("T4".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(3);
-                            FragMonday.setTabPosition(3);
-                        }
-                        if ("T5".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(4);
-                            FragMonday.setTabPosition(4);
-                        }
-                        if ("T6".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(5);
-                            FragMonday.setTabPosition(5);
-                        }
-                        if ("T7".equals(tabId)) {
-                            mSectionsPagerAdapter.notifyDataSetChanged();
-                            mViewPager.setCurrentItem(6);
-                            FragMonday.setTabPosition(6);
-                        }
-                        FragMonday.refreshFragment();
-                    }
+        //int position = host.getCurrentTab();
 
-                });
+//                host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+//                    public void onTabChanged(String tabId) {
+//                        if ("T1".equals(tabId)) {
+//                            mViewPager.setCurrentItem(0);
+//                        }
+//                        if ("T2".equals(tabId)) {
+//                            mViewPager.setCurrentItem(1);
+//                        }
+//                        if ("T3".equals(tabId)) {
+//                            mViewPager.setCurrentItem(2);
+//                        }
+//                        if ("T4".equals(tabId)) {
+//                            mViewPager.setCurrentItem(3);
+//                        }
+//                        if ("T5".equals(tabId)) {
+//                            mViewPager.setCurrentItem(4);
+//                        }
+//                        if ("T6".equals(tabId)) {
+//                            mViewPager.setCurrentItem(5);
+//                        }
+//                        if ("T7".equals(tabId)) {
+//                            mViewPager.setCurrentItem(6);
+//                        }
+//                    }
+//
+//                });
+
 
 //                Retrieve all the rooms from backend
 //            final String url = "http://192.168.2.15:8080/rooms";
@@ -183,30 +176,31 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            Object[] objects = responseEntity.getBody();
 
 
-                // Create the adapter that will return a fragment for each of the three
-                // primary sections of the activity.
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
 
-                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-                mViewPager = (ViewPager) findViewById(R.id.container);
-                mViewPager.setAdapter(mSectionsPagerAdapter);
-                mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    public void onPageScrollStateChanged(int state) {
-                    }
-
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    }
-
-                    public void onPageSelected(int position) {
-                        host.setCurrentTab(position);
-                    }
-                });
-
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
             }
-        };
-        tabthread.start();
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            public void onPageSelected(int position) {
+                host.setCurrentTab(position);
+            }
+        });
+//
+//            }
+//        };
+//        tabthread.start();
 
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -240,84 +234,40 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    public static class FragSunday extends Fragment implements AdapterView.OnItemSelectedListener {
-        private Spinner spinner;
-        private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
-        private TableRow row, row1;
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-
-        public FragSunday() {
+    @Override
+    public void onTabChanged(String tabId) {
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        Intent i = new Intent("TAG_REFRESH");
+        if ("T1".equals(tabId)) {
+            mViewPager.setCurrentItem(0);
+            i.putExtra("pos", 0);
+        }
+        if ("T2".equals(tabId)) {
+            mViewPager.setCurrentItem(1);
+            i.putExtra("pos", 1);
+        }
+        if ("T3".equals(tabId)) {
+            mViewPager.setCurrentItem(2);
+            i.putExtra("pos", 2);
+        }
+        if ("T4".equals(tabId)) {
+            mViewPager.setCurrentItem(3);
+            i.putExtra("pos", 3);
+        }
+        if ("T5".equals(tabId)) {
+            mViewPager.setCurrentItem(4);
+            i.putExtra("pos", 4);
+        }
+        if ("T6".equals(tabId)) {
+            mViewPager.setCurrentItem(5);
+            i.putExtra("pos", 5);
+        }
+        if ("T7".equals(tabId)) {
+            mViewPager.setCurrentItem(6);
+            i.putExtra("pos", 6);
         }
 
-        public static FragSunday newInstance() {
-            FragSunday fragment = new FragSunday();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.sunday_frag, container, false); //inflate the layout
-
-            //Adapter
-            spinner = (Spinner) rootView.findViewById(R.id.spinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);//
-            spinner.setOnItemSelectedListener(this);
-
-            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=sunday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-
-            return rootView;
-        }
-
-
-        // beginning of the listeners
-        @Override
-        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
-                                   long arg3) {
-            switch (position) {
-                case 0:
-                    break;
-                case 1:
-                    row1.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    row.setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    row.setVisibility(View.GONE);
-                    row1.setVisibility(View.GONE);
-                    break;
-            }
-        }
-
-
-        private void start() {
-            final String url = "http://192.168.2.15:8080/rooms";
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
-            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-            textView.setText(reservation.toString());
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> arg0) {
-            //optionally do something here
-        }
+        lbm.sendBroadcast(i);
 
 
     }
@@ -326,11 +276,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
-        private static HashMap<String, Timeslot> map;
-        private static HashMap<String, TableRow> mapRow;
-        private static HashMap<Integer, Integer> rooms;
+        private HashMap<String, Timeslot> map;
+        private HashMap<String, TableRow> mapRow;
+        private HashMap<Integer, Integer> rooms;
         private String building;
-        private static int dayPosition;
+        private int dayPosition;
+        private TextView textView;
 
 
         public FragMonday() {
@@ -338,6 +289,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             mapRow = new HashMap<String, TableRow>();
             rooms = new HashMap<Integer, Integer>();
             building = "LB-building";
+            dayPosition = 0;
         }
 
         public static FragMonday newInstance() {
@@ -351,7 +303,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
-            final View rootView = inflater.inflate(R.layout.rooms_frag, container, false);
+            View rootView = inflater.inflate(R.layout.rooms_frag, container, false);
+
 //            Thread initializeStateThread = new Thread() {
 //                public void run() {
 
@@ -374,6 +327,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);
             spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
+
+            textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("This is   " + dayPosition);
 
             Thread listeners = new Thread() {
                 public void run() {
@@ -410,27 +366,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             rooms = roomMaps(building, rootView, rooms);
 
-            //refreshFragment();
-
-            return rootView;
-        }
-
-
-        public static void setTabPosition(int dp) {
-            dayPosition = dp;
-        }
-
-        public static void refreshFragment() {
-
-            //get waitlist positions from DB
-            Iterator<String> keySetIterator = map.keySet().iterator();
-            while (keySetIterator.hasNext()) {
-                String key = keySetIterator.next();
-                String id = "timeslot" + key;
-                Timeslot temp = map.get(key);
-                temp.setPassed(R.color.colorPrimary);
-                temp.postInvalidate();
-            }
 
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
@@ -488,16 +423,116 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                 }
             }
+
+            return rootView;
         }
 
-        private void start() {
-            final String url = "http://192.168.2.15:8080/rooms";
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
-            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-            textView.setText(reservation.toString());
+
+        public void setTabPosition(int dp) {
+            dayPosition = dp;
         }
+
+
+        private void start() {
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
+        }
+
+        MyReceiver r;
+
+        public void refresh(int dayPosition) {
+
+            textView.setText("This is  refresh " + dayPosition);
+            //refresh content
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                Timeslot temp = map.get(key);
+                temp.setPassed(R.color.colorPrimary);
+                temp.postInvalidate();
+            }
+            ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
+            switch (dayPosition) {
+                case 0:
+                    //res[0] = new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0);
+                    //res[1] = new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1);
+                    //res[2] = new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2);
+                    res.add(new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0));
+                    res.add(new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1));
+                    res.add(new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2));
+                    break;
+                case 1:
+                    res.add(new ReservationObject(4, 1, 1, "Monday", 12, 13, 0));
+                    res.add(new ReservationObject(5, 2, 3, "Monday", 12, 13, 1));
+                    res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
+                    res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
+                    res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
+//                    res[0] = new ReservationObject(4, 1, 1, "Monday", 12, 13, 0);
+//                    res[1] = new ReservationObject(5, 2, 3, "Monday", 12, 13, 1);
+//                    res[2] = new ReservationObject(6, 3, 4, "Monday", 12, 13, 2);
+//                    res[3] = new ReservationObject(7, 2, 5, "Monday", 17, 16, 3);
+//                    res[4] = new ReservationObject(8, 4, 9, "Monday", 12, 13, 4);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+            }
+
+//            roomMaps("LB-building",rootView);
+
+//            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=monday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
+
+
+            if (res.size() != 0) {
+                for (int i = 0; i < res.size(); i++) {
+                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
+                    String key = row + "u" + res.get(i).getStartTime();
+                    Timeslot temp = map.get(key);
+                    temp.setPassed(Color.BLACK);
+                    temp.postInvalidate();
+                    map.put(key, temp);
+
+                }
+            }
+
+        }
+
+        public void onPause() {
+            super.onPause();
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+        }
+
+        public void onResume() {
+            super.onResume();
+            r = new MyReceiver();
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                    new IntentFilter("TAG_REFRESH"));
+        }
+
+        private class MyReceiver extends BroadcastReceiver {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                FragMonday.this.refresh(intent.getExtras().getInt("pos"));
+            }
+        }
+
 
         @Override
         public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
@@ -556,6 +591,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -587,29 +623,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 case 6:
                     return FragMonday.newInstance();
             }
-//            return null;
-
-//            switch (position) {
-//                case 0:
-//                    return FragMonday.newInstance();
-//                case 1:
-//                    return FragMonday.newInstance();
-//                case 2:
-//                    return FragMonday.newInstance();
-//                case 3:
-//                    return FragMonday.newInstance();
-//                case 4:
-//                    return FragMonday.newInstance();
-//                case 5:
-//                    return FragMonday.newInstance();
-//                case 6:
-//                    return FragMonday.newInstance();
-//            }
             return null;
-            //return FragMonday.newInstance();
 
 
         }
+
         @Override
         public int getCount() {
             //Total pages count.
