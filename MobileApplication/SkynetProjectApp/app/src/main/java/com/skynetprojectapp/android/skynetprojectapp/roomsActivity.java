@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -268,15 +269,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
+
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, buildings);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
             spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
 
             textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("This is   " + dayPosition);
+            textView.setText("");
 
             Thread listeners = new Thread() {
                 public void run() {
@@ -287,6 +289,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         final String id = "timeslot" + key;
                         Timeslot temp = map.get(key);
                         temp.setIndex(id);
+                        temp.setTimeSlotText(key);
                         temp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -363,13 +366,13 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             rooms = roomMaps(building, getView(), rooms);
 
-            textView.setText("This is  refresh " + daypos);
+            textView.setText("");
             //refresh content
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
                 Timeslot temp = map.get(key);
-                temp.setPassed(Color.GRAY);
+                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
                 temp.postInvalidate();
             }
             setReservations(daypos);
@@ -443,9 +446,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
-//            for (int i = 0; i < 56; i++) {
-//                mapRow.get((i + 1) + "").setVisibility(View.GONE);
-//            }
         }
 
     }

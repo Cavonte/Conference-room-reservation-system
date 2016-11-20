@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -33,11 +34,13 @@ public class Timeslot extends View {
     private Paint mPaint;
     private float mTextWidth;
     private float mTextHeight;
+    private String timeSlotText;
 
 
     public Timeslot(Context context) {
         super(context);
         init(null, 0);
+        timeSlotText = "";
     }
 
     public Timeslot(Context context, AttributeSet attrs) {
@@ -78,13 +81,15 @@ public class Timeslot extends View {
         mTextPaint = new TextPaint();
         mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTextAlign(Paint.Align.LEFT);
-        mTextPaint.setColor(getResources().getColor(R.color.colorPrimary));
+        //mTextPaint.setColor(getResources().getColor(R.color.colorPrimary));
+        mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         mTextPaint.setColor(Color.GRAY);
 
         mTextPaint.setTextSize(10);
 
 
-        passed = getResources().getColor(R.color.colorPrimary);
+        //passed = getResources().getColor(R.color.colorPrimary);
+        passed = ContextCompat.getColor(getContext(), R.color.colorPrimary);
 
         // Update TextPaint and text measurements from attributes
         invalidateTextPaintAndMeasurements();
@@ -125,7 +130,7 @@ public class Timeslot extends View {
 
 
 
-        canvas.drawText("09:00",(contentWidth)/2 - mTextWidth/2, contentHeight/2+mTextHeight, mTextPaint);
+        canvas.drawText(timeSlotText,(contentWidth)/2 - mTextWidth/2, contentHeight/2+mTextHeight, mTextPaint);
 
         // Draw the example drawable on top of the text.
         if (mExampleDrawable != null) {
@@ -152,6 +157,7 @@ public class Timeslot extends View {
         invalidateTextPaintAndMeasurements();
     }
 
+
     public int getExampleColor() {
         return mExampleColor;
     }
@@ -162,6 +168,9 @@ public class Timeslot extends View {
         invalidateTextPaintAndMeasurements();
     }
 
+    public void setTimeSlotText(String t){
+        timeSlotText = t;
+    }
 
     public float getExampleDimension() {
         return mExampleDimension;
