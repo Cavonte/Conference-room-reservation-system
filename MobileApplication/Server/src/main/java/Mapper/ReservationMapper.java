@@ -4,11 +4,11 @@ import Core.Reservation;
 import IdentityMap.ReservationIdentityMap;
 import TDG.ReservationTDG;
 import UnitOfWork.UnitOfWork;
+import org.springframework.dao.ConcurrencyFailureException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -108,30 +108,35 @@ public class ReservationMapper {
         readWriteLock.writeLock().lock();
 
         try {
-            int position = getPosition(day, startTime, endTime, roomId);
-            ArrayList<Reservation> existingReservations = getAllResOfStudentNoLock(studentId);
-
-            int numReservations = numReservations(existingReservations);
-
-            if (numReservations >= 3)
-                throw new IllegalArgumentException("Cannot add the reservation because the user already has 3 reservations.");
-            else if (position > 0 && numWaitlist(existingReservations) >= 3)
-                throw new IllegalArgumentException("Cannot add the user to this waitlist because are already on 3 waitlists.");
-
-            handleConflictingReservations(existingReservations, day, startTime, endTime, position, roomId);
-
-            //If this will fill up their list of reservations, then delete their waitlist items
-            if (numReservations == 2)
-                deleteWaitlist(existingReservations);
-
-            Reservation reservation = new Reservation(Reservation.getNextId(), roomId, studentId, day, startTime, endTime, position);
-            ReservationIdentityMap.addRes(reservation);
-            UnitOfWork.registerNew(reservation);
-            UnitOfWork.commit();
-            return position;
-        } finally {
+            return makeNewNoLock(roomId, studentId, day, startTime, endTime);
+        }
+        finally {
             readWriteLock.writeLock().unlock();
         }
+    }
+
+    private static int makeNewNoLock(int roomId, int studentId, String day, int startTime, int endTime) throws ClassNotFoundException, SQLException, IllegalArgumentException {
+        int position = getPosition(day, startTime, endTime, roomId);
+        ArrayList<Reservation> existingReservations = getAllResOfStudentNoLock(studentId);
+
+        int numReservations = numReservations(existingReservations);
+
+        if (numReservations >= 3)
+            throw new IllegalArgumentException("Cannot add the reservation because the user already has 3 reservations.");
+        else if (position > 0 && numWaitlist(existingReservations) >= 3)
+            throw new IllegalArgumentException("Cannot add the user to this waitlist because are already on 3 waitlists.");
+
+        handleConflictingReservations(existingReservations, day, startTime, endTime, position, roomId);
+
+        //If this will fill up their list of reservations, then delete their waitlist items
+        if (numReservations == 2 && position == 0)
+            deleteWaitlist(existingReservations);
+
+        Reservation reservation = new Reservation(Reservation.getNextId(), roomId, studentId, day, startTime, endTime, position);
+        ReservationIdentityMap.addRes(reservation);
+        UnitOfWork.registerNew(reservation);
+        UnitOfWork.commit();
+        return position;
     }
 
     //Helper method that returns the number of non waitlist reservations that are in the provided arraylist
@@ -193,8 +198,8 @@ public class ReservationMapper {
     }
 
     //Returns the next position available in the waitlist for this room and time (lowest position is 0)
-    private static int getPosition(String day, int startTimeMillis, int endTimeMillis, int roomId) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = ReservationTDG.findInRange(day, startTimeMillis, endTimeMillis, roomId);
+    private static int getPosition(String day, int startTime, int endTime, int roomId) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = ReservationTDG.findInRange(day, startTime, endTime, roomId);
         ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
 
         if (resultSet == null)
@@ -205,15 +210,60 @@ public class ReservationMapper {
                 int resRoomId = resultSet.getInt("roomId");
                 int studentId = resultSet.getInt("studentId");
                 String weekDay = resultSet.getString("weekDay");
-                int startTime = resultSet.getInt("startTime");
-                int endTime = resultSet.getInt("endTime");
+                int resStartTime = resultSet.getInt("startTime");
+                int resEndTime = resultSet.getInt("endTime");
                 int position = resultSet.getInt("position");
 
-                reservationList.add(new Reservation(resId, resRoomId, studentId, weekDay, startTime, endTime, position));
-                ReservationIdentityMap.addRes(new Reservation(resId, resRoomId, studentId, weekDay, startTime, endTime, position));
+                reservationList.add(new Reservation(resId, resRoomId, studentId, weekDay, resStartTime, resEndTime, position));
+                ReservationIdentityMap.addRes(new Reservation(resId, resRoomId, studentId, weekDay, resStartTime, resEndTime, position));
             }
             return reservationList.size();
         }
+    }
+
+    public static int modifyReservation(boolean expectingReservation, Reservation oldReservation, int newRoomId, int studentId, String newDay, int newStartTime, int newEndTime) throws ClassNotFoundException, SQLException
+    {
+        readWriteLock.writeLock().lock();
+
+        try
+        {
+            int position = getPosition(newDay, newStartTime, newEndTime, newRoomId);
+            if(expectingReservation && position > 0)
+                throw new ConcurrencyFailureException("Was expecting to get a proper reservation, but could only get position " + position);
+
+            //Before deleting anything, make sure that the new reservation can happen
+            validateReplacementReservation(oldReservation, newRoomId, studentId, newDay, newStartTime, newEndTime, position);
+
+            eraseNoLock(oldReservation);
+
+            makeNewNoLock(newRoomId, studentId, newDay, newStartTime, newEndTime);
+
+            return position;
+        }
+        finally
+        {
+            readWriteLock.writeLock().unlock();
+        }
+    }
+
+    private static void validateReplacementReservation(Reservation oldReservation, int newRoomId, int studentId, String newDay, int newStartTime, int newEndTime, int position) throws ClassNotFoundException, SQLException
+    {
+        ArrayList<Reservation> existingReservations = getAllResOfStudentNoLock(studentId);
+
+        for(int i=0; i<existingReservations.size(); i++)
+        {
+            if(existingReservations.get(i).getId() == oldReservation.getId())
+                existingReservations.remove(i);
+        }
+
+        int numReservations = numReservations(existingReservations);
+
+        if (numReservations >= 3)
+            throw new IllegalArgumentException("Cannot add the reservation because the user already has 3 reservations.");
+        else if (position > 0 && numWaitlist(existingReservations) >= 3)
+            throw new IllegalArgumentException("Cannot add the user to this waitlist because are already on 3 waitlists.");
+
+        getConflictingReservations(existingReservations, newDay, newStartTime, newEndTime, newRoomId);
     }
 
     public static void set(Reservation reservation, int roomId, int studentId, String day, int startTime, int endTime, int position) throws ClassNotFoundException, SQLException {
@@ -280,36 +330,27 @@ public class ReservationMapper {
 
     public static ArrayList<Reservation> getProceedingWaitlistNoLock(Reservation reservation) throws SQLException, ClassNotFoundException
     {
-        readWriteLock.readLock().lock();
+        ResultSet resultSet = ReservationTDG.findProceedingWaitlist(reservation);
+        ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
 
-        try
+        if (resultSet == null)
+            return null;
+        else
         {
-            ResultSet resultSet = ReservationTDG.findProceedingWaitlist(reservation);
-            ArrayList<Reservation> reservationList = new ArrayList<Reservation>();
-
-            if (resultSet == null)
-                return null;
-            else
+            while (resultSet.next())
             {
-                while (resultSet.next())
-                {
-                    int resId = resultSet.getInt("reservationId");
-                    int roomId = resultSet.getInt("roomId");
-                    int studentId = resultSet.getInt("studentId");
-                    String weekDay = resultSet.getString("weekDay");
-                    int startTime = resultSet.getInt("startTime");
-                    int endTime = resultSet.getInt("endTime");
-                    int position = resultSet.getInt("position");
+                int resId = resultSet.getInt("reservationId");
+                int roomId = resultSet.getInt("roomId");
+                int studentId = resultSet.getInt("studentId");
+                String weekDay = resultSet.getString("weekDay");
+                int startTime = resultSet.getInt("startTime");
+                int endTime = resultSet.getInt("endTime");
+                int position = resultSet.getInt("position");
 
-                    reservationList.add(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
-                    ReservationIdentityMap.addRes(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
-                }
-                return reservationList;
+                reservationList.add(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
+                ReservationIdentityMap.addRes(new Reservation(resId, roomId, studentId, weekDay, startTime, endTime, position));
             }
-        }
-        finally
-        {
-            readWriteLock.readLock().unlock();
+            return reservationList;
         }
     }
 
