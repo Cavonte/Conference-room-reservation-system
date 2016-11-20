@@ -133,24 +133,31 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                     public void onTabChanged(String tabId) {
                         if ("T1".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(0);
                         }
                         if ("T2".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(1);
                         }
                         if ("T3".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(2);
                         }
                         if ("T4".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(3);
                         }
                         if ("T5".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(4);
                         }
                         if ("T6".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(5);
                         }
                         if ("T7".equals(tabId)) {
+                            mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(6);
                         }
                     }
@@ -558,11 +565,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             //Retrieve all the reservations from backend
             final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=wednesday";
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            //Must be the reservations objects.
-            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-            Object[] objects = responseEntity.getBody();
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
 
             return rootView;
         }
@@ -570,12 +577,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
         private void start(){
-            final String url = "http://192.168.2.15:8080/rooms";
-            RestTemplate restTemplate = new RestTemplate();
-            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
-            textView.setText(reservation.toString());
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
         }
     }
 
@@ -597,8 +604,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.thursday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Thursday");
 
             //Retrieve all the reservations from backend
 //            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=thursday";
@@ -641,10 +646,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.friday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Friday");
-
-            //Retrieve all the reservations from backend
+         //Retrieve all the reservations from backend
 //            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=friday";
 //            RestTemplate restTemplate = new RestTemplate();
 //            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -686,8 +688,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.saturday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Saturday");
 
             //Retrieve all the reservations from backend
 //            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=saturday";
@@ -737,6 +737,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     return Frag6.newInstance();
             }
             return null;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
