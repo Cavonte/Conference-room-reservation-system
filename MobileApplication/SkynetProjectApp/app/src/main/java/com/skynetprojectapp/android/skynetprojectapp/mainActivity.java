@@ -3,6 +3,7 @@ package com.skynetprojectapp.android.skynetprojectapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import static com.skynetprojectapp.android.skynetprojectapp.R.id.reservation;
+
 
 /**
  * This activity is the reservation pages where the current reservations/ wait list are being displayed.
@@ -25,10 +37,11 @@ public class mainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,View.OnClickListener {
 
     private Button reserve;
-    private ImageButton del1,del2,del3, ed1,ed2,ed3;
-    private  Reservation r1,r2,r3;
+    private ImageButton del1,del2,del3, ed1,ed2,ed3,ot1,ot2,ot3;
+    //private  Reservation r1,r2,r3;
+    private Reservation[] arrReservationsView;
     private AlertDialog alertDialog;
-
+    private ReservationObject[] reservationObjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +61,31 @@ public class mainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        r1 = (Reservation) findViewById(R.id.reservation);
-        r1.setRoomNumber("LB1");
+
+        requestReservationList(27526711);
+        arrReservationsView = new Reservation[reservationObjects.length];
+        for(int i = 0; i < reservationObjects.length; i++){
+            arrReservationsView[i] = (Reservation) findViewById(R.id.reservation+i);
+            arrReservationsView[i].setRoomNumber(reservationObjects[i].getRoomId() + "");
+            arrReservationsView[i].setDay(reservationObjects[i].getDay());
+            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00:00 to " + reservationObjects[i].getEndTime() + ":00:00 ");
+        }
+
+
+        //r1.setRoomNumber("LB1");
         //r1.setOnClickListener(mainActivity.this);
 
 
-        r2 = (Reservation) findViewById(R.id.reservation2);
-        r2.setRoomNumber("LB2");
-        r2.setDay("Tuesday");
+        //r2 = (Reservation) findViewById(R.id.reservation2);
+        //r2.setRoomNumber("LB2");
+        //r2.setDay("Tuesday");
         //r2.setOnClickListener(mainActivity.this);
 
 
-        r3 = (Reservation) findViewById(R.id.reservation3);
-        r3.setRoomNumber("LB3");
-        r3.setDay("Monday");
-
+        //r3 = (Reservation) findViewById(R.id.reservation3);
+        //r3.setRoomNumber("LB3");
+        //r3.setDay("Monday");
+        //r3.setOnClickListener(mainActivity.this);
 
 
 
@@ -83,9 +106,65 @@ public class mainActivity extends AppCompatActivity
         ed3 = (ImageButton) findViewById(R.id.editres3);
         ed3.setOnClickListener(mainActivity.this);
 
+        ot1 = (ImageButton) findViewById(R.id.otherres1);
+        ot1.setOnClickListener(mainActivity.this);
+        ot2 = (ImageButton) findViewById(R.id.otherres2);
+        ot2.setOnClickListener(mainActivity.this);
+        ot3 = (ImageButton) findViewById(R.id.otherres3);
+        ot3.setOnClickListener(mainActivity.this);
 
 
+    }
 
+    @Override
+    public void onClick(View view){
+        switch (view.getId()) {
+            case R.id.reserveroom:
+                Toast.makeText(mainActivity.this, "Reserve a room" , Toast.LENGTH_SHORT).show();
+                break;
+            case reservation:
+                //r1.setDay("Day");
+                //r1.postInvalidate();
+                break;
+            case R.id.reservation2:
+                //r2.setDay("Day");
+                //r2.postInvalidate();
+                break;
+            case R.id.reservation3:
+                // r3.setDay("Day");
+                // r3.postInvalidate();
+                break;
+            case R.id.delres1:
+                Toast.makeText(mainActivity.this, "Delete res 1" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
+                break;
+            case R.id.editres1:
+                Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.otherres1:
+                Toast.makeText(mainActivity.this, "Other res 1" , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delres2:
+                Toast.makeText(mainActivity.this, "Delete res 2" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
+                break;
+            case R.id.editres2:
+                Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.otherres2:
+                Toast.makeText(mainActivity.this, "Other res 2" , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.editres3:
+                Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.delres3:
+                Toast.makeText(mainActivity.this, "Delete res 3" , Toast.LENGTH_SHORT).show();
+                alert("delete reservation");
+                break;
+            case R.id.otherres3:
+                Toast.makeText(mainActivity.this, "Other res 3" , Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     private void alert(String msg){
@@ -96,6 +175,7 @@ public class mainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(mainActivity.this, "YES", Toast.LENGTH_LONG).show();
+                requestDeleteReservation(27526711,2222);
             }
         });
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
@@ -107,49 +187,54 @@ public class mainActivity extends AppCompatActivity
         alertDialog.show();
     }
 
-    @Override
-    public void onClick(View view){
-        switch (view.getId()) {
-            case R.id.reserveroom:
-               Toast.makeText(mainActivity.this, "Reserve a room" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.reservation:
-                r1.setDay("Day");
-                r1.postInvalidate();
-                break;
-            case R.id.reservation2:
-                r2.setDay("Day");
-                r2.postInvalidate();
-                break;
-            case R.id.reservation3:
-                r3.setDay("Day");
-                r3.postInvalidate();
-                break;
-            case R.id.delres1:
-                Toast.makeText(mainActivity.this, "Delete res 1" , Toast.LENGTH_SHORT).show();
-                alert("delete reservation");
-                break;
-            case R.id.editres1:
-                Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.delres2:
-                Toast.makeText(mainActivity.this, "Delete res 2" , Toast.LENGTH_SHORT).show();
-                alert("delete reservation");
-                break;
-            case R.id.editres2:
-                Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.editres3:
-                Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.delres3:
-                Toast.makeText(mainActivity.this, "Delete res 3" , Toast.LENGTH_SHORT).show();
-                alert("delete reservation");
-                break;
+    private void requestReservationList(int studentId){
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://enterYourIpPlox:8080/userReservations?studentId="+studentId;
+        RestTemplate restTemplate = new RestTemplate();
+
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        String responseEntity = restTemplate.getForObject(url, String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+
+
+        try {
+
+            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
+            reservationObjects = new ReservationObject[s.size()];
+            for(int i = 0; i < s.size(); i++){
+
+                int id = s.findValues("id").get(i).asInt();
+                int roomId = s.findValues("roomId").get(i).asInt();
+                int sId = s.findValues("studentId").get(i).asInt();
+                String day = s.findValues("day").get(i).asText();
+                int startTime = s.findValues("startTime").get(i).asInt();
+                int endTime = s.findValues("endTime").get(i).asInt();
+                int position = s.findValues("position").get(i).asInt();
+
+                reservationObjects[i] = new ReservationObject(id,roomId,sId,day,startTime,endTime,position);
+            }
+        }
+        catch(IOException e){
+            System.out.println("a");
         }
     }
 
+    private void requestDeleteReservation(int studentId, int reservationId){
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://enterYourIpPlox:8080/deleteReservations";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HashMap<Integer, Integer> params = new HashMap<Integer, Integer>();
+        params.put(studentId, reservationId);
+
+        restTemplate.delete(url, params);
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -191,11 +276,7 @@ public class mainActivity extends AppCompatActivity
         if (id == R.id.nav_Reservations) {
 //            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-        else if(id == R.id.nav_Waitlist){
-            startActivity(new Intent(mainActivity.this, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
-        else if (id == R.id.nav_Rooms) {
+        } else if (id == R.id.nav_Rooms) {
             startActivity(new Intent(mainActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {
             startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
