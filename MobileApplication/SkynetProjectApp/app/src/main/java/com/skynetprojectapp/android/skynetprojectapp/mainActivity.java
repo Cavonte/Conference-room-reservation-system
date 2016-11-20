@@ -66,14 +66,14 @@ public class mainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        requestReservationList(27526711);
-        arrReservationsView = new Reservation[reservationObjects.length];
-        for(int i = 0; i < reservationObjects.length; i++){
-            arrReservationsView[i] = (Reservation) findViewById(R.id.reservation+i);
-            arrReservationsView[i].setRoomNumber(reservationObjects[i].getRoomId() + "");
-            arrReservationsView[i].setDay(reservationObjects[i].getDay());
-            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00:00 to " + reservationObjects[i].getEndTime() + ":00:00 ");
-        }
+//        requestReservationList(27526711);
+//        arrReservationsView = new Reservation[reservationObjects.length];
+//        for(int i = 0; i < reservationObjects.length; i++){
+//            arrReservationsView[i] = (Reservation) findViewById(R.id.reservation+i);
+//            arrReservationsView[i].setRoomNumber(reservationObjects[i].getRoomId() + "");
+//            arrReservationsView[i].setDay(reservationObjects[i].getDay());
+//            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00:00 to " + reservationObjects[i].getEndTime() + ":00:00 ");
+//        }
 
 
         //r1.setRoomNumber("LB1");
@@ -192,58 +192,56 @@ public class mainActivity extends AppCompatActivity
     }
 
     private void requestReservationList(int studentId){
+//
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//        String url = "http://Enter your ip plox:8080/userReservations?studentId="+studentId;
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//        String responseEntity = restTemplate.getForObject(url, String.class);
+//
+//        ObjectMapper mapper = new ObjectMapper();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://Enter your ip plox:8080/userReservations?studentId="+studentId;
-        RestTemplate restTemplate = new RestTemplate();
 
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        String responseEntity = restTemplate.getForObject(url, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-
-
-        try {
-
-            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
-            reservationObjects = new ReservationObject[s.size()];
-            for(int i = 0; i < s.size(); i++){
-
-                int id = s.findValues("id").get(i).asInt();
-                int roomId = s.findValues("roomId").get(i).asInt();
-                int sId = s.findValues("studentId").get(i).asInt();
-                String day = s.findValues("day").get(i).asText();
-                int startTime = s.findValues("startTime").get(i).asInt();
-                int endTime = s.findValues("endTime").get(i).asInt();
-                int position = s.findValues("position").get(i).asInt();
-
-                reservationObjects[i] = new ReservationObject(id,roomId,sId,day,startTime,endTime,position);
-            }
-        }
-        catch(IOException e){
-            System.out.println("a");
-        }
+//        try {
+//
+//            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
+//            reservationObjects = new ReservationObject[s.size()];
+//            for(int i = 0; i < s.size(); i++){
+//
+//                int id = s.findValues("id").get(i).asInt();
+//                int roomId = s.findValues("roomId").get(i).asInt();
+//                int sId = s.findValues("studentId").get(i).asInt();
+//                String day = s.findValues("day").get(i).asText();
+//                int startTime = s.findValues("startTime").get(i).asInt();
+//                int endTime = s.findValues("endTime").get(i).asInt();
+//                int position = s.findValues("position").get(i).asInt();
+//
+//                reservationObjects[i] = new ReservationObject(id,roomId,sId,day,startTime,endTime,position);
+//            }
+//        }
+//        catch(IOException e){
+//            System.out.println("a");
+//        }
     }
 
     private void requestDeleteReservation(int studentId, int reservationId){
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://Enter your ip plox:8080/deleteReservation";
-        RestTemplate restTemplate = new RestTemplate();
-
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
-        multiValueMap.add("studentId", studentId+"");
-        multiValueMap.add("reservationId", reservationId+"");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
-
-        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
-        System.out.println("Delete is " + bool);
-
-
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//        String url = "http://Enter your ip plox:8080/deleteReservation";
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
+//        multiValueMap.add("studentId", studentId+"");
+//        multiValueMap.add("reservationId", reservationId+"");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+//
+//        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
+//        System.out.println("Delete is " + bool);
 
     }
     @Override

@@ -259,12 +259,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/roomId"
@@ -280,7 +280,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/RoomNumber"
@@ -295,7 +295,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/Description"
@@ -311,7 +311,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/RoomSize"
@@ -328,7 +328,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <Button
                     android:id="@+id/Okay"

@@ -268,7 +268,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
-
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
