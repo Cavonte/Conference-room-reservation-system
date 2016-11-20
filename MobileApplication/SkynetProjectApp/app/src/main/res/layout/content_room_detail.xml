@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_room_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.skynetprojectapp.android.skynetprojectapp.roomsActivity$Details">
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="364dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_marginTop="10dp"
+        android:text="Reservation"
+        android:typeface="normal"
+        android:theme="@style/AppTheme"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:fontFamily="sans-serif"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimary" />
+
+    <ViewAnimator
+        android:id="@+id/viewAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="259dp"
+                android:orientation="horizontal">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="15dp">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp">
+
+                        <TextView
+                            android:text="Room"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView6"
+                            android:theme="@style/AppTheme"
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:fontFamily="sans-serif"
+                            android:typeface="normal"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:text="Room Number : B-102"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/roomMain"
+                            android:theme="@style/AppTheme"/>
+
+                        <TextView
+                            android:text="Location : H-Building"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/locMain"
+                            android:theme="@style/AppTheme"/>
+
+                        <TextView
+                            android:text="Has Presentation : Yes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/prezMain"
+                            android:theme="@style/AppTheme"/>
+
+                        <TextView
+                            android:text="Size: Does not matter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/sizeMain"
+                            android:theme="@style/AppTheme"/>
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp">
+
+                        <TextView
+                            android:text="Time"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView5"
+                            android:theme="@style/AppTheme"
+                            android:textAppearance="@style/TextAppearance.AppCompat"
+                            android:fontFamily="sans-serif"
+                            android:typeface="normal"
+                            android:textSize="24sp"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:text="20"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/date1"
+                                    />
+
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                >
+
+                                <TextView
+                                    android:text="/"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                >
+
+
+                                <TextView
+                                    android:text="04"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/date2" />
+                            </FrameLayout>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="199dp">
+
+                <Button
+                    android:id="@+id/bool"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="15dp"
+                    android:background="@color/colorPrimary"
+                    android:text="Set Bool/Check Position"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/roomDetails"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="15dp"
+                    android:background="@color/colorPrimary"
+                    android:text="Room Details"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/append"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="3dp"
+                    android:background="@color/colorPrimary"
+                    android:text="Join Wait List"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/reserve"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="3dp"
+                    android:background="@color/colorPrimary"
+                    android:text="Reserve"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/roomId"
+                    android:layout_width="364dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="RoomId"
+                    android:textSize="20dp"
+                    android:typeface="normal" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/RoomNumber"
+                    android:layout_width="176dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="RoomNumber"
+                    android:textSize="20dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/Description"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Description"
+                    android:textSize="20dp"
+                    android:typeface="normal" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/RoomSize"
+                    android:layout_width="300dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="15dp"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="RoomSize"
+                    android:textSize="20dp"
+                    android:typeface="normal" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <Button
+                    android:id="@+id/Okay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_margin="15dp"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/roomdetail"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+            </TableRow>
+
+        </TableLayout>
+    </ViewAnimator>
+
+
+</LinearLayout>

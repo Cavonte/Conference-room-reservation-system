@@ -92,6 +92,8 @@ public class preferencesActivity extends AppCompatActivity implements Navigation
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(preferencesActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } else if(id == R.id.nav_Waitlist){
+            startActivity(new Intent(preferencesActivity.this, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Rooms) {
             startActivity(new Intent(preferencesActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Map) {

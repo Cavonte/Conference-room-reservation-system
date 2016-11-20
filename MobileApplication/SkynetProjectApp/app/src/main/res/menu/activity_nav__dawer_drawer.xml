@@ -4,7 +4,10 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_Reservations"
-            android:title="Reservations" />
+            android:title="My Reservations" />
+        <item
+            android:id="@+id/nav_Waitlist"
+            android:title="My Waitlist"/>
         <item
             android:id="@+id/nav_Rooms"
             android:title="Rooms" />
