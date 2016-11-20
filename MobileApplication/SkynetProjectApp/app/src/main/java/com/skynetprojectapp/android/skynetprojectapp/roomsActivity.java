@@ -20,13 +20,20 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TabHost;
-import android.widget.Toast;
-import android.widget.TextView;
-
 import android.view.View;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -47,7 +54,7 @@ import java.util.Iterator;
  */
 public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TabHost host;
+    public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private Toolbar toolbar;
@@ -197,12 +204,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             startActivity(new Intent(roomsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_preferences) {
             startActivity(new Intent(roomsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+       /*
         } else if (id == R.id.nav_About) {
             startActivity(new Intent(roomsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Help) {
             startActivity(new Intent(roomsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Log_out) {
             startActivity(new Intent(roomsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            */
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
@@ -215,6 +225,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableRow row, row1;
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
 
 
         public FragSunday() {
@@ -241,6 +252,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);//
             spinner.setOnItemSelectedListener(this);
 
+            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=sunday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
+
+
+
             return rootView;
         }
 
@@ -263,6 +284,17 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     row1.setVisibility(View.GONE);
                     break;
             }
+        }
+
+
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
 
         @Override
@@ -299,7 +331,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             final View rootView = inflater.inflate(R.layout.rooms_frag, container, false);
+//            Thread initializeStateThread = new Thread() {
+//                public void run() {
+
             for (int i = 1; i <= 20; i++) {
                 for (int j = 7; j <= 23; j++) {
                     String key = i + "u" + j;
@@ -308,6 +344,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     map.put(key, (Timeslot) rootView.findViewById(resID));
                 }
             }
+
+//                }
+//            };
+//            initializeStateThread.start();
 
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
@@ -349,6 +389,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
             }
 
+
             rooms= roomMaps(building, rootView,rooms);
 
 //            roomMaps("LB-building",rootView);
@@ -381,6 +422,17 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             return rootView;
         }
 
+
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
+        }
+
         @Override
         public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
                                    long arg3) {
@@ -389,38 +441,41 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             }
             switch (position) {
                 case 0:
-                    roomMaps("LB-building", getView(),rooms);
-                    for (int i = 1; i <= 12; i++) {
+
+                    roomMaps("LB-building",getView(),rooms);
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
-//                    for (int i = 13; i <= 20; i++) {
-//                        mapRow.get((i) + "").setVisibility(View.GONE);
-//                    }
+                    for (int i = 13; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
                     break;
                 case 1:
-                    roomMaps("H-building", getView(),rooms);
+                    roomMaps("H-building",getView(),rooms);
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
                     break;
                 case 2:
-                    roomMaps("VL-building", getView(),rooms);
-                    for (int i = 1; i <= 9; i++) {
+
+                    roomMaps("VL-building",getView(),rooms);
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
-//                    for (int i = 10; i <= 20; i++) {
-//                        mapRow.get((i) + "").setVisibility(View.GONE);
-//                    }
+                    for (int i = 10; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
 
                     break;
                 case 3:
-                    roomMaps("B-building", getView(),rooms);
-                    for (int i = 1; i <= 14; i++) {
+                    roomMaps("B-building",getView(),rooms);
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
-//                    for (int i = 15; i <= 20; i++) {
-//                        mapRow.get((i) + "").setVisibility(View.GONE);
-//                    }
+                    for (int i = 15; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+
 
                     break;
             }
@@ -436,6 +491,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     }
 
     public static class Frag2 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
+
         public Frag2() {
         }
 
@@ -452,11 +511,34 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.tuesday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Tuesday");
+
+//            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=tuesday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+
+
+        private void start(){
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag3 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag3() {
         }
 
@@ -473,11 +555,34 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.wednesday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Wednesday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=wednesday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag4 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag4() {
         }
 
@@ -494,12 +599,34 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.thursday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Thursday");
+
+            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=thursday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
             return rootView;
+        }
+
+
+
+        private void start(){
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
         }
     }
 
 
     public static class Frag5 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag5() {
         }
 
@@ -516,11 +643,34 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.friday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Friday");
+
+            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=friday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+
+
+        private void start(){
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag6 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag6() {
         }
 
@@ -534,8 +684,29 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.content_room_detail, container, false);
+
+            View rootView = inflater.inflate(R.layout.saturday_frag, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText("Saturday");
+
+            //Retrieve all the reservations from backend
+//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=saturday";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            //Must be the reservations objects.
+//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+//            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+        private void start(){
+//            final String url = "http://192.168.2.15:8080/rooms";
+//            RestTemplate restTemplate = new RestTemplate();
+//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+//            textView.setText(reservation.toString());
         }
     }
 
@@ -551,13 +722,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    notifyDataSetChanged();
                     return FragSunday.newInstance();
                 case 1:
-                    notifyDataSetChanged();
                     return FragMonday.newInstance();
                 case 2:
-                    notifyDataSetChanged();
                     return Frag2.newInstance();
                 case 3:
                     return Frag3.newInstance();
@@ -600,8 +768,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
     }
-
-
     private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
         rooms.clear();
         Room[] rms = new Room[20];

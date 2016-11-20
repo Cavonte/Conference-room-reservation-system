@@ -20,6 +20,7 @@
             android:id="@+id/spinner"
             android:padding="5dp"
             />
+
     </FrameLayout>
 
     <FrameLayout
