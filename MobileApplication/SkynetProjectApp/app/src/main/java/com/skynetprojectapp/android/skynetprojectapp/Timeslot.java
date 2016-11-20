@@ -19,11 +19,11 @@ public class Timeslot extends View {
     private String mExampleString; // TODO: use a default from R.string...
     private String status;
 
-
-
     private int passed = Color.BLACK;
     private int avail = Color.GREEN;
     private int taken = Color.RED;
+
+    private String index="";
 
     private int mExampleColor = Color.WHITE; // TODO: use a default from R.color...
     private float mExampleDimension = 0; // TODO: use a default from R.dimen...
@@ -133,6 +133,14 @@ public class Timeslot extends View {
                     paddingLeft + contentWidth, paddingTop + contentHeight);
             mExampleDrawable.draw(canvas);
         }
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 
     public String getExampleString() {

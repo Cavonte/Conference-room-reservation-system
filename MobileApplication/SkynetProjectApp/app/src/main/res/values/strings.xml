@@ -30,6 +30,7 @@
     <string name="def_quote">You have tried your best and you have failed miserably. The lesson is to never try. -Homer Simpson</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
+    <string name="roomdetail">Got It</string>
     <string name="studentid">StudentID</string>
     <string name="reset_button">Reset</string>
     <string name="title_activity_timeslot" />
