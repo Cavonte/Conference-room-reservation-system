@@ -13,16 +13,24 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.TabHost;
-import android.widget.Toast;
-import android.widget.TextView;
-
 import android.view.View;
-import android.widget.*;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +42,7 @@ import java.util.Iterator;
  */
 public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private TabHost host;
+    public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
@@ -135,8 +143,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+                // Create the adapter that will return a fragment for each of the three
+                // primary sections of the activity.
 
                 mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
                 mViewPager = (ViewPager) findViewById(R.id.container);
@@ -175,12 +183,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             startActivity(new Intent(roomsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_preferences) {
             startActivity(new Intent(roomsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+
+       /*
         } else if (id == R.id.nav_About) {
             startActivity(new Intent(roomsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Help) {
             startActivity(new Intent(roomsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Log_out) {
             startActivity(new Intent(roomsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            */
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
@@ -194,6 +205,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableRow row, row1;
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
 
 
         public FragSunday() {
@@ -220,6 +232,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setAdapter(adapter);//
             spinner.setOnItemSelectedListener(this);
 
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=sunday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+
+
             return rootView;
         }
 
@@ -244,6 +266,79 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             }
         }
 
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
+        }
+
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
             //optionally do something here
@@ -259,6 +354,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private TableLayout table;
         HashMap<String, Timeslot> map;
         HashMap<String, TableRow> mapRow;
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
 
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
@@ -287,16 +383,21 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.monday_frag, container, false);
 
+
 //            Thread initializeStateThread = new Thread() {
 //                public void run() {
-            for (int i = 1; i < 56; i++) {
-                for (int j = 7; j < 23; j++) {
+            for (int i = 1; i <= 20; i++) {
+                for (int j = 7; j <= 23; j++) {
                     String key = i + "u" + j;
                     String id = "timeslot" + key;
                     int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
                     map.put(key, (Timeslot) rootView.findViewById(resID));
                 }
             }
+
+
+
+
 //                }
 //            };
 //            initializeStateThread.start();
@@ -344,14 +445,125 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            }
 
             table = (TableLayout) rootView.findViewById(R.id.table);
-            for (int i = 1; i < 56; i++) {
+            for (int i = 1; i <= 20; i++) {
                 String id = "row" + (i);
                 int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
                 mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
-                mapRow.get(i + "").setVisibility(View.GONE);
+            }
+
+            /*
+                                  Timeslot temp = map.get(key);
+                        temp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Timeslot temp = (Timeslot) v;
+                                temp.setPassed(Color.RED);
+                                temp.postInvalidate();
+                            }
+                        });
+             */
+
+            roomMaps(spinner.getTransitionName());
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=monday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Reservation[] res = new Reservation[5];
+            res[0] = new Reservation(1,1,1,"Monday",12,13,0);
+            res[1] = new Reservation(2,2,1,"Monday",12,13,0);
+
+
+
+            for(int i = 0; i < res.length; i++){
+                int row = rooms.get(res[i].getRoomId());
+                String id = "timeslot" + row + "u" + res[i].getStartTime();
+                String key = row + "u" + res[i].getStartTime();
+                int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                Timeslot temp = map.get(key);
+                temp.setPassed(Color.RED);
+                temp.postInvalidate();
             }
 
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
 
         @Override
@@ -359,38 +571,37 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                    long arg3) {
             switch (position) {
                 case 0:
-                    for (int i = 1; i < 56; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-                    for (int i = 1; i < 12; i++) {
+                    roomMaps("L-building");
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
-                    mapRow.get((55) + "").setVisibility(View.VISIBLE);
-
-                    break;
-                case 1:
-                    for (int i = 1; i < 56; i++) {
+                    for (int i = 13; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.GONE);
                     }
-                    for (int i = 35; i < 54; i++) {
+                    break;
+                case 1:
+                    roomMaps("H-building");
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
                     break;
                 case 2:
-                    for (int i = 1; i < 56; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-                    for (int i = 12; i < 21; i++) {
+                    roomMaps("VL-building");
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 10; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
                     }
 
                     break;
                 case 3:
-                    for (int i = 1; i < 56; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-                    for (int i = 21; i < 35; i++) {
+                    roomMaps("B-building");
+                    for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 15; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
                     }
 
                     break;
@@ -407,6 +618,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     }
 
     public static class Frag2 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
+
         public Frag2() {
         }
 
@@ -423,11 +638,95 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.tuesday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Tuesday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=tuesday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag3 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag3() {
         }
 
@@ -444,11 +743,96 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.wednesday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Wednesday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=wednesday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag4 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag4() {
         }
 
@@ -465,12 +849,96 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.thursday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Thursday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=thursday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
 
     public static class Frag5 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag5() {
         }
 
@@ -487,11 +955,94 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.friday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Friday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=friday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < objects.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
     public static class Frag6 extends Fragment {
+
+        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
+
         public Frag6() {
         }
 
@@ -508,7 +1059,88 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             View rootView = inflater.inflate(R.layout.saturday_frag, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Saturday");
+
+            //Retrieve all the reservations from backend
+            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=saturday";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the reservations objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
             return rootView;
+        }
+
+        private void roomMaps(String building){
+
+            //Retrieve all the rooms from backend
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            //Must be the room objects.
+            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
+            Object[] objects = responseEntity.getBody();
+
+
+            Room[] rms = new Room[5];
+            rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
+            switch(building){
+
+                case "H-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'H'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+
+                        }
+                    }
+                case "L-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'L'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "VL-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'V'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                case "B-building":
+                    rooms.clear();
+                    for(int i = 0; i < rms.length; i++){
+                        if(rms[i].getRoomNumber().charAt(0) == 'B'){
+                            rooms.put(rms[i].getRoomId(), i+1);
+                            String id = "rowtext" + i;
+                            int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                            TextView rowText = (TextView)this.getView().findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+            }
+        }
+
+        private void start(){
+            final String url = "http://192.168.2.15:8080/rooms";
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
+            textView.setText(reservation.toString());
         }
     }
 
