@@ -446,13 +446,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         public void refresh(int dayPosition) {
 
+            rooms = roomMaps(building, getView(), rooms);
+
             textView.setText("This is  refresh " + dayPosition);
             //refresh content
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
                 Timeslot temp = map.get(key);
-                temp.setPassed(R.color.colorPrimary);
+                temp.setPassed(Color.RED);
                 temp.postInvalidate();
             }
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
@@ -499,19 +501,20 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
 //            Object[] objects = responseEntity.getBody();
 
-
             if (res.size() != 0) {
                 for (int i = 0; i < res.size(); i++) {
+                    if(!(res.get(i)==null)){
                     int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
                     String key = row + "u" + res.get(i).getStartTime();
                     Timeslot temp = map.get(key);
                     temp.setPassed(Color.BLACK);
                     temp.postInvalidate();
                     map.put(key, temp);
-
+                    } else {
+                        System.out.println("Res is null");
+                    }
                 }
             }
-
         }
 
         public void onPause() {
