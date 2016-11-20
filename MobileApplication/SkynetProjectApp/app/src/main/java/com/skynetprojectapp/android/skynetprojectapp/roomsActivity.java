@@ -35,6 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.android.gms.actions.ReserveIntents;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -44,6 +45,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -128,39 +130,48 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 spec.setIndicator("Sa");
                 host.addTab(spec);
 
+                //int position = host.getCurrentTab();
 
                 host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-
                     public void onTabChanged(String tabId) {
                         if ("T1".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(0);
+                            FragMonday.setTabPosition(0);
                         }
                         if ("T2".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(1);
+                            FragMonday.setTabPosition(1);
                         }
                         if ("T3".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(2);
+                            FragMonday.setTabPosition(2);
                         }
                         if ("T4".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(3);
+                            FragMonday.setTabPosition(3);
                         }
                         if ("T5".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(4);
+                            FragMonday.setTabPosition(4);
                         }
                         if ("T6".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(5);
+                            FragMonday.setTabPosition(5);
                         }
                         if ("T7".equals(tabId)) {
                             mSectionsPagerAdapter.notifyDataSetChanged();
                             mViewPager.setCurrentItem(6);
+                            FragMonday.setTabPosition(6);
                         }
+                        FragMonday.refreshFragment();
                     }
+
                 });
 
 //                Retrieve all the rooms from backend
@@ -201,6 +212,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
 
         if (id == R.id.nav_Reservations) {
             Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
@@ -268,7 +280,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            Object[] objects = responseEntity.getBody();
 
 
-
             return rootView;
         }
 
@@ -294,12 +305,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
 
 
-
-        private void start(){
+        private void start() {
             final String url = "http://192.168.2.15:8080/rooms";
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
             AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
             textView.setText(reservation.toString());
         }
@@ -316,10 +326,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
-        HashMap<String, Timeslot> map;
-        HashMap<String, TableRow> mapRow;
-        HashMap<Integer, Integer> rooms;
+        private static HashMap<String, Timeslot> map;
+        private static HashMap<String, TableRow> mapRow;
+        private static HashMap<Integer, Integer> rooms;
         private String building;
+        private static int dayPosition;
+
 
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
@@ -396,8 +408,63 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
             }
 
+            rooms = roomMaps(building, rootView, rooms);
 
-            rooms= roomMaps(building, rootView,rooms);
+            //refreshFragment();
+
+            return rootView;
+        }
+
+
+        public static void setTabPosition(int dp) {
+            dayPosition = dp;
+        }
+
+        public static void refreshFragment() {
+
+            //get waitlist positions from DB
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                String id = "timeslot" + key;
+                Timeslot temp = map.get(key);
+                temp.setPassed(R.color.colorPrimary);
+                temp.postInvalidate();
+            }
+
+            ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
+            switch (dayPosition) {
+                case 0:
+                    //res[0] = new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0);
+                    //res[1] = new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1);
+                    //res[2] = new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2);
+                    res.add(new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0));
+                    res.add(new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1));
+                    res.add(new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2));
+                    break;
+                case 1:
+                    res.add(new ReservationObject(4, 1, 1, "Monday", 12, 13, 0));
+                    res.add(new ReservationObject(5, 2, 3, "Monday", 12, 13, 1));
+                    res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
+                    res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
+                    res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
+//                    res[0] = new ReservationObject(4, 1, 1, "Monday", 12, 13, 0);
+//                    res[1] = new ReservationObject(5, 2, 3, "Monday", 12, 13, 1);
+//                    res[2] = new ReservationObject(6, 3, 4, "Monday", 12, 13, 2);
+//                    res[3] = new ReservationObject(7, 2, 5, "Monday", 17, 16, 3);
+//                    res[4] = new ReservationObject(8, 4, 9, "Monday", 12, 13, 4);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+            }
 
 //            roomMaps("LB-building",rootView);
 
@@ -409,33 +476,25 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
 //            Object[] objects = responseEntity.getBody();
 
-            ReservationObject[] res = new ReservationObject[5];
-            res[0] = new ReservationObject(1, 1, 1, "Monday", 12, 13, 0);
-            res[1] = new ReservationObject(2, 2, 3, "Monday", 12, 13, 1);
-            res[2] = new ReservationObject(3, 3, 4, "Monday", 12, 13, 2);
-            res[3] = new ReservationObject(4, 2, 5, "Monday", 17, 16, 3);
-            res[4] = new ReservationObject(5, 4, 9, "Monday", 12, 13, 4);
 
+            if (res.size() != 0) {
+                for (int i = 0; i < res.size(); i++) {
+                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
+                    String key = row + "u" + res.get(i).getStartTime();
+                    Timeslot temp = map.get(key);
+                    temp.setPassed(Color.BLUE);
+                    temp.postInvalidate();
+                    map.put(key, temp);
 
-            for (int i = 0; i < res.length; i++) {
-                int row = rooms.get(res[i].getRoomId()); //get the row of the timeslot that is to be modified
-                String key = row + "u" + res[i].getStartTime();
-                Timeslot temp = map.get(key);
-                temp.setPassed(Color.RED);
-                temp.postInvalidate();
-                map.put(key, temp);
-
+                }
             }
-            return rootView;
         }
 
-
-
-        private void start(){
+        private void start() {
             final String url = "http://192.168.2.15:8080/rooms";
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
+            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
             AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
             textView.setText(reservation.toString());
         }
@@ -449,7 +508,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             switch (position) {
                 case 0:
 
-                    roomMaps("LB-building",getView(),rooms);
+                    roomMaps("LB-building", getView(), rooms);
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -458,14 +517,14 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
                 case 1:
-                    roomMaps("H-building",getView(),rooms);
+                    roomMaps("H-building", getView(), rooms);
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
                     break;
                 case 2:
 
-                    roomMaps("VL-building",getView(),rooms);
+                    roomMaps("VL-building", getView(), rooms);
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -475,7 +534,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                     break;
                 case 3:
-                    roomMaps("B-building",getView(),rooms);
+                    roomMaps("B-building", getView(), rooms);
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -497,223 +556,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
-    public static class Frag2 extends Fragment {
-
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-
-        public Frag2() {
-        }
-
-        public static Frag2 newInstance() {
-            Frag2 fragment = new Frag2();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.tuesday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Tuesday");
-
-//            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=tuesday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-            return rootView;
-        }
-
-
-
-        private void start(){
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-    }
-
-    public static class Frag3 extends Fragment {
-
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-        public Frag3() {
-        }
-
-        public static Frag3 newInstance() {
-            Frag3 fragment = new Frag3();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.wednesday_frag, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Wednesday");
-
-            //Retrieve all the reservations from backend
-            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=wednesday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-            return rootView;
-        }
-
-
-
-        private void start(){
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView)getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-    }
-
-    public static class Frag4 extends Fragment {
-
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-        public Frag4() {
-        }
-
-        public static Frag4 newInstance() {
-            Frag4 fragment = new Frag4();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.thursday_frag, container, false);
-
-            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=thursday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-            return rootView;
-        }
-
-
-
-        private void start(){
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-    }
-
-
-    public static class Frag5 extends Fragment {
-
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-        public Frag5() {
-        }
-
-        public static Frag5 newInstance() {
-            Frag5 fragment = new Frag5();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.friday_frag, container, false);
-         //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=friday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-            return rootView;
-        }
-
-
-
-        private void start(){
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-    }
-
-    public static class Frag6 extends Fragment {
-
-        HashMap<Integer, Integer> rooms = new HashMap<Integer, Integer>();
-
-        public Frag6() {
-        }
-
-        public static Frag6 newInstance() {
-            Frag6 fragment = new Frag6();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.saturday_frag, container, false);
-
-            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=saturday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-            return rootView;
-        }
-
-        private void start(){
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object)restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-    }
-
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
@@ -722,28 +573,43 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return FragSunday.newInstance();
+                    return FragMonday.newInstance();
                 case 1:
                     return FragMonday.newInstance();
                 case 2:
-                    return Frag2.newInstance();
+                    return FragMonday.newInstance();
                 case 3:
-                    return Frag3.newInstance();
+                    return FragMonday.newInstance();
                 case 4:
-                    return Frag4.newInstance();
+                    return FragMonday.newInstance();
                 case 5:
-                    return Frag5.newInstance();
+                    return FragMonday.newInstance();
                 case 6:
-                    return Frag6.newInstance();
+                    return FragMonday.newInstance();
             }
+//            return null;
+
+//            switch (position) {
+//                case 0:
+//                    return FragMonday.newInstance();
+//                case 1:
+//                    return FragMonday.newInstance();
+//                case 2:
+//                    return FragMonday.newInstance();
+//                case 3:
+//                    return FragMonday.newInstance();
+//                case 4:
+//                    return FragMonday.newInstance();
+//                case 5:
+//                    return FragMonday.newInstance();
+//                case 6:
+//                    return FragMonday.newInstance();
+//            }
             return null;
-        }
+            //return FragMonday.newInstance();
 
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
 
+        }
         @Override
         public int getCount() {
             //Total pages count.
@@ -773,6 +639,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
     }
+
     private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
         rooms.clear();
         Room[] rms = new Room[20];
