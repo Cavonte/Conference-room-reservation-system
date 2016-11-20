@@ -20,11 +20,15 @@ import android.widget.Toast;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static com.skynetprojectapp.android.skynetprojectapp.R.id.reservation;
 
@@ -191,7 +195,7 @@ public class mainActivity extends AppCompatActivity
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = "http://enterYourIpPlox:8080/userReservations?studentId="+studentId;
+        String url = "http://Enter your ip plox:8080/userReservations?studentId="+studentId;
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -226,13 +230,20 @@ public class mainActivity extends AppCompatActivity
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = "http://enterYourIpPlox:8080/deleteReservations";
+        String url = "http://Enter your ip plox:8080/deleteReservation";
         RestTemplate restTemplate = new RestTemplate();
 
-        HashMap<Integer, Integer> params = new HashMap<Integer, Integer>();
-        params.put(studentId, reservationId);
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
+        multiValueMap.add("studentId", studentId+"");
+        multiValueMap.add("reservationId", reservationId+"");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
 
-        restTemplate.delete(url, params);
+        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
+        System.out.println("Delete is " + bool);
+
+
 
     }
     @Override
