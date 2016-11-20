@@ -137,45 +137,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         host.setOnTabChangedListener(this);
 
-        //int position = host.getCurrentTab();
-
-//                host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-//                    public void onTabChanged(String tabId) {
-//                        if ("T1".equals(tabId)) {
-//                            mViewPager.setCurrentItem(0);
-//                        }
-//                        if ("T2".equals(tabId)) {
-//                            mViewPager.setCurrentItem(1);
-//                        }
-//                        if ("T3".equals(tabId)) {
-//                            mViewPager.setCurrentItem(2);
-//                        }
-//                        if ("T4".equals(tabId)) {
-//                            mViewPager.setCurrentItem(3);
-//                        }
-//                        if ("T5".equals(tabId)) {
-//                            mViewPager.setCurrentItem(4);
-//                        }
-//                        if ("T6".equals(tabId)) {
-//                            mViewPager.setCurrentItem(5);
-//                        }
-//                        if ("T7".equals(tabId)) {
-//                            mViewPager.setCurrentItem(6);
-//                        }
-//                    }
-//
-//                });
-
-
-//                Retrieve all the rooms from backend
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the room objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
 
@@ -193,11 +154,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 host.setCurrentTab(position);
             }
         });
-//
-//            }
-//        };
-//        tabthread.start();
-
 
     }
 
@@ -217,15 +173,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             startActivity(new Intent(roomsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_preferences) {
             startActivity(new Intent(roomsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-
-       /*
         } else if (id == R.id.nav_About) {
             startActivity(new Intent(roomsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Help) {
             startActivity(new Intent(roomsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         } else if (id == R.id.nav_Log_out) {
             startActivity(new Intent(roomsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            */
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
         }
 
@@ -282,6 +235,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private String building;
         private int dayPosition;
         private TextView textView;
+        private MyReceiver r;
 
 
         public FragMonday() {
@@ -305,9 +259,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             View rootView = inflater.inflate(R.layout.rooms_frag, container, false);
 
-//            Thread initializeStateThread = new Thread() {
-//                public void run() {
-
             for (int i = 1; i <= 20; i++) {
                 for (int j = 7; j <= 23; j++) {
                     String key = i + "u" + j;
@@ -317,9 +268,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
-//                }
-//            };
-//            initializeStateThread.start();
 
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, buildings);
@@ -366,13 +314,16 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             rooms = roomMaps(building, rootView, rooms);
 
+            setReservations(this.dayPosition);
 
+            return rootView;
+        }
+
+
+        private void setReservations(int dayPosition){
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
                 case 0:
-                    //res[0] = new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0);
-                    //res[1] = new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1);
-                    //res[2] = new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2);
                     res.add(new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0));
                     res.add(new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1));
                     res.add(new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2));
@@ -383,11 +334,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
                     res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
                     res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
-//                    res[0] = new ReservationObject(4, 1, 1, "Monday", 12, 13, 0);
-//                    res[1] = new ReservationObject(5, 2, 3, "Monday", 12, 13, 1);
-//                    res[2] = new ReservationObject(6, 3, 4, "Monday", 12, 13, 2);
-//                    res[3] = new ReservationObject(7, 2, 5, "Monday", 17, 16, 3);
-//                    res[4] = new ReservationObject(8, 4, 9, "Monday", 12, 13, 4);
                     break;
                 case 2:
                     break;
@@ -400,17 +346,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 case 6:
                     break;
             }
-
-//            roomMaps("LB-building",rootView);
-
-//            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=monday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
 
             if (res.size() != 0) {
                 for (int i = 0; i < res.size(); i++) {
@@ -423,98 +358,22 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                 }
             }
-
-            return rootView;
         }
 
-
-        public void setTabPosition(int dp) {
-            dayPosition = dp;
-        }
-
-
-        private void start() {
-//            final String url = "http://192.168.2.15:8080/rooms";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            Object reservation = (Object) restTemplate.getForObject(url, Object.class);
-//            AppCompatTextView textView = (AppCompatTextView) getView().findViewById(R.id.RoomSize);
-//            textView.setText(reservation.toString());
-        }
-
-        MyReceiver r;
-
-        public void refresh(int dayPosition) {
+        public void refresh(int daypos) {
 
             rooms = roomMaps(building, getView(), rooms);
 
-            textView.setText("This is  refresh " + dayPosition);
+            textView.setText("This is  refresh " + daypos);
             //refresh content
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
                 Timeslot temp = map.get(key);
-                temp.setPassed(Color.RED);
+                temp.setPassed(Color.GRAY);
                 temp.postInvalidate();
             }
-            ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
-            switch (dayPosition) {
-                case 0:
-                    //res[0] = new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0);
-                    //res[1] = new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1);
-                    //res[2] = new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2);
-                    res.add(new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0));
-                    res.add(new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1));
-                    res.add(new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2));
-                    break;
-                case 1:
-                    res.add(new ReservationObject(4, 1, 1, "Monday", 12, 13, 0));
-                    res.add(new ReservationObject(5, 2, 3, "Monday", 12, 13, 1));
-                    res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
-                    res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
-                    res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
-//                    res[0] = new ReservationObject(4, 1, 1, "Monday", 12, 13, 0);
-//                    res[1] = new ReservationObject(5, 2, 3, "Monday", 12, 13, 1);
-//                    res[2] = new ReservationObject(6, 3, 4, "Monday", 12, 13, 2);
-//                    res[3] = new ReservationObject(7, 2, 5, "Monday", 17, 16, 3);
-//                    res[4] = new ReservationObject(8, 4, 9, "Monday", 12, 13, 4);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-            }
-
-//            roomMaps("LB-building",rootView);
-
-//            //Retrieve all the reservations from backend
-//            final String url = "http://192.168.2.15:8080/dailyReservations?weekDay=monday";
-//            RestTemplate restTemplate = new RestTemplate();
-//            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//            //Must be the reservations objects.
-//            ResponseEntity<Object[]> responseEntity = restTemplate.getForEntity(url, Object[].class);
-//            Object[] objects = responseEntity.getBody();
-
-            if (res.size() != 0) {
-                for (int i = 0; i < res.size(); i++) {
-                    if(!(res.get(i)==null)){
-                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
-                    String key = row + "u" + res.get(i).getStartTime();
-                    Timeslot temp = map.get(key);
-                    temp.setPassed(Color.BLACK);
-                    temp.postInvalidate();
-                    map.put(key, temp);
-                    } else {
-                        System.out.println("Res is null");
-                    }
-                }
-            }
+            setReservations(daypos);
         }
 
         public void onPause() {
@@ -579,8 +438,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     for (int i = 15; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.GONE);
                     }
-
-
                     break;
             }
         }
