@@ -91,7 +91,7 @@ public class AuthenticationControllerTest
     @Test
     public void usernameNotNumReturnsFalse() throws Exception
     {
-        this.mockMvc.perform(get("/login?username=username&password=password1234567890123")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/login?username=username&password=password")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("false"));
     }
 }
