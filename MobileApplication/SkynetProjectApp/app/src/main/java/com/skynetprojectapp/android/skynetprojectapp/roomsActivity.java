@@ -6,23 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,20 +31,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.android.gms.actions.ReserveIntents;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -519,71 +500,53 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
         rooms.clear();
-        Room[] rms = new Room[20];
-        rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[2] = new Room(3, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[3] = new Room(4, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[4] = new Room(5, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[5] = new Room(6, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[6] = new Room(7, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[7] = new Room(8, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[8] = new Room(9, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[9] = new Room(10, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[10] = new Room(11, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[11] = new Room(12, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[12] = new Room(13, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[13] = new Room(14, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[14] = new Room(15, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[15] = new Room(16, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[16] = new Room(17, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[17] = new Room(18, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[18] = new Room(19, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[19] = new Room(20, "LH-244", "NOTHING TO DESCRIBE2", 3);
+        ArrayList<Room> rms = RoomsCatalog.getRoomsFromDB();
+
+
 
         switch (building) {
 
             case "H-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'H') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'H') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
                         String id = "rowtext" + (i + 1);
                         int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                         TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
+                        rowText.setText(rms.get(i).getRoomNumber());
                     }
                 }
                 break;
             case "LB-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'L') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'L') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
                         String id = "rowtext" + (i + 1);
                         int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                         TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
+                        rowText.setText(rms.get(i).getRoomNumber());
                     }
                 }
                 break;
             case "VL-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'V') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'V') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
                         String id = "rowtext" + (i + 1);
                         int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                         TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
+                        rowText.setText(rms.get(i).getRoomNumber());
                     }
                 }
                 break;
             case "B-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'B') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'B') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
                         String id = "rowtext" + (i + 1);
                         int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                         TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
+                        rowText.setText(rms.get(i).getRoomNumber());
                     }
                 }
                 break;
