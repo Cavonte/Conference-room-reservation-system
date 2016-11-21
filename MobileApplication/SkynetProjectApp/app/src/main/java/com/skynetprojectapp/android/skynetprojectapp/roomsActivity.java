@@ -6,23 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -36,20 +31,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.android.gms.actions.ReserveIntents;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,12 +49,18 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    private boolean fromEdit;
+    private ReservationObject modifiedReservation;
     private NavigationView naview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms__drawer);
+
+        fromEdit = getIntent().getBooleanExtra("fromEdit", false); //false is the default value
+        modifiedReservation= (ReservationObject) getIntent().getSerializableExtra("reservation");; // (Unserialized) reservation that is to be modified to be passed to the fragment
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rooms");
@@ -158,31 +145,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
-
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
-        if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(roomsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Rooms) {
-            startActivity(new Intent(roomsActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(roomsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(roomsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_About) {
-            startActivity(new Intent(roomsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Help) {
-            startActivity(new Intent(roomsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(roomsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-        }
-
+        Navigation.navigate(id, roomsActivity.this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -235,6 +202,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private int dayPosition;
         private TextView textView;
         private MyReceiver r;
+        private boolean fragfromedit;
+        private ReservationObject modifiedReservation;
 
 
         public FragMonday() {
@@ -248,6 +217,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public static FragMonday newInstance() {
             FragMonday fragment = new FragMonday();
             Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public static FragMonday newInstance(boolean fromEdit,ReservationObject reservationObject) {
+            FragMonday fragment = new FragMonday();
+            Bundle args = new Bundle();
+            args.putBoolean("fromEdit", fromEdit);
+            args.putSerializable("reservation",reservationObject);
             fragment.setArguments(args);
             return fragment;
         }
@@ -275,8 +253,17 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
 
-//            textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText("This is " + dayPosition);
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                fragfromedit = bundle.getBoolean("fromEdit", false);
+                modifiedReservation= (ReservationObject) bundle.getSerializable("reservation");
+            }
+
+            textView = (TextView) rootView.findViewById(R.id.section_label);
+            if(!(modifiedReservation==null)) textView.setText("This is " + modifiedReservation.getDay()); else textView.setText("Reconsider your life choices");
+
+
+
 
             Thread listeners = new Thread() {
                 public void run() {
@@ -296,6 +283,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 temp.postInvalidate();
                                 Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                                 intent.putExtra("Key", temp.getIndex());
+                                intent.putExtra("fromEdit",fragfromedit );
+                                intent.putExtra("reservation",modifiedReservation);  //provide database with reservation that needs to be modified or canceled
+
+
                                 startActivity(intent);
                             }
                         });
@@ -362,7 +353,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         temp.setPassed(Color.BLUE);
                         temp.postInvalidate();
                         map.put(key, temp);
-                   }
+                    }
 
 
                 }
@@ -555,19 +546,19 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 1:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 2:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 3:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 4:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 5:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
                 case 6:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit,modifiedReservation);
             }
             return null;
 

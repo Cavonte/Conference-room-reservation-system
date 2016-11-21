@@ -1,11 +1,12 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,10 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 public class RoomDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private Button okay;
@@ -36,7 +35,10 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     private AppCompatTextView roomNumber;
     private AppCompatTextView description;
     private AppCompatTextView roomSize;
-    private Button bool,append, reserve;
+    private Button bool, append, reserve;
+    private AlertDialog alertDialog;
+    private boolean modifying;
+    private ReservationObject modifiedReservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         //Second view for the view animator
 
         contentRoomDetail = (LinearLayout) findViewById(R.id.content_room_detail);
-        progress= (ProgressBar) findViewById(R.id.login_progress);
+        progress = (ProgressBar) findViewById(R.id.login_progress);
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
         textView6 = (TextView) findViewById(R.id.textView6);
         roomMain = (TextView) findViewById(R.id.roomMain);
@@ -86,9 +88,9 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         textView5 = (TextView) findViewById(R.id.textView5);
         date1 = (TextView) findViewById(R.id.date1);
         date2 = (TextView) findViewById(R.id.date2);
-        bool =(Button) findViewById(R.id.bool);
-        append=  (Button) findViewById(R.id.append);
-        reserve= (Button) findViewById(R.id.reserve);
+        bool = (Button) findViewById(R.id.bool);
+        append = (Button) findViewById(R.id.append);
+        reserve = (Button) findViewById(R.id.reserve);
         findViewById(R.id.bool).setOnClickListener(this);
         findViewById(R.id.roomDetails).setOnClickListener(this);
         findViewById(R.id.append).setOnClickListener(this);
@@ -98,6 +100,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         description = (AppCompatTextView) findViewById(R.id.Description);
         roomSize = (AppCompatTextView) findViewById(R.id.RoomSize);
         findViewById(R.id.Okay).setOnClickListener(this);
+
+
+        if (getIntent().getBooleanExtra("fromEdit", false))
+            modifying = true;
+        else
+            modifying = false;
+        modifiedReservation= (ReservationObject) getIntent().getSerializableExtra("reservation");
 
 
     }
@@ -123,10 +132,10 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
                 viewAnimator.showPrevious();
                 break;
             case R.id.append:
-                //TODO implement
+                alert(modifying);
                 break;
             case R.id.reserve:
-                //TODO implement
+                alert(modifying);
                 break;
             case R.id.Okay:
                 viewAnimator.showNext();
@@ -135,6 +144,28 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
 
+    }
+
+    private void alert(boolean edit) {
+        alertDialog = new AlertDialog.Builder(RoomDetailActivity.this).create();
+        alertDialog.setTitle("Confirmation");
+        if (edit)
+           if(!(modifiedReservation==null)) alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " +  modifiedReservation.getDay() +  " "  + modifiedReservation.getStartTime()); else alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is null ");
+        else
+            alertDialog.setMessage("Confirm Rerservation ?");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(RoomDetailActivity.this, "Yes", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(RoomDetailActivity.this, "No", Toast.LENGTH_LONG).show();
+            }
+        });
+        alertDialog.show();
     }
 
 

@@ -16,21 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-
-import static com.skynetprojectapp.android.skynetprojectapp.R.id.reserveroom;
-
 
 /**
  * This activity is the reservation pages where the current reservations/ wait list are being displayed.
@@ -54,6 +39,7 @@ public class mainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Reservations");
         setSupportActionBar(toolbar);
+        reservationObjects=new ReservationObject[3];
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,13 +69,13 @@ public class mainActivity extends AppCompatActivity
 
 
         r2 = (Reservation) findViewById(R.id.r2);
-//        r2.setRoomNumber("LB2");
+        r2.setRoomNumber("LB2");
 //        r2.setDay("Tuesday");
         //r2.setOnClickListener(mainActivity.this);
 
 
         r3 = (Reservation) findViewById(R.id.r3);
-//        r3.setRoomNumber("LB3");
+     r3.setRoomNumber("LB3");
 //        r3.setDay("Monday");
         //r3.setOnClickListener(mainActivity.this);
 
@@ -147,6 +133,11 @@ public class mainActivity extends AppCompatActivity
                 break;
             case R.id.editres1:
                 Toast.makeText(mainActivity.this, "Edit res 1" , Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(mainActivity.this,roomsActivity.class);
+                i.putExtra("fromEdit",true); //tell the room activity that we are modifying
+                if(!(reservationObjects[0]==null))  i.putExtra("reservation", reservationObjects[0]); else i.putExtra("reservation", new ReservationObject(4, 1, 1, "Monday", 12, 13, 0));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
                 break;
 
             case R.id.delres2:
@@ -154,10 +145,20 @@ public class mainActivity extends AppCompatActivity
                 break;
             case R.id.editres2:
                 Toast.makeText(mainActivity.this, "Edit res 2" , Toast.LENGTH_SHORT).show();
+                Intent k = new Intent(mainActivity.this,roomsActivity.class);
+                k.putExtra("fromEdit",true); //tell the room activity that we are modifying
+                if(!(reservationObjects[1]==null))  k.putExtra("reservation", reservationObjects[1]); else k.putExtra("reservation", new ReservationObject(4, 1, 1, "Tuesday", 12, 13, 0));
+                k.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(k);
                 break;
 
             case R.id.editres3:
                 Toast.makeText(mainActivity.this, "Edit res 3" , Toast.LENGTH_SHORT).show();
+                Intent j = new Intent(mainActivity.this,roomsActivity.class);
+                j.putExtra("fromEdit",true); //tell the room activity that we are modifying
+                if(!(reservationObjects[2]==null))  j.putExtra("reservation", reservationObjects[2]); else j.putExtra("reservation", new ReservationObject(4, 1, 1, "Wednesday", 12, 13, 0));
+                j.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(j);
                 break;
             case R.id.delres3:
                 alert("delete reservation", 3);
@@ -296,25 +297,7 @@ public class mainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_Reservations) {
-//            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(mainActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Rooms) {
-            startActivity(new Intent(mainActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(mainActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(mainActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_About) {
-            startActivity(new Intent(mainActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Help) {
-            startActivity(new Intent(mainActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(mainActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-        }
-
+        Navigation.navigate(id,mainActivity.this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

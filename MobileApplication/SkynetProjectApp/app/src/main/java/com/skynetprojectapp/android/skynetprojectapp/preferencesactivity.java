@@ -16,16 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
-
-import static com.skynetprojectapp.android.skynetprojectapp.R.id.r1;
-import static com.skynetprojectapp.android.skynetprojectapp.R.id.r2;
 
 /**
  * This activity containts the options/settings available to the user.
@@ -236,26 +231,7 @@ public class preferencesActivity extends AppCompatActivity implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
-        if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(preferencesActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Waitlist) {
-            startActivity(new Intent(preferencesActivity.this, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Rooms) {
-            startActivity(new Intent(preferencesActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(preferencesActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(preferencesActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_About) {
-            startActivity(new Intent(preferencesActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Help) {
-            startActivity(new Intent(preferencesActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(preferencesActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-        }
+        Navigation.navigate(id,preferencesActivity.this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
