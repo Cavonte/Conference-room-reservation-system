@@ -222,6 +222,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private int dayPosition;
         private TextView textView;
         private MyReceiver r;
+        private RoomsCatalog roomscat;
 
 
 
@@ -232,6 +233,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             rowUroomID = new HashMap<Integer, Integer>();
             building = "LB-building";
             dayPosition = 0;
+            roomscat = new RoomsCatalog();
         }
 
         public static FragMonday newInstance() {
@@ -266,7 +268,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("");
-            final ArrayList<Room> rooooms = RoomsCatalog.getRoomsFromDB();
+            final ArrayList<Room> rooms = roomscat.getRoomList();
             Thread listeners = new Thread() {
                 public void run() {
                     Iterator<String> keySetIterator = map.keySet().iterator();
@@ -283,15 +285,15 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 Timeslot temp = (Timeslot) v;
                                 temp.postInvalidate();
                                 temp.setPassed(Color.GREEN);
-                                //char c = key.charAt( 0);
                                 String [] splitString = key.split("u");
-                                //String s = Character.toString( c);
                                 int i = Integer.parseInt(splitString[0]);
-                                //RoomDetailActivity.setRoomId(getRoomId(i));
+                                Room room = roomscat.getRoom(rowUroomID.get(i));
                                 Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                                 intent.putExtra("Key", temp.getIndex());
-                                intent.putExtra("Id", rowUroomID.get(i));
-                                intent.putExtra("RoomNumber",RoomsCatalog.getRoom(i).getRoomNumber());
+                                intent.putExtra("RoomId", room.getRoomId());
+                                intent.putExtra("RoomNumber",room.getRoomNumber());
+                                intent.putExtra("RoomDescription",room.getDescription());
+                                intent.putExtra("RoomSize",room.getRoomSize());
                                 startActivity(intent);
                             }
                         });
@@ -464,9 +466,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
 
         private void roomMaps(String building, View v) {
-
+            rowUroomID.clear();
             rooms.clear();
-            ArrayList<Room> rms = RoomsCatalog.getRoomsFromDB();
+
+            ArrayList<Room> rms = roomscat.getRoomList();
 
 
 
@@ -476,8 +479,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     int counterH = 1;
                     for (int i = 0; i < rms.size(); i++) {
                         if (rms.get(i).getRoomNumber().charAt(0) == 'H') {
-                            rooms.put(rms.get(i).getRoomId(), (i + 1));
-                            //rows.put(i + 1, rms.get(i).getRoomId());
+                            rooms.put(rms.get(i).getRoomId(), counterH);
+                            rowUroomID.put(counterH, rms.get(i).getRoomId());
                             String id = "rowtext" + counterH;
                             int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                             TextView rowText = (TextView) v.findViewById(resID);
@@ -490,8 +493,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     int counterLB = 1;
                     for (int i = 0; i < rms.size(); i++) {
                         if (rms.get(i).getRoomNumber().charAt(0) == 'L') {
-                            rooms.put(rms.get(i).getRoomId(), (i + 1));
-                            //rows.put(i + 1, rms.get(i).getRoomId());
+                            rooms.put(rms.get(i).getRoomId(), counterLB);
+                            rowUroomID.put(counterLB, rms.get(i).getRoomId());
                             String id = "rowtext" + counterLB;
                             int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                             TextView rowText = (TextView) v.findViewById(resID);
@@ -504,8 +507,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     int counterVL = 1;
                     for (int i = 0; i < rms.size(); i++) {
                         if (rms.get(i).getRoomNumber().charAt(0) == 'V') {
-                            rooms.put(rms.get(i).getRoomId(), i + 1);
-                            //rows.put(i + 1, rms.get(i).getRoomId());
+                            rooms.put(rms.get(i).getRoomId(), counterVL);
+                            rowUroomID.put(counterVL, rms.get(i).getRoomId());
                             String id = "rowtext" + counterVL;
                             int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                             TextView rowText = (TextView) v.findViewById(resID);
@@ -518,8 +521,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     int counterB = 1;
                     for (int i = 0; i < rms.size(); i++) {
                         if (rms.get(i).getRoomNumber().charAt(0) == 'B') {
-                            rooms.put(rms.get(i).getRoomId(), i + 1);
-                            //rows.put(i + 1, rms.get(i).getRoomId());
+                            rooms.put(rms.get(i).getRoomId(), counterB);
+                            rowUroomID.put(counterB, rms.get(i).getRoomId());
                             String id = "rowtext" + counterB;
                             int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
                             TextView rowText = (TextView) v.findViewById(resID);

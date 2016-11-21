@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,9 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
-
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 public class RoomDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private Button okay;
@@ -37,6 +33,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     private AppCompatTextView description;
     private AppCompatTextView roomSize;
     private Button bool,append, reserve;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +56,17 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         viewAnimator.setInAnimation(slide_in_left);
         viewAnimator.setOutAnimation(slide_out_right);
 
-        txtRoomid.setText("Room Id: 1");
-        txtRoomNumber.setText("Room Number:LH-340");
-        txtRoomDescription.setText("Description: 1 TV available. Using the following Timeslot    " + getIntent().getStringExtra("Key"));
-        txtRoomSize.setText("Room Size: 5 max");
+        int id = getIntent().getIntExtra("RoomId", 1);
+        String roomnumber = getIntent().getStringExtra("RoomNumber");
+        String des = getIntent().getStringExtra("RoomDescription");
+        int roomsize = getIntent().getIntExtra("RoomSize", 1);
+
+
+        txtRoomid.setText("Room Id:" + id);
+        txtRoomNumber.setText("Room Number: " + roomnumber);
+        txtRoomDescription.setText("Description: " + des + ". Using the following Timeslot  " + getIntent().getStringExtra("Key"));
+        txtRoomSize.setText("Room Size: " + roomsize);
+
 
         String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
         Thread db = new Thread() {
