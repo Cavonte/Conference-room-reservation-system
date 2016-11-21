@@ -1,5 +1,6 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
+
 import android.os.StrictMode;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,24 +12,20 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Emili on 2016-11-17.
- */
+public class ReservationDayCatalog {
 
-public class RoomsCatalog {
+    private static ArrayList<ReservationObject> reservations  = new ArrayList<ReservationObject>();
 
-    private static ArrayList<Room> rooms  = new ArrayList<Room>(55);
-
-    public RoomsCatalog(){
+    public ReservationDayCatalog(){
 
     }
 
-    public static ArrayList<Room> getRoomsFromDB(){
+    public static ArrayList<ReservationObject> getReservationsDayDB(String day){
 
-        rooms.clear();
+        reservations.clear();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() +":8080/rooms";
+        String url = "http://" + IpConfiguration.getIp() +":8080/dailyReservations?weekDay=" + day;
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -42,22 +39,20 @@ public class RoomsCatalog {
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             for(int i = 0; i < s.size(); i++){
 
-                int roomId = s.findValues("id").get(i).asInt();;
-                String roomNumber = s.findValues("roomNumber").get(i).asText();
-                String description = s.findValues("description").get(i).asText();
-                int roomSize = s.findValues("roomSize").get(i).asInt();
+                int resId = s.findValues("id").get(i).asInt();;
+                int roomId = s.findValues("roomId").get(i).asInt();
+                int studentId = s.findValues("studentId").get(i).asInt();
+                String dayReservation = s.findValues("day").get(i).asText();
+                int startTime = s.findValues("startTime").get(i).asInt();
+                int endTime = s.findValues("endTime").get(i).asInt();
+                int position = s.findValues("position").get(i).asInt();
 
-                rooms.add(new Room(roomId,roomNumber, description, roomSize));
+                reservations.add(new ReservationObject(resId, roomId, studentId, dayReservation, startTime, endTime, position));
             }
         }
         catch(IOException e){
             System.out.println("oh snap!");
         }
-        return rooms;
+        return reservations;
     }
-
-    public static Room getRoom(int roomid){
-        return rooms.get(roomid - 1);
-    }
-
 }
