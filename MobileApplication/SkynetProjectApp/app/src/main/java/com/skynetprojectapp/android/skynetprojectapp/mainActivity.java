@@ -3,7 +3,6 @@ package com.skynetprojectapp.android.skynetprojectapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,19 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 import static com.skynetprojectapp.android.skynetprojectapp.R.id.reservation;
 
@@ -243,6 +229,7 @@ public class mainActivity extends AppCompatActivity
 //        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
 //        System.out.println("Delete is " + bool);
 
+        NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
     }
     @Override
     public void onBackPressed() {
