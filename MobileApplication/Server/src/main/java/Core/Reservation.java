@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Reservation extends DomainObject{
     private static final AtomicInteger idCounter = new AtomicInteger();
-    private static final String[] VALID_DAYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
+    private static final String[] VALID_DAYS = {"saturday", "sunday", "monday", "tuesday", "wednesday", "thursday", "friday"};
     private int roomId;
     private int studentId;
     private String day;
