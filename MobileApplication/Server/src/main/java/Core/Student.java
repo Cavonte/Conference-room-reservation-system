@@ -56,4 +56,15 @@ public class Student extends DomainObject{
             return false;
         return true;
     }
+
+    /**
+     * Unimplemented method to encrypt the password before it can be checked against the encrypted passwords in the database
+     * @param password
+     * @return the encrypted password as a String
+     */
+    public static String encryptPassword(String password)
+    {
+        String encryptedPassword = password;
+        return encryptedPassword;
+    }
 }
