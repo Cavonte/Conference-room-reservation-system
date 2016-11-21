@@ -222,8 +222,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
 
         lbm.sendBroadcast(i);
-
-
     }
 
     public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -277,8 +275,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
 
-            textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("");
+//            textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("This is " + dayPosition);
 
             Thread listeners = new Thread() {
                 public void run() {
@@ -314,7 +312,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
             }
 
-            rooms = roomMaps(building, rootView, rooms);
+            roomMaps(building, rootView);
 
             setReservations(this.dayPosition);
 
@@ -322,7 +320,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
 
 
-        private void setReservations(int dayPosition){
+        private void setReservations(int dayPosition) {
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
                 case 0:
@@ -336,6 +334,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
                     res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
                     res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
+                    res.add(new ReservationObject(4, 11, 1, "Monday", 12, 13, 0));
+                    res.add(new ReservationObject(5, 12, 3, "Monday", 12, 13, 1));
+                    res.add(new ReservationObject(6, 13, 4, "Monday", 12, 13, 2));
+                    res.add(new ReservationObject(7, 12, 5, "Monday", 17, 16, 3));
+                    res.add(new ReservationObject(8, 14, 9, "Monday", 12, 13, 4));
                     break;
                 case 2:
                     break;
@@ -351,23 +354,25 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             if (res.size() != 0) {
                 for (int i = 0; i < res.size(); i++) {
-                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
-                    String key = row + "u" + res.get(i).getStartTime();
-                    Timeslot temp = map.get(key);
-                    temp.setPassed(Color.BLUE);
-                    temp.postInvalidate();
-                    map.put(key, temp);
+                    if (!(rooms.get(res.get(i).getRoomId()) == null)) {
+                        int row = rooms.get(res.get(i).getRoomId());
+                        //get the row of the timeslot that is to be modified
+                        String key = row + "u" + res.get(i).getStartTime();
+                        Timeslot temp = map.get(key);
+                        temp.setPassed(Color.BLUE);
+                        temp.postInvalidate();
+                        map.put(key, temp);
+                   }
+
 
                 }
             }
         }
 
         public void refresh(int daypos) {
-
-            rooms = roomMaps(building, getView(), rooms);
-
-            textView.setText("");
-            //refresh content
+            dayPosition = daypos;
+            spinner.setSelection(0);
+            roomMaps(building, getView());
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
@@ -404,10 +409,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             for (int i = 1; i <= 20; i++) {
                 mapRow.get((i) + "").setVisibility(View.GONE);
             }
+
             switch (position) {
                 case 0:
-
-                    roomMaps("LB-building", getView(), rooms);
+                    roomMaps("LB-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -416,14 +421,14 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
                 case 1:
-                    roomMaps("H-building", getView(), rooms);
+                    roomMaps("H-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
                     break;
                 case 2:
 
-                    roomMaps("VL-building", getView(), rooms);
+                    roomMaps("VL-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -433,7 +438,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                     break;
                 case 3:
-                    roomMaps("B-building", getView(), rooms);
+                    roomMaps("B-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -442,10 +447,92 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
             }
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                Timeslot temp = map.get(key);
+                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                temp.postInvalidate();
+            }
+            setReservations(dayPosition);
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
+        }
+
+        private void roomMaps(String building, View v) {
+            rooms.clear();
+            Room[] rms = new Room[20];
+
+            rms[0] = new Room(1, "LB-234", "NOTHING TO DESCRIBE", 4);
+            rms[1] = new Room(2, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[2] = new Room(3, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[3] = new Room(4, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[4] = new Room(5, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[5] = new Room(6, "LB-234", "NOTHING TO DESCRIBE", 4);
+            rms[6] = new Room(7, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[7] = new Room(8, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[8] = new Room(9, "LB-244", "NOTHING TO DESCRIBE2", 3);
+            rms[9] = new Room(10, "H-244", "NOTHING TO DESCRIBE2", 3);
+            rms[10] = new Room(11, "H-234", "NOTHING TO DESCRIBE", 4);
+            rms[11] = new Room(12, "H-244", "NOTHING TO DESCRIBE2", 3);
+            rms[12] = new Room(13, "H-244", "NOTHING TO DESCRIBE2", 3);
+            rms[13] = new Room(14, "H-244", "NOTHING TO DESCRIBE2", 3);
+            rms[14] = new Room(15, "B-244", "NOTHING TO DESCRIBE2", 3);
+            rms[15] = new Room(16, "B-234", "NOTHING TO DESCRIBE", 4);
+            rms[16] = new Room(17, "B-244", "NOTHING TO DESCRIBE2", 3);
+            rms[17] = new Room(18, "B-244", "NOTHING TO DESCRIBE2", 3);
+            rms[18] = new Room(19, "VL-244", "NOTHING TO DESCRIBE2", 3);
+            rms[19] = new Room(20, "VL-244", "NOTHING TO DESCRIBE2", 3);
+
+            switch (building) {
+
+                case "H-building":
+                    for (int i = 0; i < rms.length; i++) {
+                        if (rms[i].getRoomNumber().charAt(0) == 'H') {
+                            rooms.put(rms[i].getRoomId(), (i + 1));
+                            String id = "rowtext" + (i + 1);
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                    break;
+                case "LB-building":
+                    for (int i = 0; i < rms.length; i++) {
+                        if (rms[i].getRoomNumber().charAt(0) == 'L') {
+                            rooms.put(rms[i].getRoomId(), (i + 1));
+                            String id = "rowtext" + (i + 1);
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                    break;
+                case "VL-building":
+                    for (int i = 0; i < rms.length; i++) {
+                        if (rms[i].getRoomNumber().charAt(0) == 'V') {
+                            rooms.put(rms[i].getRoomId(), (i + 1));
+                            String id = "rowtext" + (i + 1);
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                    break;
+                case "B-building":
+                    for (int i = 0; i < rms.length; i++) {
+                        if (rms[i].getRoomNumber().charAt(0) == 'B') {
+                            rooms.put(rms[i].getRoomId(), (i + 1));
+                            String id = "rowtext" + (i + 1);
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms[i].getRoomNumber());
+                        }
+                    }
+                    break;
+            }
         }
 
     }
@@ -515,80 +602,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         }
 
 
-    }
-
-    private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
-        rooms.clear();
-        Room[] rms = new Room[20];
-        rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[2] = new Room(3, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[3] = new Room(4, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[4] = new Room(5, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[5] = new Room(6, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[6] = new Room(7, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[7] = new Room(8, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[8] = new Room(9, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[9] = new Room(10, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[10] = new Room(11, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[11] = new Room(12, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[12] = new Room(13, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[13] = new Room(14, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[14] = new Room(15, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[15] = new Room(16, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[16] = new Room(17, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[17] = new Room(18, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[18] = new Room(19, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[19] = new Room(20, "LH-244", "NOTHING TO DESCRIBE2", 3);
-
-        switch (building) {
-
-            case "H-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'H') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "LB-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'L') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "VL-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'V') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "B-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'B') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-        }
-        return rooms;
     }
 
 
