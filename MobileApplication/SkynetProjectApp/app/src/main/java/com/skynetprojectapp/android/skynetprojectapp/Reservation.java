@@ -21,9 +21,6 @@ public class Reservation extends View {
     private String roomNumber,day,hours, location, presentation;
 
     private boolean presTool= false;
-
-
-
     private int mExampleColor = Color.WHITE; // TODO: use a default from R.color...
     private float mExampleDimension = 0; // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;

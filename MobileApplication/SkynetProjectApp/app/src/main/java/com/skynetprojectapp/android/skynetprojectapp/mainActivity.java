@@ -32,7 +32,7 @@ import java.io.IOException;
 
 import static com.skynetprojectapp.android.skynetprojectapp.R.id.reserveroom;
 
-    
+
 /**
  * This activity is the reservation pages where the current reservations/ wait list are being displayed.
  * Created by Bruce
