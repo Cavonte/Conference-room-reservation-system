@@ -14,12 +14,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * Created by Emili on 2016-10-25.
  */
 
-public class RoomMapper {
+public class RoomMapper
+{
 
     private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 
-    public RoomMapper(){
+    public RoomMapper()
+    {
     }
 
     public static Room getData(int roomId) throws ClassNotFoundException, SQLException
@@ -39,7 +41,7 @@ public class RoomMapper {
     private static Room getDataNoLock(int roomId) throws ClassNotFoundException, SQLException
     {
         Room room = RoomIdentityMap.getRoomFromMap(roomId);
-        if (room != null)
+        if(room != null)
         {
             return room;
         }
@@ -73,19 +75,23 @@ public class RoomMapper {
         return false;
     }
 
-    public static ArrayList<Room> getAllData() throws SQLException, ClassNotFoundException {
+    public static ArrayList<Room> getAllData() throws SQLException, ClassNotFoundException
+    {
 
         readWriteLock.readLock().lock();
 
-        try {
+        try
+        {
             ResultSet resultSet = RoomsTDG.findAll();
             ArrayList<Room> roomList = new ArrayList<Room>();
 
-            if (resultSet == null)
+            if(resultSet == null)
                 return null;
-            else {
+            else
+            {
 
-                while (resultSet.next()) {
+                while(resultSet.next())
+                {
 
                     int roomid1 = resultSet.getInt("roomId");
                     String roomNumber1 = resultSet.getString("roomNumber");
@@ -98,12 +104,14 @@ public class RoomMapper {
                 return roomList;
             }
         }
-        finally{
+        finally
+        {
             readWriteLock.readLock().unlock();
         }
     }
 
-    public static void makeNew(int i, String rn, String d, int rs) throws ClassNotFoundException, SQLException{
+    public static void makeNew(int i, String rn, String d, int rs) throws ClassNotFoundException, SQLException
+    {
 
         readWriteLock.writeLock().lock();
 
@@ -142,52 +150,61 @@ public class RoomMapper {
         }
     }
 
-    public static void erase(Room r) throws ClassNotFoundException, SQLException{
+    public static void erase(Room r) throws ClassNotFoundException, SQLException
+    {
 
         readWriteLock.writeLock().lock();
 
-        try {
+        try
+        {
             RoomIdentityMap.delete(r);
             UnitOfWork.registerDelete(r);
             UnitOfWork.commit();
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void saveToDB(Room ro) throws ClassNotFoundException, SQLException{
-
+    public static void saveToDB(ArrayList<Room> newRooms) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
-            RoomsTDG.insert(ro);
+        try
+        {
+            RoomsTDG.insert(newRooms);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void deleteToDB(Room ro) throws ClassNotFoundException, SQLException{
-
+    public static void deleteToDB(ArrayList<Room> removedRooms) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
-            RoomsTDG.delete(ro);
+        try
+        {
+            RoomsTDG.delete(removedRooms);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
 
-    public static void updateToDB(Room ro) throws ClassNotFoundException, SQLException{
-
+    public static void updateToDB(ArrayList<Room> dirtyRooms) throws ClassNotFoundException, SQLException
+    {
         readWriteLock.writeLock().lock();
 
-        try {
-            RoomsTDG.update(ro);
+        try
+        {
+            RoomsTDG.update(dirtyRooms);
         }
-        finally{
+        finally
+        {
             readWriteLock.writeLock().unlock();
         }
     }
