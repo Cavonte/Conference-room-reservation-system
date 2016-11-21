@@ -595,6 +595,61 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
+    private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
+        rooms.clear();
+        ArrayList<Room> rms = RoomsCatalog.getRoomsFromDB();
+
+
+
+        switch (building) {
+
+            case "H-building":
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'H') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
+                        String id = "rowtext" + (i + 1);
+                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                        TextView rowText = (TextView) v.findViewById(resID);
+                        rowText.setText(rms.get(i).getRoomNumber());
+                    }
+                }
+                break;
+            case "LB-building":
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'L') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
+                        String id = "rowtext" + (i + 1);
+                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                        TextView rowText = (TextView) v.findViewById(resID);
+                        rowText.setText(rms.get(i).getRoomNumber());
+                    }
+                }
+                break;
+            case "VL-building":
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'V') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
+                        String id = "rowtext" + (i + 1);
+                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                        TextView rowText = (TextView) v.findViewById(resID);
+                        rowText.setText(rms.get(i).getRoomNumber());
+                    }
+                }
+                break;
+            case "B-building":
+                for (int i = 0; i < rms.size(); i++) {
+                    if (rms.get(i).getRoomNumber().charAt(0) == 'B') {
+                        rooms.put(rms.get(i).getRoomId(), i + 1);
+                        String id = "rowtext" + (i + 1);
+                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                        TextView rowText = (TextView) v.findViewById(resID);
+                        rowText.setText(rms.get(i).getRoomNumber());
+                    }
+                }
+                break;
+        }
+        return rooms;
+    }
 
 }
 
