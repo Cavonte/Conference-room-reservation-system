@@ -3,7 +3,6 @@ package com.skynetprojectapp.android.skynetprojectapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -258,6 +257,7 @@ public class mainActivity extends AppCompatActivity
 //        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
 //        System.out.println("Delete is " + bool);
 
+        NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
     }
     @Override
     public void onBackPressed() {
