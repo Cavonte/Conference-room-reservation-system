@@ -36,7 +36,7 @@ import java.io.IOException;
  * This activity is the reservation pages where the current wait list are being displayed.
  * Created by Bruce,Dias
  */
-public class WaitlistActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+public class WaitlistActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private Button reserve;
     private ImageButton del1, del2, del3, ed1, ed2, ed3, refresh;
     private Waitlist r1, r2, r3;
@@ -44,7 +44,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
     private AlertDialog alertDialog;
     private ReservationObject[] reservationObjects;
     private int amountOfReservation;
-    private  RoomsCatalog rc;
+    private RoomsCatalog rc;
 
 
     @Override
@@ -63,7 +63,6 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
 
         rc = new RoomsCatalog();
@@ -106,7 +105,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
         arrReservationsView = new Waitlist[3];
         int counter = 1;
         for (int i = 0; i < reservationObjects.length; i++) {
-            if (reservationObjects[i].getPosition() == 1 && i < arrReservationsView.length ) {
+            if (reservationObjects[i] != null && reservationObjects[i].getPosition() >= 1 && i < arrReservationsView.length) {
                 String id = "r" + (counter);
                 int resID = getResources().getIdentifier(id, "id", getPackageName());
                 arrReservationsView[i] = (Waitlist) findViewById(resID);
@@ -120,6 +119,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
                         arrReservationsView[i].setLocation(room.getRoomNumber());
                     }
                     arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00 ");
+                    arrReservationsView[i].setWaitlist("You are #" + reservationObjects[i].getPosition() + " in the wait list");
                     arrReservationsView[i].setVisibility(View.VISIBLE);
                     String del = "delres" + (counter);
                     int delID = getResources().getIdentifier(del, "id", getPackageName());
@@ -135,6 +135,12 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
         }
         amountOfReservation = reservationObjects.length;
 
+        reserve = (Button) findViewById(R.id.reserveroom);
+        reserve.setOnClickListener(WaitlistActivity.this);
+
+        refresh = (ImageButton) findViewById(R.id.refresh);
+        refresh.setOnClickListener(this);
+
 
     }
 
@@ -144,11 +150,12 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
             case R.id.refresh:
                 //refresh the reservations and their data. For now they are back to visible, but they should be visible or  not based on the user reservation
                 for (int j = 0; j < reservationObjects.length; j++) {
-                    reservationObjects[j] = null;
+                    reservationObjects[j] = null; //set the content of the waitlist object array to null
                 }
                 for (int k = 0; k < arrReservationsView.length; k++) {
-                    arrReservationsView[k] = null;
+                    arrReservationsView[k] = null;//set the content of the waitlist ui objects array to null
                 }
+                //set the ui elements to visibility gone
                 r1.setVisibility(View.GONE);
                 r2.setVisibility(View.GONE);
                 r3.setVisibility(View.GONE);
@@ -162,11 +169,12 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
                 ed2.setVisibility(View.GONE);
                 ed3.setVisibility(View.GONE);
 
+
                 requestReservationList(27526711);
 //                = new Reservation[reservationObjects.length];
                 int counter = 1;
                 for (int i = 0; i < reservationObjects.length; i++) {
-                    if (reservationObjects[i].getPosition() == 1 && i < arrReservationsView.length) {
+                    if (reservationObjects[i] != null && reservationObjects[i].getPosition() >= 1 && i < arrReservationsView.length) {
                         String id = "r" + (counter);
                         int resID = getResources().getIdentifier(id, "id", getPackageName());
                         arrReservationsView[i] = (Waitlist) findViewById(resID);
@@ -188,6 +196,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
                                 arrReservationsView[i].setLocation(room.getRoomNumber());
                             }
                             arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00 ");
+                            arrReservationsView[i].setWaitlist("You are #" + reservationObjects[i].getPosition() + " in the wait list");
                         }
                         counter++;
                     }
@@ -294,57 +303,63 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
 
     private void requestReservationList(int studentId) {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + ":8080/userReservations?studentId=" + studentId;
-        //http://172.31.49.79:8080/userReservations?studentId=27526711
-        RestTemplate restTemplate = new RestTemplate();
-
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        String responseEntity = restTemplate.getForObject(url, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-
         try {
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String url = "http://" + IpConfiguration.getIp() + ":8080/userReservations?studentId=" + studentId;
+            //http://172.31.49.79:8080/userReservations?studentId=27526711
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            String responseEntity = restTemplate.getForObject(url, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
 
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             reservationObjects = new ReservationObject[s.size()];
+            int counter = 0;
             for (int i = 0; i < s.size(); i++) {
+                if (s.findValues("position").get(i).asInt() > 0) { //if the position is more than 0 meaning  that it is a  wait list and not a reservation
+                    int id = s.findValues("id").get(i).asInt();
+                    int roomId = s.findValues("roomId").get(i).asInt();
+                    int sId = s.findValues("studentId").get(i).asInt();
+                    String day = s.findValues("day").get(i).asText();
+                    int startTime = s.findValues("startTime").get(i).asInt();
+                    int endTime = s.findValues("endTime").get(i).asInt();
+                    int position = s.findValues("position").get(i).asInt();
 
-                int id = s.findValues("id").get(i).asInt();
-                int roomId = s.findValues("roomId").get(i).asInt();
-                int sId = s.findValues("studentId").get(i).asInt();
-                String day = s.findValues("day").get(i).asText();
-                int startTime = s.findValues("startTime").get(i).asInt();
-                int endTime = s.findValues("endTime").get(i).asInt();
-                int position = s.findValues("position").get(i).asInt();
 
-
-                reservationObjects[i] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
+                    reservationObjects[counter] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
+                    counter++;
+                }
             }
         } catch (IOException e) {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            System.out.println("Uhhhh, It crashed again" + e.getMessage());
         }
     }
 
     private void requestDeleteReservation(int studentId, int reservationId) {
+        try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String url = "http://" + IpConfiguration.getIp() + ":8080/deleteReservation";
+            RestTemplate restTemplate = new RestTemplate();
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + ":8080/deleteReservation";
-        RestTemplate restTemplate = new RestTemplate();
+            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+            multiValueMap.add("studentId", studentId + "");
+            multiValueMap.add("reservationId", reservationId + "");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
 
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
-        multiValueMap.add("studentId", studentId + "");
-        multiValueMap.add("reservationId", reservationId + "");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+            Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
+            System.out.println("Delete is " + bool);
 
-        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
-        System.out.println("Delete is " + bool);
-
-        NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
+            NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
+        } catch (Exception e) {
+            System.out.println("Sigh" + e.getMessage());
+        }
     }
 
 
@@ -386,7 +401,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Navigation.navigate(id,WaitlistActivity.this,getIntent().getIntExtra("studentId",0));
+        Navigation.navigate(id, WaitlistActivity.this, getIntent().getIntExtra("studentId", 0));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

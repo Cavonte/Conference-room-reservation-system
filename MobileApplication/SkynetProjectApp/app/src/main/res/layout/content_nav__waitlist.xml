@@ -50,7 +50,7 @@
                     app:location="H-Building"
                     app:day="Friday"
                     app:hours="12:00:00 to 13:00:00"
-                    app:waitlist="You are #1 in waitlist"
+                    app:waitlist="You are #1 in the wait list"
                     app:presentation="No presentation Material"
                     android:onClick="onClick"
                     android:layout_width="310dp" />
@@ -100,7 +100,7 @@
                     app:location="H-Building"
                     app:day="Friday"
                     app:hours="12:00:00 to 13:00:00"
-                    app:waitlist="You are #1 in waitlist"
+                    app:waitlist="You are #1 in the wait list"
                     app:presentation="No presentation Material"
                     android:onClick="onClick"
                     android:layout_width="310dp" />
@@ -149,7 +149,7 @@
                     app:location="H-Building"
                     app:day="Friday"
                     app:hours="12:00:00 to 13:00:00"
-                    app:waitlist="You are #1 in waitlist"
+                    app:waitlist="You are #1 in the wait list"
                     app:presentation="No presentation Material"
                     android:onClick="onClick"
                     android:layout_width="310dp" />

@@ -109,7 +109,7 @@ public class mainActivity extends AppCompatActivity
         arrReservationsView = new Reservation[3];
         int counter = 1;
         for (int i = 0; i < reservationObjects.length; i++) {
-            if (reservationObjects[i].getPosition() == 0 && !(i > arrReservationsView.length)) {
+            if (reservationObjects[i] != null && reservationObjects[i].getPosition() == 0 && i < arrReservationsView.length) {
                 String id = "r" + (counter);
                 int resID = getResources().getIdentifier(id, "id", getPackageName());
                 arrReservationsView[i] = (Reservation) findViewById(resID);
@@ -168,7 +168,7 @@ public class mainActivity extends AppCompatActivity
 //                = new Reservation[reservationObjects.length];
                 int counter = 1;
                 for (int i = 0; i < reservationObjects.length; i++) {
-                    if (reservationObjects[i].getPosition() == 0 && !(i > arrReservationsView.length)) {
+                    if (reservationObjects[i] != null && reservationObjects[i].getPosition() == 0 && i < arrReservationsView.length) {
                         String id = "r" + (counter);
                         int resID = getResources().getIdentifier(id, "id", getPackageName());
                         arrReservationsView[i] = (Reservation) findViewById(resID);
@@ -296,57 +296,66 @@ public class mainActivity extends AppCompatActivity
 
     private void requestReservationList(int studentId) {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + ":8080/userReservations?studentId=" + studentId;
-        //http://172.31.49.79:8080/userReservations?studentId=27526711
-        RestTemplate restTemplate = new RestTemplate();
-
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        String responseEntity = restTemplate.getForObject(url, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-
         try {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String url = "http://" + IpConfiguration.getIp() + ":8080/userReservations?studentId=" + studentId;
+            //http://172.31.49.79:8080/userReservations?studentId=27526711
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            String responseEntity = restTemplate.getForObject(url, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+
 
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             reservationObjects = new ReservationObject[s.size()];
+            int counter = 0;
             for (int i = 0; i < s.size(); i++) {
+                if (s.findValues("position").get(i).asInt() == 0) { //if the position is  0 meaning  that it is a reservation
+                    int id = s.findValues("id").get(i).asInt();
+                    int roomId = s.findValues("roomId").get(i).asInt();
+                    int sId = s.findValues("studentId").get(i).asInt();
+                    String day = s.findValues("day").get(i).asText();
+                    int startTime = s.findValues("startTime").get(i).asInt();
+                    int endTime = s.findValues("endTime").get(i).asInt();
+                    int position = s.findValues("position").get(i).asInt();
 
-                int id = s.findValues("id").get(i).asInt();
-                int roomId = s.findValues("roomId").get(i).asInt();
-                int sId = s.findValues("studentId").get(i).asInt();
-                String day = s.findValues("day").get(i).asText();
-                int startTime = s.findValues("startTime").get(i).asInt();
-                int endTime = s.findValues("endTime").get(i).asInt();
-                int position = s.findValues("position").get(i).asInt();
 
-
-                reservationObjects[i] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
+                    reservationObjects[i] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
+                    counter++;
+                }
             }
-        } catch (IOException e) {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            }catch(IOException e){
+                System.out.println("Uhhhh, It crashed again" + e.getMessage());
+            }
         }
-    }
 
     private void requestDeleteReservation(int studentId, int reservationId) {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + ":8080/deleteReservation";
-        RestTemplate restTemplate = new RestTemplate();
+        try {
 
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
-        multiValueMap.add("studentId", studentId + "");
-        multiValueMap.add("reservationId", reservationId + "");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String url = "http://" + IpConfiguration.getIp() + ":8080/deleteReservation";
+            RestTemplate restTemplate = new RestTemplate();
 
-        Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
-        System.out.println("Delete is " + bool);
+            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+            multiValueMap.add("studentId", studentId + "");
+            multiValueMap.add("reservationId", reservationId + "");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
 
-        NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
+            Boolean bool = restTemplate.postForObject(url, entity, Boolean.class);
+            System.out.println("Delete is " + bool);
+
+            NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
+
+        } catch (Exception e) {
+            System.out.println("Sigh" + e.getMessage());
+        }
     }
 
     @Override
