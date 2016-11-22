@@ -126,6 +126,6 @@ public class Reservation extends DomainObject{
 
     public static boolean validTime(int time)
     {
-        return (time >= 8 && time <= 23);
+        return (time >= 7 && time <= 24);
     }
 }
