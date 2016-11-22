@@ -1,6 +1,7 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -21,6 +22,11 @@ public  class Navigation {
             intent.putExtra("studentId",studentID);
             prev.startActivity(intent);
         } else if (id == R.id.nav_Rooms) {
+
+//            final ProgressDialog progressDialog = new ProgressDialog(prev,R.style.AppTheme);
+//            progressDialog.setIndeterminate(true);
+//            progressDialog.setMessage("Loading...");
+//            progressDialog.show();
             Intent intent = new Intent(prev, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("studentId",studentID);
             prev.startActivity(intent);

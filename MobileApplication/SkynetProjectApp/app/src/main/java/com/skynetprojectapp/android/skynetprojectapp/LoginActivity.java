@@ -262,7 +262,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-<<<<<<< HEAD
             // TODO: attempt authentication against a network service.
 
             try {
@@ -282,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if(mStudentId.equals("12345678")) {
                 System.out.print(mPassword.equals("admin"));
-                return mPassword.equals("admin");
+                return mPassword.equals("administrator");
             }
 
             //TODO: delete this

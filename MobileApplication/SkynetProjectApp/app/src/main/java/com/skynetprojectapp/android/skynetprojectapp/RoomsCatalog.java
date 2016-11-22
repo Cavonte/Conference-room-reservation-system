@@ -31,8 +31,6 @@ public class RoomsCatalog {
         String responseEntity = restTemplate.getForObject(url, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-
-
         try {
 
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
