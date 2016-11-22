@@ -49,7 +49,7 @@ public class ChangePasswordControllerTest
 
         when(StudentMapper.getData(12345678)).thenReturn(student);
 
-        this.mockMvc.perform(post("/changePassword").param("username", "12345678").param("password", "newPasswordHere")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(post("/changePassword").param("username", "12345678").param("newPassword", "newPasswordHere")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
 
@@ -58,7 +58,7 @@ public class ChangePasswordControllerTest
     {
         try
         {
-            this.mockMvc.perform(post("/changePassword").param("username", "1234").param("password", "pass")).andDo(print());
+            this.mockMvc.perform(post("/changePassword").param("username", "1234").param("newPassword", "pass")).andDo(print());
             fail();
         }
         catch(/*IllegalArgument*/Exception e)
@@ -72,7 +72,7 @@ public class ChangePasswordControllerTest
     {
         try
         {
-            this.mockMvc.perform(post("/changePassword").param("username", "123456781234567890123").param("password", "password1234567890123")).andDo(print());
+            this.mockMvc.perform(post("/changePassword").param("username", "123456781234567890123").param("newPassword", "password1234567890123")).andDo(print());
             fail();
         }
         catch(/*IllegalArgument*/Exception e)
@@ -86,7 +86,7 @@ public class ChangePasswordControllerTest
     {
         try
         {
-            this.mockMvc.perform(post("/changePassword").param("username", "username").param("password", "password1234567890123")).andDo(print());
+            this.mockMvc.perform(post("/changePassword").param("username", "username").param("newPassword", "password1234567890123")).andDo(print());
             fail();
         }
         catch(/*IllegalArgument*/Exception e)

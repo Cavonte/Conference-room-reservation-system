@@ -38,19 +38,9 @@ import java.util.List;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    //private EditText mEmailView;
-    private Button vip;
     private EditText mStudentView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -77,32 +67,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button mSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-
-        vip = (Button) findViewById(R.id.vipbutton);
-        vip.setOnClickListener(new OnClickListener() {
+        Button mCancelButton = (Button) findViewById(R.id.cancel);
+        mCancelButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            public void onClick(View view) {
+                cancel();
             }
         });
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
-    private void attemptLogin() {
-        if (mAuthTask != null) {
+    private void attemptLogin()
+    {
+        if (mAuthTask != null)
+        {
             return;
         }
 
@@ -130,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mStudentView;
             cancel = true;
         } else if (!isStudentID(studentId)) {
-            mStudentView.setError(getString(R.string.error_invalid_email));
+            mStudentView.setError(getString(R.string.error_invalid_studentId));
             focusView = mStudentView;
             cancel = true;
         }
@@ -148,13 +139,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isStudentID(String studentId){
-        return studentId.length() >=4 ;
+    private boolean isStudentID(String studentId)
+    {
+        if(studentId.length() < 8 || studentId.length() > 20)
+            return false;
+        try
+        {
+            Integer.parseInt(studentId);
+            return true;
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        if(password.length() < 8 || password.length() > 20)
+            return false;
+        return true;
+    }
+
+    private void cancel()
+    {
+        System.exit(0);
     }
 
     private void showProgress(final boolean show) {
@@ -258,30 +266,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+            //TODO: delete this
+            if(mStudentId.equals("administrator")) {
+                System.out.print(mPassword.equals("administrator"));
+                return  mPassword.equals("administrator");
             }
 
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(mStudentId)) {
-//                    // Account exists, return true if the password matches.
-//                    return pieces[1].equals(mPassword);
-//                }
-//            }
-
-            if(mStudentId.equals("admin")) {
-                System.out.print(mPassword.equals("admin"));
-                return  mPassword.equals("admin");
-            }
-
+            return IpConfiguration.logIn(mStudentId, mPassword);
             // TODO: register the new account here.
-            return false;
+            //return false;
         }
 
         @Override

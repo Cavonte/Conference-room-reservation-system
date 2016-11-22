@@ -95,29 +95,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Credentials are admin/admin"
-                    android:textAlignment="center"
-                    tools:ignore="HardcodedText" />
-
 
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/vipbutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:background="@color/colorPrimary"
-                    android:text="Vip"
-                    android:textColor="@color/colorPrimaryDark" />
 
 
             </FrameLayout>
