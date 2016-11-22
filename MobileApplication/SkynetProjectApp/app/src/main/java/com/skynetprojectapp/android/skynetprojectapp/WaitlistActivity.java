@@ -206,11 +206,12 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
                 break;
 
             case R.id.reserveroom:
-                if (amountOfReservation == 3) {
-                    Toast.makeText(WaitlistActivity.this, "Leave some for the others", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(WaitlistActivity.this, "RoomsActivity", Toast.LENGTH_SHORT).show();
-                }
+//                if (amountOfReservation == 3) {
+//                    Toast.makeText(WaitlistActivity.this, "Leave some for the others", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(WaitlistActivity.this, "RoomsActivity", Toast.LENGTH_SHORT).show();
+//                }
+                Navigation.navigate(WaitlistActivity.this,mainActivity.class, getIntent().getIntExtra("studentId", 0));
                 break;
             case R.id.delres1:
                 alert("delete reservation", 1, arrReservationsView[0].getResI());
