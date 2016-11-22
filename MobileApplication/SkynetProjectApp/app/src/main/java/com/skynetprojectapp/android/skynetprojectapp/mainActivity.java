@@ -323,7 +323,7 @@ public class mainActivity extends AppCompatActivity
                     int position = s.findValues("position").get(i).asInt();
 
 
-                    reservationObjects[i] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
+                    reservationObjects[counter] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
                     counter++;
                 }
             }
