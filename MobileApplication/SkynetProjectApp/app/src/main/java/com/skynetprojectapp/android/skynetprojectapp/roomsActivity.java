@@ -84,8 +84,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         naview = (NavigationView) findViewById(R.id.nav_view);
         naview.setNavigationItemSelectedListener(this);
 
-        final Thread tabthread = new Thread() {
-            public void run() {
 
                 host = (TabHost) findViewById(R.id.roomTabs);
                 host.setup();
@@ -131,9 +129,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 spec.setContent(R.id.tab7);
                 spec.setIndicator("Sa");
                 host.addTab(spec);
-            }
-        };
-        tabthread.start();
 
         host.setOnTabChangedListener(this);
 

@@ -16,9 +16,11 @@ import android.view.View;
  * This custom class allows to customize and create the view that shows the details of the reservation.
  * Created by Bruce
  */
-public class Reservation extends View {
+public class Reservation extends View  {
     private String mExampleString; // TODO: use a default from R.string...
     private String roomNumber,day,hours, location, presentation;
+
+    private int resI=0;
 
     private boolean presTool= false;
     private int mExampleColor = Color.WHITE; // TODO: use a default from R.color...
@@ -29,6 +31,7 @@ public class Reservation extends View {
     private Paint mPaint;
     private float mTextWidth;
     private float mTextHeight;
+
 
 
     public Reservation(Context context) {
@@ -268,4 +271,13 @@ public class Reservation extends View {
         this.day = day;
         invalidateTextPaintAndMeasurements();
     }
+
+    public int getResI() {
+        return resI;
+    }
+
+    public void setResI(int resI) {
+        this.resI = resI;
+    }
+
 }

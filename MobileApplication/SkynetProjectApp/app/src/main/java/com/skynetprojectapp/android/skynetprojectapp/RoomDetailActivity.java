@@ -160,7 +160,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         if (edit)
            if(!(modifiedReservation==null)) alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " +  modifiedReservation.getDay() +  " "  + modifiedReservation.getStartTime()); else alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is null ");
         else
-            alertDialog.setMessage("Confirm Rerservation ?");
+            alertDialog.setMessage("Confirm Rerservation ?"); //regular reservation
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
