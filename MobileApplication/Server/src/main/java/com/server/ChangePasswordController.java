@@ -19,7 +19,7 @@ public class ChangePasswordController
      * @throws IllegalArgumentException if username or password are in an invalid format
      */
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST,produces = "application/json")
-    public boolean login(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="password", defaultValue="") String newPassword) throws ClassNotFoundException, SQLException
+    public boolean changePassword(@RequestParam(value="username", defaultValue="") String username, @RequestParam(value="newPassword", defaultValue="") String newPassword) throws ClassNotFoundException, SQLException
     {
         if(!areValidFormat(username, newPassword))
             throw new IllegalArgumentException("Student id or password were in an invalid format.");
