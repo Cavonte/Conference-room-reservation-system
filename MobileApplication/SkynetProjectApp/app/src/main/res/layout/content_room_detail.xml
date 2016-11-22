@@ -195,8 +195,8 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="199dp">
+                android:layout_width="315dp"
+                android:layout_height="127dp">
 
                 <Button
                     android:id="@+id/bool"

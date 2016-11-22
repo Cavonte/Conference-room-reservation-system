@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Interpolator;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -32,13 +31,10 @@ import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import static android.R.attr.key;
 
 
 /**
@@ -84,8 +80,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         naview = (NavigationView) findViewById(R.id.nav_view);
         naview.setNavigationItemSelectedListener(this);
 
-        final Thread tabthread = new Thread() {
-            public void run() {
+
 
                 host = (TabHost) findViewById(R.id.roomTabs);
                 host.setup();
@@ -131,9 +126,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 spec.setContent(R.id.tab7);
                 spec.setIndicator("Sa");
                 host.addTab(spec);
-            }
-        };
-        tabthread.start();
+
+
+
 
         host.setOnTabChangedListener(this);
 
@@ -221,6 +216,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private boolean fragfromedit;
         private ReservationObject modifiedReservation;
         private RoomsCatalog roomscat;
+        private ArrayList<ReservationObject> res;
+        private ReservationDayCatalog resCatalog;
+
+        //TODO: make studentId point to the user id that is currently logged in.
+        //Here it will be based on the user id
+        private int studentId = 44444444;
 
 
         public FragMonday() {
@@ -231,6 +232,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             building = "LB-building";
             dayPosition = 0;
             roomscat = new RoomsCatalog();
+            resCatalog = new ReservationDayCatalog();
         }
 
         public static FragMonday newInstance() {
@@ -284,8 +286,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 //            textView = (TextView) rootView.findViewById(R.id.section_label);
 //            textView.setText();
             final ArrayList<Room> rooms = roomscat.getRoomList();
-            Thread listeners = new Thread() {
-                public void run() {
+
                     Iterator<String> keySetIterator = map.keySet().iterator();
                     while (keySetIterator.hasNext()) {
                         final String key = keySetIterator.next();
@@ -303,6 +304,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 String[] splitString = key.split("u");
                                 int i = Integer.parseInt(splitString[0]);
                                 Room room = roomscat.getRoom(rowUroomID.get(i));
+                                ReservationObject res = resCatalog.getRoomBasedOnReservation(room.getRoomId());
+
                                 Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                                 intent.putExtra("Key", temp.getIndex());
                                 intent.putExtra("fromEdit", fragfromedit);
@@ -311,13 +314,54 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 intent.putExtra("RoomNumber", room.getRoomNumber());
                                 intent.putExtra("RoomDescription", room.getDescription());
                                 intent.putExtra("RoomSize", room.getRoomSize());
+
+                                //if the reservation exists then it will be passed to the intent
+                                if(res != null){
+                                    intent.putExtra("resId", res.getResId());
+                                    intent.putExtra("studentId", res.getStudentId());
+                                    intent.putExtra("day", res.getDay());
+                                    intent.putExtra("startTime", res.getStartTime());
+                                    intent.putExtra("endTime", res.getEndTime());
+                                    intent.putExtra("position", res.getPosition());
+                                }
+                                else{
+                                    intent.putExtra("studentId", studentId);
+                                    String day = "";
+                                    if(dayPosition == 0){
+                                        day = "Sunday";
+                                    }
+                                    else if(dayPosition == 1){
+                                        day = "Monday";
+                                    }
+                                    else if(dayPosition == 2){
+                                        day = "Tuesday";
+                                    }
+                                    else if(dayPosition == 3){
+                                        day = "Wednesday";
+                                    }
+                                    else if(dayPosition == 4){
+                                        day = "Thursday";
+                                    }
+                                    else if(dayPosition == 5){
+                                        day = "Friday";
+                                    }
+                                    else if(dayPosition == 6){
+                                        day = "Saturday";
+                                    }
+
+                                    intent.putExtra("day",day);
+                                    intent.putExtra("startTime", Integer.parseInt(splitString[1]));
+                                    intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
+                                    intent.putExtra("position", -1);
+                                }
+
                                 startActivity(intent);
                             }
                         });
                     }
-                }
-            };
-            listeners.start();
+
+
+
 //
 
             table = (TableLayout) rootView.findViewById(R.id.table);
@@ -348,25 +392,25 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
                 case 0:
-                    res = ReservationDayCatalog.getReservationsDayDB("sunday");
+                    res = resCatalog.getReservationsDayDB("sunday");
                     break;
                 case 1:
-                    res = ReservationDayCatalog.getReservationsDayDB("monday");
+                    res = resCatalog.getReservationsDayDB("monday");
                     break;
                 case 2:
-                    res = ReservationDayCatalog.getReservationsDayDB("tuesday");
+                    res = resCatalog.getReservationsDayDB("tuesday");
                     break;
                 case 3:
-                    res = ReservationDayCatalog.getReservationsDayDB("wednesday");
+                    res = resCatalog.getReservationsDayDB("wednesday");
                     break;
                 case 4:
-                    res = ReservationDayCatalog.getReservationsDayDB("thursday");
+                    res = resCatalog.getReservationsDayDB("thursday");
                     break;
                 case 5:
-                    res = ReservationDayCatalog.getReservationsDayDB("friday");
+                    res = resCatalog.getReservationsDayDB("friday");
                     break;
                 case 6:
-                    res = ReservationDayCatalog.getReservationsDayDB("saturday");
+                    res = resCatalog.getReservationsDayDB("saturday");
                     break;
             }
 
