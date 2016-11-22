@@ -370,7 +370,7 @@ public class mapsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Navigation.navigate(id,mapsActivity.this);
+        Navigation.navigate(id,mapsActivity.this,getIntent().getIntExtra("studentId",0));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

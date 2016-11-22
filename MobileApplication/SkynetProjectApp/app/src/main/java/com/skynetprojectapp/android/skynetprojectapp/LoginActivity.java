@@ -83,14 +83,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
-        vip = (Button) findViewById(R.id.vipbutton);
-        vip.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
     }
 
     private void populateAutoComplete() {
@@ -270,7 +262,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //                }
 //            }
 
-            if(mStudentId.equals("admin")) {
+            if(mStudentId.equals("12345678")) {
                 System.out.print(mPassword.equals("admin"));
                 return  mPassword.equals("admin");
             }
@@ -286,7 +278,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                startActivity(new Intent(LoginActivity.this, mainActivity.class));
+                Intent intent = new Intent(LoginActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                int studentid =Integer.parseInt(mStudentView.getText().toString());
+                intent.putExtra("studentId",studentid);
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

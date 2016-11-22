@@ -82,7 +82,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Navigation.navigate(id,WaitlistActivity.this);
+        Navigation.navigate(id,WaitlistActivity.this,getIntent().getIntExtra("studentId",0));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

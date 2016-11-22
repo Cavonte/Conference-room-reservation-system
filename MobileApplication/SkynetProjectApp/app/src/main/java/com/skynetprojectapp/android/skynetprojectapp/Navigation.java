@@ -14,26 +14,41 @@ public  class Navigation {
     public Navigation() {
     }
 
-    public static void navigate(int id, Activity prev){
-
+    public static void navigate(int id, Activity prev, int studentID){
         if (id == R.id.nav_Reservations) {
 //            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            prev.startActivity(new Intent(prev, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_Rooms) {
-            prev.startActivity(new Intent(prev, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_Map) {
-            prev.startActivity(new Intent(prev, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_preferences) {
-            prev.startActivity(new Intent(prev,preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_About) {
-            prev.startActivity(new Intent(prev, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_Help) {
-            prev.startActivity(new Intent(prev, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         } else if (id == R.id.nav_Log_out) {
-            prev.startActivity(new Intent(prev, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            Intent intent = new Intent(prev, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
             Toast.makeText(prev, "Logged out", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_Waitlist) {
-            prev.startActivity(new Intent(prev,WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            Intent intent = new Intent(prev, WaitlistActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("studentId",studentID);
+            prev.startActivity(intent);
         }
 
     }

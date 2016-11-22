@@ -3,6 +3,7 @@ package com.skynetprojectapp.android.skynetprojectapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,7 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 
 /**
@@ -51,8 +61,7 @@ public class mainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-//        requestReservationList(27526711);
+        //requestReservationList(27526711);
 //        arrReservationsView = new Reservation[reservationObjects.length];
 //        for(int i = 0; i < reservationObjects.length; i++){
 //            arrReservationsView[i] = (Reservation) findViewById(R.id.reservation+i);
@@ -207,38 +216,38 @@ public class mainActivity extends AppCompatActivity
     }
 
     private void requestReservationList(int studentId){
-//
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//        String url = "http://Enter your ip plox:8080/userReservations?studentId="+studentId;
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        String responseEntity = restTemplate.getForObject(url, String.class);
-//
-//        ObjectMapper mapper = new ObjectMapper();
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://Enter your ip plox:8080/userReservations?studentId="+studentId;
+        RestTemplate restTemplate = new RestTemplate();
+
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        String responseEntity = restTemplate.getForObject(url, String.class);
+
+        ObjectMapper mapper = new ObjectMapper();
 
 
-//        try {
-//
-//            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
-//            reservationObjects = new ReservationObject[s.size()];
-//            for(int i = 0; i < s.size(); i++){
-//
-//                int id = s.findValues("id").get(i).asInt();
-//                int roomId = s.findValues("roomId").get(i).asInt();
-//                int sId = s.findValues("studentId").get(i).asInt();
-//                String day = s.findValues("day").get(i).asText();
-//                int startTime = s.findValues("startTime").get(i).asInt();
-//                int endTime = s.findValues("endTime").get(i).asInt();
-//                int position = s.findValues("position").get(i).asInt();
-//
-//                reservationObjects[i] = new ReservationObject(id,roomId,sId,day,startTime,endTime,position);
-//            }
-//        }
-//        catch(IOException e){
-//            System.out.println("a");
-//        }
+        try {
+
+            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
+            reservationObjects = new ReservationObject[s.size()];
+            for(int i = 0; i < s.size(); i++){
+
+                int id = s.findValues("id").get(i).asInt();
+                int roomId = s.findValues("roomId").get(i).asInt();
+                int sId = s.findValues("studentId").get(i).asInt();
+                String day = s.findValues("day").get(i).asText();
+                int startTime = s.findValues("startTime").get(i).asInt();
+                int endTime = s.findValues("endTime").get(i).asInt();
+                int position = s.findValues("position").get(i).asInt();
+
+                reservationObjects[i] = new ReservationObject(id,roomId,sId,day,startTime,endTime,position);
+            }
+        }
+        catch(IOException e){
+            System.out.println("a");
+        }
     }
 
     private void requestDeleteReservation(int studentId, int reservationId){
@@ -297,7 +306,7 @@ public class mainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Navigation.navigate(id,mainActivity.this);
+        Navigation.navigate(id,mainActivity.this,getIntent().getIntExtra("studentId",0));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

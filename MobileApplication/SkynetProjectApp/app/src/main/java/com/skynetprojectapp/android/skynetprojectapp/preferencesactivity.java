@@ -231,7 +231,7 @@ public class preferencesActivity extends AppCompatActivity implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Navigation.navigate(id,preferencesActivity.this);
+        Navigation.navigate(id,preferencesActivity.this,getIntent().getIntExtra("studentId",0));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

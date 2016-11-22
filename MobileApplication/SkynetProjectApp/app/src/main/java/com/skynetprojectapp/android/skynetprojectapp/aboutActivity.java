@@ -43,7 +43,7 @@ public class aboutActivity extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Navigation.navigate(id,aboutActivity.this);
+        Navigation.navigate(id,aboutActivity.this,getIntent().getIntExtra("studentId",0));
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
