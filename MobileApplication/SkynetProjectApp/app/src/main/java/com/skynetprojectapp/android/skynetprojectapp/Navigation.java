@@ -27,6 +27,7 @@ public class Navigation {
 //            progressDialog.setIndeterminate(true);
 //            progressDialog.setMessage("Loading...");
 //            progressDialog.show();
+            Toast.makeText(prev, "Heading to Schedule", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(prev, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("studentId", studentID);
             prev.startActivity(intent);

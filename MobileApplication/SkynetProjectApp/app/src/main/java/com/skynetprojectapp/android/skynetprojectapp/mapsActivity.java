@@ -198,8 +198,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag1");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag1");
             return rootView;
         }
     }
@@ -219,8 +219,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps2, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag2");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag2");
             return rootView;
         }
     }
@@ -240,8 +240,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps3, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag3");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag3");
             return rootView;
         }
     }
@@ -261,8 +261,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps4, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag4");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag4");
             return rootView;
         }
     }
@@ -283,8 +283,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps5, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag5");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag5");
             return rootView;
         }
     }
@@ -304,8 +304,8 @@ public class mapsActivity extends AppCompatActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_maps6, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("Hi Frag6");
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText("Hi Frag6");
             return rootView;
         }
     }

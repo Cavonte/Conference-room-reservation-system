@@ -47,6 +47,7 @@ public class mainActivity extends AppCompatActivity
     private ReservationObject[] reservationObjects;
     private int amountOfReservation;
     private RoomsCatalog rc;
+    private int studentid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class mainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Reservations");
         setSupportActionBar(toolbar);
+        studentid=getIntent().getIntExtra("studentId", 0);
 
         rc = new RoomsCatalog();
 
@@ -105,7 +107,8 @@ public class mainActivity extends AppCompatActivity
         refresh = (ImageButton) findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
 
-        requestReservationList(27526711);
+        //requestReservationList(27526711);
+        requestReservationList(studentid);
         arrReservationsView = new Reservation[3];
         int counter = 1;
         for (int i = 0; i < reservationObjects.length; i++) {
@@ -164,7 +167,8 @@ public class mainActivity extends AppCompatActivity
                 ed2.setVisibility(View.GONE);
                 ed3.setVisibility(View.GONE);
 
-                requestReservationList(27526711);
+                //requestReservationList(27526711);
+                requestReservationList(studentid);
 //                = new Reservation[reservationObjects.length];
                 int counter = 1;
                 for (int i = 0; i < reservationObjects.length; i++) {
@@ -200,10 +204,11 @@ public class mainActivity extends AppCompatActivity
 
             case R.id.reserveroom:
                 if (amountOfReservation == 3) {
-                    Toast.makeText(mainActivity.this, "Leave some for the others", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.this, "Please leave some for the others", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(mainActivity.this, "RoomsActivity", Toast.LENGTH_SHORT).show();
                 }
+                Navigation.navigate(mainActivity.this,roomsActivity.class, getIntent().getIntExtra("studentId", 0));
                 break;
             case R.id.delres1:
                 alert("delete reservation", 1, arrReservationsView[0].getResI());
@@ -261,7 +266,7 @@ public class mainActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(mainActivity.this, "YES", Toast.LENGTH_LONG).show();
-                requestDeleteReservation(27526711, reservationId);
+                requestDeleteReservation(studentid, reservationId);
                 if (but == 1) {
                     r1.setVisibility(View.GONE);
                     del1.setVisibility(View.GONE);
@@ -300,7 +305,7 @@ public class mainActivity extends AppCompatActivity
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             String url = "http://" + IpConfiguration.getIp() + ":8080/userReservations?studentId=" + studentId;
-            //http://172.31.49.79:8080/userReservations?studentId=27526711
+            //http://172.31.49.79:8080/userReservations?studentId=studentId
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

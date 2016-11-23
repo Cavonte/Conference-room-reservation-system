@@ -45,7 +45,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
     private ReservationObject[] reservationObjects;
     private int amountOfReservation;
     private RoomsCatalog rc;
-
+    private int studentid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,8 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        studentid=getIntent().getIntExtra("studentId", 0);
 
 
         rc = new RoomsCatalog();
@@ -101,7 +103,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
         ed3.setOnClickListener(WaitlistActivity.this);
         ed3.setVisibility(View.GONE);
 
-        requestReservationList(27526711);
+        requestReservationList(studentid);
         arrReservationsView = new Waitlist[3];
         int counter = 1;
         for (int i = 0; i < reservationObjects.length; i++) {
@@ -170,7 +172,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
                 ed3.setVisibility(View.GONE);
 
 
-                requestReservationList(27526711);
+                requestReservationList(studentid);
 //                = new Reservation[reservationObjects.length];
                 int counter = 1;
                 for (int i = 0; i < reservationObjects.length; i++) {
@@ -269,7 +271,7 @@ public class WaitlistActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(WaitlistActivity.this, "YES", Toast.LENGTH_LONG).show();
-                requestDeleteReservation(27526711, reservationId);
+                requestDeleteReservation(studentid, reservationId);
                 if (but == 1) {
                     r1.setVisibility(View.GONE);
                     del1.setVisibility(View.GONE);
