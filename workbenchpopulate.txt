@@ -1,0 +1,12 @@
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(2,4,27526711,"Monday",9,10,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(3,20,27526711,"Tuesday",11,12,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(4,35,27526711,"Wednesday",12,13,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(5,5,27526711,"Thursday",10,11,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(6,21,27526711,"Friday",11,12,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(7,36,27526711,"Saturday",12,13,0);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(8,6,27526711,"Thursday",10,11,3);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(9,27,27526711,"Friday",11,12,5);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(10,39,27526711,"Saturday",12,13,3);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(11,2,27526711,"Thursday",10,11,4);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(12,14,27526711,"Friday",11,12,6);
+INSERT into reservations(reservationId, roomId, studentId, weekDay, startTime,endTime,position) values(13,34,27526711,"Saturday",12,13,8);

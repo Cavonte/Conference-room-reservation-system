@@ -15,7 +15,7 @@
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:focusable="true"
+                android:focusable="false"
                 android:hint="StudentID"
                 android:textColorHighlight="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimary">
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:focusable="true"
+                android:focusable="false"
                 android:textColorHighlight="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimary">
 
@@ -103,29 +103,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Credentials are admin/admin"
-                    android:textAlignment="center"
-                    tools:ignore="HardcodedText" />
-
 
             </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/vipbutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:background="@color/colorPrimary"
-                    android:text="Vip"
-                    android:textColor="@color/colorPrimaryDark" />
 
 
             </FrameLayout>

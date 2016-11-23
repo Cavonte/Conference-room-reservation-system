@@ -39,17 +39,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.skynetprojectapp.android.skynetprojectapp.Reservation
                     android:id="@+id/r1"
-                    layout="@layout/sample_reservation"
-                     />
+                    android:layout_width="310dp"
+                    android:layout_height="154dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_weight="0.24" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="25dp" />
 
                     <ImageButton
                         android:layout_width="match_parent"
@@ -67,13 +82,7 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres1"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -84,16 +93,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.skynetprojectapp.android.skynetprojectapp.Reservation
                     android:id="@+id/r2"
-                    layout="@layout/reservation2" />
+                    android:layout_height="154dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_weight="0.24"
+                    android:layout_width="310dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="25dp" />
 
                     <ImageButton
                         android:layout_width="match_parent"
@@ -111,13 +136,7 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres2"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -126,16 +145,33 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <com.skynetprojectapp.android.skynetprojectapp.Reservation
                     android:id="@+id/r3"
-                    layout="@layout/reservation3" />
+                    android:layout_height="154dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_weight="0.24"
+                    android:layout_width="310dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="25dp" />
 
                     <ImageButton
                         android:layout_width="match_parent"
@@ -153,13 +189,7 @@
                         android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres3"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -169,16 +199,34 @@
                 android:layout_height="match_parent"
                 android:padding="5dp">
 
-                <Button
-                    android:text="Reserve a room"
-                    android:layout_width="382dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold"
-                    android:id="@+id/reserveroom"
-                    android:onClick="onClick (mainActivity)" />
+                    <ImageButton
+                        android:layout_width="51dp"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@android:drawable/ic_popup_sync"
+                        android:id="@+id/refresh"
+                        android:onClick="onClick (mainActivity)"
+                        style="@android:style/Widget.ImageButton"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/holo_orange_light" />
+
+                    <Button
+                        android:text="Reserve a room"
+                        android:layout_width="382dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:id="@+id/reserveroom"
+                        android:onClick="onClick (mainActivity)"
+                        android:layout_weight="1" />
+                </LinearLayout>
 
             </FrameLayout>
 

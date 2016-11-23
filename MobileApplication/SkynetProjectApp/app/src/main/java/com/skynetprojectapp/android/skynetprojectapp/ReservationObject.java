@@ -1,10 +1,12 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
+import java.io.Serializable;
+
 /**
  * Created by Emili on 2016-11-19.
  */
 
-public class ReservationObject {
+public class ReservationObject  implements Serializable{
 
     private static final String[] VALID_DAYS = {"monday", "tuesday", "wednesday", "thursday", "friday"};
     private int resId;

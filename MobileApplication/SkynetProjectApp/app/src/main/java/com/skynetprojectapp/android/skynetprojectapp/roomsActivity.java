@@ -1,28 +1,24 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,21 +31,6 @@ import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
-import com.google.android.gms.actions.ReserveIntents;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,13 +49,26 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+    private boolean fromEdit;
+    private ReservationObject modifiedReservation;
     private NavigationView naview;
+    private int studentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms__drawer);
 
+        fromEdit = getIntent().getBooleanExtra("fromEdit", false); //false is the default value
+        modifiedReservation = (ReservationObject) getIntent().getSerializableExtra("reservation");
+        ; // (Unserialized) reservation that is to be modified to be passed to the fragment
+
+        final ProgressDialog progressDialog = new ProgressDialog(this,R.style.AppTheme);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+        studentId = getIntent().getIntExtra("studentId",0);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rooms");
         setSupportActionBar(toolbar);
@@ -88,55 +82,54 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         naview = (NavigationView) findViewById(R.id.nav_view);
         naview.setNavigationItemSelectedListener(this);
 
-//        final Thread tabthread = new Thread() {
-//            public void run() {
 
-        host = (TabHost) findViewById(R.id.roomTabs);
-        host.setup();
+                host = (TabHost) findViewById(R.id.roomTabs);
+                host.setup();
 
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("T1");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Su");
-        host.addTab(spec);
+                //Tab 1
+                TabHost.TabSpec spec = host.newTabSpec("T1");
+                spec.setContent(R.id.tab1);
+                spec.setIndicator("Su");
+                host.addTab(spec);
 
-        //Tab 2
-        spec = host.newTabSpec("T2");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("M");
-        host.addTab(spec);
+                //Tab 2
+                spec = host.newTabSpec("T2");
+                spec.setContent(R.id.tab2);
+                spec.setIndicator("M");
+                host.addTab(spec);
 
-        //Tab 3
-        spec = host.newTabSpec("T3");
-        spec.setContent(R.id.tab3);
-        spec.setIndicator("Tu");
-        host.addTab(spec);
+                //Tab 3
+                spec = host.newTabSpec("T3");
+                spec.setContent(R.id.tab3);
+                spec.setIndicator("Tu");
+                host.addTab(spec);
 
-        //Tab 4
-        spec = host.newTabSpec("T4");
-        spec.setContent(R.id.tab4);
-        spec.setIndicator("W");
-        host.addTab(spec);
+                //Tab 4
+                spec = host.newTabSpec("T4");
+                spec.setContent(R.id.tab4);
+                spec.setIndicator("W");
+                host.addTab(spec);
 
-        //Tab 5
-        spec = host.newTabSpec("T5");
-        spec.setContent(R.id.tab5);
-        spec.setIndicator("Th");
-        host.addTab(spec);
+                //Tab 5
+                spec = host.newTabSpec("T5");
+                spec.setContent(R.id.tab5);
+                spec.setIndicator("Th");
+                host.addTab(spec);
 
-        //Tab 6
-        spec = host.newTabSpec("T6");
-        spec.setContent(R.id.tab6);
-        spec.setIndicator("F");
-        host.addTab(spec);
+                //Tab 6
+                spec = host.newTabSpec("T6");
+                spec.setContent(R.id.tab6);
+                spec.setIndicator("F");
+                host.addTab(spec);
 
-        //Tab 7
-        spec = host.newTabSpec("T7");
-        spec.setContent(R.id.tab7);
-        spec.setIndicator("Sa");
-        host.addTab(spec);
+                //Tab 7
+                spec = host.newTabSpec("T7");
+                spec.setContent(R.id.tab7);
+                spec.setIndicator("Sa");
+                host.addTab(spec);
 
         host.setOnTabChangedListener(this);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -155,34 +148,14 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 host.setCurrentTab(position);
             }
         });
-
+        progressDialog.dismiss();
     }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-
-        if (id == R.id.nav_Reservations) {
-            Toast.makeText(this, "preferencesActivity", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(roomsActivity.this, mainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Rooms) {
-            startActivity(new Intent(roomsActivity.this, roomsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Map) {
-            startActivity(new Intent(roomsActivity.this, mapsActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_preferences) {
-            startActivity(new Intent(roomsActivity.this, preferencesActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_About) {
-            startActivity(new Intent(roomsActivity.this, aboutActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Help) {
-            startActivity(new Intent(roomsActivity.this, helpActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-        } else if (id == R.id.nav_Log_out) {
-            startActivity(new Intent(roomsActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-        }
-
+        Navigation.navigate(id, roomsActivity.this, getIntent().getIntExtra("studentId", 0));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -233,23 +206,47 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private HashMap<String, Timeslot> map;
         private HashMap<String, TableRow> mapRow;
         private HashMap<Integer, Integer> rooms;
+        private HashMap<Integer, Integer> rowUroomID;
         private String building;
         private int dayPosition;
         private TextView textView;
         private MyReceiver r;
+        private boolean fragfromedit;
+        private ReservationObject modifiedReservation;
+        private RoomsCatalog roomscat;
+        private ArrayList<ReservationObject> res;
+        private ReservationDayCatalog resCatalog;
+        private int studentId;
+
+
+        //TODO: make studentId point to the user id that is currently logged in.
+
 
 
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
             mapRow = new HashMap<String, TableRow>();
             rooms = new HashMap<Integer, Integer>();
+            rowUroomID = new HashMap<Integer, Integer>();
             building = "LB-building";
             dayPosition = 0;
+            roomscat = new RoomsCatalog();
+            resCatalog = new ReservationDayCatalog();
         }
 
         public static FragMonday newInstance() {
             FragMonday fragment = new FragMonday();
             Bundle args = new Bundle();
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public static FragMonday newInstance(boolean fromEdit, ReservationObject reservationObject, int studentId) {
+            FragMonday fragment = new FragMonday();
+            Bundle args = new Bundle();
+            args.putBoolean("fromEdit", fromEdit);
+            args.putSerializable("reservation", reservationObject);
+            args.putInt("studentId", studentId);
             fragment.setArguments(args);
             return fragment;
         }
@@ -277,11 +274,21 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             spinner.setSelection(0);
             spinner.setOnItemSelectedListener(this);
 
-            textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText("");
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                fragfromedit = bundle.getBoolean("fromEdit", false);
+                modifiedReservation = (ReservationObject) bundle.getSerializable("reservation");
+                studentId = bundle.getInt("studentId");
 
-            Thread listeners = new Thread() {
-                public void run() {
+            }
+
+//            textView = (TextView) rootView.findViewById(R.id.section_label);
+//            if(!(modifiedReservation==null)) textView.setText("This is " + modifiedReservation.getDay()); else textView.setText("Reconsider your life choices");
+
+//            textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText();
+            final ArrayList<Room> rooms = roomscat.getRoomList();
+
                     Iterator<String> keySetIterator = map.keySet().iterator();
                     while (keySetIterator.hasNext()) {
                         final String key = keySetIterator.next();
@@ -289,22 +296,81 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         final String id = "timeslot" + key;
                         Timeslot temp = map.get(key);
                         temp.setIndex(id);
-                        temp.setTimeSlotText(key);
+                        String [] splitString = key.split("u");
+                        int i = Integer.parseInt(splitString[1]);
+                        if(i < 10)
+                            temp.setTimeSlotText("0" + i + ":00");
+                        else
+                            temp.setTimeSlotText(i + ":00");
                         temp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Timeslot temp = (Timeslot) v;
-                                temp.setPassed(Color.GREEN);
                                 temp.postInvalidate();
+                                temp.setPassed(Color.GREEN);
+                                String[] splitString = key.split("u");
+                                int i = Integer.parseInt(splitString[0]);
+                                Room room = roomscat.getRoom(rowUroomID.get(i));
+                                ReservationObject res = resCatalog.getRoomBasedOnReservation(room.getRoomId());
+
                                 Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                                 intent.putExtra("Key", temp.getIndex());
+                                intent.putExtra("fromEdit", fragfromedit);
+                                intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
+                                intent.putExtra("RoomId", room.getRoomId());
+                                intent.putExtra("RoomNumber", room.getRoomNumber());
+                                intent.putExtra("RoomDescription", room.getDescription());
+                                intent.putExtra("RoomSize", room.getRoomSize());
+                                intent.putExtra("Time", Integer.parseInt(splitString[1]));
+
+                                //if the reservation exists then it will be passed to the intent
+                                if(res != null){
+                                    intent.putExtra("resId", res.getResId());
+                                    intent.putExtra("studentId", res.getStudentId());
+                                    intent.putExtra("day", res.getDay());
+                                    intent.putExtra("startTime", res.getStartTime());
+                                    intent.putExtra("endTime", res.getEndTime());
+                                    intent.putExtra("position", res.getPosition());
+                                }
+                                else{
+
+                                    String day = "";
+                                    if(dayPosition == 0){
+                                        day = "Sunday";
+                                    }
+                                    else if(dayPosition == 1){
+                                        day = "Monday";
+                                    }
+                                    else if(dayPosition == 2){
+                                        day = "Tuesday";
+                                    }
+                                    else if(dayPosition == 3){
+                                        day = "Wednesday";
+                                    }
+                                    else if(dayPosition == 4){
+                                        day = "Thursday";
+                                    }
+                                    else if(dayPosition == 5){
+                                        day = "Friday";
+                                    }
+                                    else if(dayPosition == 6){
+                                        day = "Saturday";
+                                    }
+
+                                    intent.putExtra("studentId", studentId);
+                                    intent.putExtra("day",day);
+                                    intent.putExtra("startTime", Integer.parseInt(splitString[1]));
+                                    intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
+                                    intent.putExtra("position", -1);
+                                }
+
                                 startActivity(intent);
                             }
                         });
                     }
-                }
-            };
-            listeners.start();
+
+
+
 //
 
             table = (TableLayout) rootView.findViewById(R.id.table);
@@ -314,49 +380,67 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
             }
 
-            rooms = roomMaps(building, rootView, rooms);
+            roomMaps(building, rootView);
 
             setReservations(this.dayPosition);
 
             return rootView;
         }
 
+        public int getRoomId(int rowNumber) {
 
-        private void setReservations(int dayPosition){
+
+            for (int i = 1; i <= 55; i++) {
+                if (rooms.get(i) == rowNumber)
+                    return i;
+            }
+            return 0;
+        }
+
+        private void setReservations(int dayPosition) {
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
                 case 0:
-                    res.add(new ReservationObject(1, 1, 1, "Sunday", 12, 13, 0));
-                    res.add(new ReservationObject(2, 2, 3, "Sunday", 12, 13, 1));
-                    res.add(new ReservationObject(3, 3, 4, "Sunday", 12, 13, 2));
+                    res = resCatalog.getReservationsDayDB("sunday");
                     break;
                 case 1:
-                    res.add(new ReservationObject(4, 1, 1, "Monday", 12, 13, 0));
-                    res.add(new ReservationObject(5, 2, 3, "Monday", 12, 13, 1));
-                    res.add(new ReservationObject(6, 3, 4, "Monday", 12, 13, 2));
-                    res.add(new ReservationObject(7, 2, 5, "Monday", 17, 16, 3));
-                    res.add(new ReservationObject(8, 4, 9, "Monday", 12, 13, 4));
+                    res = resCatalog.getReservationsDayDB("monday");
                     break;
                 case 2:
+                    res = resCatalog.getReservationsDayDB("tuesday");
                     break;
                 case 3:
+                    res = resCatalog.getReservationsDayDB("wednesday");
                     break;
                 case 4:
+                    res = resCatalog.getReservationsDayDB("thursday");
                     break;
                 case 5:
+                    res = resCatalog.getReservationsDayDB("friday");
                     break;
                 case 6:
+                    res = resCatalog.getReservationsDayDB("saturday");
                     break;
             }
 
             if (res.size() != 0) {
                 for (int i = 0; i < res.size(); i++) {
-                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
-                    String key = row + "u" + res.get(i).getStartTime();
-                    Timeslot temp = map.get(key);
-                    temp.setPassed(Color.BLUE);
-                    temp.postInvalidate();
-                    map.put(key, temp);
+                    if (!(rooms.get(res.get(i).getRoomId()) == null)) {
+                        int row = rooms.get(res.get(i).getRoomId());
+                        //get the row of the timeslot that is to be modified
+                        String key = row + "u" + res.get(i).getStartTime();
+                        Timeslot temp = map.get(key);
+                        temp.setPassed(Color.BLUE);
+                        temp.postInvalidate();
+                        map.put(key, temp);
+                    }
+
+//                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
+//                    String key = row + "u" + res.get(i).getStartTime();
+//                    Timeslot temp = map.get(key);
+//                    temp.setPassed(Color.BLUE);
+//                    temp.postInvalidate();
+//                    map.put(key, temp);
 
                 }
             }
@@ -364,9 +448,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
         public void refresh(int daypos) {
 
-            rooms = roomMaps(building, getView(), rooms);
+            dayPosition = daypos;
+            spinner.setSelection(0);
+            roomMaps(building, getView());
 
-            textView.setText("");
+
+            //textView.setText("");
             //refresh content
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
@@ -404,10 +491,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             for (int i = 1; i <= 20; i++) {
                 mapRow.get((i) + "").setVisibility(View.GONE);
             }
+
             switch (position) {
                 case 0:
 
-                    roomMaps("LB-building", getView(), rooms);
+                    roomMaps("LB-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -416,14 +504,14 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
                 case 1:
-                    roomMaps("H-building", getView(), rooms);
+                    roomMaps("H-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
                     break;
                 case 2:
 
-                    roomMaps("VL-building", getView(), rooms);
+                    roomMaps("VL-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -433,7 +521,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                     break;
                 case 3:
-                    roomMaps("B-building", getView(), rooms);
+                    roomMaps("B-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);
                     }
@@ -442,10 +530,85 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
             }
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                Timeslot temp = map.get(key);
+                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                temp.postInvalidate();
+            }
+            setReservations(dayPosition);
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> arg0) {
+        }
+
+        private void roomMaps(String building, View v) {
+            rowUroomID.clear();
+            rooms.clear();
+
+            ArrayList<Room> rms = roomscat.getRoomList();
+
+            switch (building) {
+
+                case "H-building":
+                    int counterH = 1;
+                    for (int i = 0; i < rms.size(); i++) {
+                        if (rms.get(i).getRoomNumber().charAt(0) == 'H') {
+                            rooms.put(rms.get(i).getRoomId(), counterH);
+                            rowUroomID.put(counterH, rms.get(i).getRoomId());
+                            String id = "rowtext" + counterH;
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms.get(i).getRoomNumber());
+                            counterH++;
+                        }
+                    }
+                    break;
+                case "LB-building":
+                    int counterLB = 1;
+                    for (int i = 0; i < rms.size(); i++) {
+                        if (rms.get(i).getRoomNumber().charAt(0) == 'L') {
+                            rooms.put(rms.get(i).getRoomId(), counterLB);
+                            rowUroomID.put(counterLB, rms.get(i).getRoomId());
+                            String id = "rowtext" + counterLB;
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms.get(i).getRoomNumber());
+                            counterLB++;
+                        }
+                    }
+                    break;
+                case "VL-building":
+                    int counterVL = 1;
+                    for (int i = 0; i < rms.size(); i++) {
+                        if (rms.get(i).getRoomNumber().charAt(0) == 'V') {
+                            rooms.put(rms.get(i).getRoomId(), counterVL);
+                            rowUroomID.put(counterVL, rms.get(i).getRoomId());
+                            String id = "rowtext" + counterVL;
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms.get(i).getRoomNumber());
+                            counterVL++;
+                        }
+                    }
+                    break;
+                case "B-building":
+                    int counterB = 1;
+                    for (int i = 0; i < rms.size(); i++) {
+                        if (rms.get(i).getRoomNumber().charAt(0) == 'B') {
+                            rooms.put(rms.get(i).getRoomId(), counterB);
+                            rowUroomID.put(counterB, rms.get(i).getRoomId());
+                            String id = "rowtext" + counterB;
+                            int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
+                            TextView rowText = (TextView) v.findViewById(resID);
+                            rowText.setText(rms.get(i).getRoomNumber());
+                            counterB++;
+                        }
+                    }
+                    break;
+            }
         }
 
     }
@@ -468,19 +631,19 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 1:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 2:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 3:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 4:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 5:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 6:
-                    return FragMonday.newInstance();
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
             }
             return null;
 
@@ -516,81 +679,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
     }
-
-    private static HashMap<Integer, Integer> roomMaps(String building, View v, HashMap<Integer, Integer> rooms) {
-        rooms.clear();
-        Room[] rms = new Room[20];
-        rms[0] = new Room(1, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[1] = new Room(2, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[2] = new Room(3, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[3] = new Room(4, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[4] = new Room(5, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[5] = new Room(6, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[6] = new Room(7, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[7] = new Room(8, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[8] = new Room(9, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[9] = new Room(10, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[10] = new Room(11, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[11] = new Room(12, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[12] = new Room(13, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[13] = new Room(14, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[14] = new Room(15, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[15] = new Room(16, "LH-234", "NOTHING TO DESCRIBE", 4);
-        rms[16] = new Room(17, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[17] = new Room(18, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[18] = new Room(19, "LH-244", "NOTHING TO DESCRIBE2", 3);
-        rms[19] = new Room(20, "LH-244", "NOTHING TO DESCRIBE2", 3);
-
-        switch (building) {
-
-            case "H-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'H') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "LB-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'L') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "VL-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'V') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-            case "B-building":
-                for (int i = 0; i < rms.length; i++) {
-                    if (rms[i].getRoomNumber().charAt(0) == 'B') {
-                        rooms.put(rms[i].getRoomId(), i + 1);
-                        String id = "rowtext" + (i + 1);
-                        int resID = v.getResources().getIdentifier(id, "id", v.getContext().getPackageName());
-                        TextView rowText = (TextView) v.findViewById(resID);
-                        rowText.setText(rms[i].getRoomNumber());
-                    }
-                }
-                break;
-        }
-        return rooms;
-    }
-
 
 }
 

@@ -89,12 +89,12 @@
                             android:id="@+id/locMain"
                             android:theme="@style/AppTheme"/>
 
-                        <TextView
-                            android:text="Has Presentation : Yes"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/prezMain"
-                            android:theme="@style/AppTheme"/>
+                        <!--<TextView-->
+                            <!--android:text="Has Presentation : Yes"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/prezMain"-->
+                            <!--android:theme="@style/AppTheme"/>-->
 
                         <TextView
                             android:text="Size: Does not matter"
@@ -157,7 +157,7 @@
                                 >
 
                                 <TextView
-                                    android:text="/"
+                                    android:text=" - "
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     />
@@ -196,18 +196,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="199dp">
-
-                <Button
-                    android:id="@+id/bool"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_margin="15dp"
-                    android:background="@color/colorPrimary"
-                    android:text="Set Bool/Check Position"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textStyle="bold" />
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/roomDetails"

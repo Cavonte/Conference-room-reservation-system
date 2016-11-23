@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="textStart"
                     android:paddingBottom="5dp"
-                    android:text="My Waitlist"
+                    android:text="My Waitlists"
                     android:textSize="30sp" />
             </FrameLayout>
 
@@ -38,25 +38,37 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.skynetprojectapp.android.skynetprojectapp.Waitlist
+                    android:layout_height="143dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
                     android:id="@+id/r1"
-                    layout="@layout/waitlist"
-                     />
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:waitlist="You are #1 in the wait list"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_width="310dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="23dp" />
+
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/del"
                         android:id="@+id/delres1"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)" />
 
                     <ImageButton
@@ -64,16 +76,8 @@
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/edit"
                         android:id="@+id/editres1"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres1"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -84,23 +88,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <com.skynetprojectapp.android.skynetprojectapp.Waitlist
+                    android:layout_height="143dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
                     android:id="@+id/r2"
-                    layout="@layout/waitlist" />
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:waitlist="You are #1 in the wait list"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_width="310dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="22dp" />
+
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/del"
                         android:id="@+id/delres2"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
                     <ImageButton
@@ -108,16 +126,8 @@
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/edit"
                         android:id="@+id/editres2"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres2"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -126,23 +136,39 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <include
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <com.skynetprojectapp.android.skynetprojectapp.Waitlist
+                    android:layout_height="154dp"
+                    android:background="#ccc"
+                    android:paddingLeft="20dp"
+                    app:exampleColor="#ffffff"
+                    app:exampleDimension="24sp"
+                    app:exampleString="string"
+                    app:room="B-102"
                     android:id="@+id/r3"
-                    layout="@layout/waitlist" />
+                    app:location="H-Building"
+                    app:day="Friday"
+                    app:hours="12:00:00 to 13:00:00"
+                    app:waitlist="You are #1 in the wait list"
+                    app:presentation="No presentation Material"
+                    android:onClick="onClick"
+                    android:layout_width="310dp" />
+
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="24dp" />
+
                     <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/del"
                         android:id="@+id/delres3"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
                     <ImageButton
@@ -150,19 +176,47 @@
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/edit"
                         android:id="@+id/editres3"
-                        android:layout_weight="1"
                         android:onClick="onClick (mainActivity)"/>
 
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_menu_share"
-                        android:id="@+id/otherres3"
-                        android:layout_weight="1"
-                        android:onClick="onClick (mainActivity)"/>
                 </LinearLayout>
 
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:layout_width="51dp"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@android:drawable/ic_popup_sync"
+                        android:id="@+id/refresh"
+                        android:onClick="onClick (mainActivity)"
+                        style="@android:style/Widget.ImageButton"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/holo_orange_light" />
+
+                    <Button
+                        android:text="Go to Reservations"
+                        android:layout_width="382dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"
+                        android:id="@+id/reserveroom"
+                        android:onClick="onClick (mainActivity)"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+            </FrameLayout>
 
 
 
