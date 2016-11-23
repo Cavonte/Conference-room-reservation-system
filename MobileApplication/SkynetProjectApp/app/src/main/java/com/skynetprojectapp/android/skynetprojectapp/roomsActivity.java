@@ -290,7 +290,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         final String id = "timeslot" + key;
                         Timeslot temp = map.get(key);
                         temp.setIndex(id);
-                        temp.setTimeSlotText(key);
+                        String [] splitString = key.split("u");
+                        int i = Integer.parseInt(splitString[1]);
+                        if(i < 10)
+                            temp.setTimeSlotText("0" + i + ":00");
+                        else
+                            temp.setTimeSlotText(i + ":00");
                         temp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -310,6 +315,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 intent.putExtra("RoomNumber", room.getRoomNumber());
                                 intent.putExtra("RoomDescription", room.getDescription());
                                 intent.putExtra("RoomSize", room.getRoomSize());
+                                intent.putExtra("Time", Integer.parseInt(splitString[1]));
 
                                 //if the reservation exists then it will be passed to the intent
                                 if(res != null){

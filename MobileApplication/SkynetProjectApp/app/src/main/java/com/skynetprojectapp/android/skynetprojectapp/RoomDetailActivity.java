@@ -65,6 +65,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         int id = getIntent().getIntExtra("RoomId", 1);
         String roomnumber = getIntent().getStringExtra("RoomNumber");
         String des = getIntent().getStringExtra("RoomDescription");
+        int timeReservation = getIntent().getIntExtra("Time", 1);
         int roomsize = getIntent().getIntExtra("RoomSize", 1);
 
 
@@ -72,6 +73,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         txtRoomNumber.setText("Room Number: " + roomnumber);
         txtRoomDescription.setText("Description: " + des + ". Using the following Timeslot  " + getIntent().getStringExtra("Key"));
         txtRoomSize.setText("Room Size: " + roomsize);
+
 
 
         String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
@@ -82,7 +84,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         };
         db.start();
 
-
         //Second view for the view animator
 
         contentRoomDetail = (LinearLayout) findViewById(R.id.content_room_detail);
@@ -90,16 +91,34 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
         textView6 = (TextView) findViewById(R.id.textView6);
         roomMain = (TextView) findViewById(R.id.roomMain);
+        roomMain.setText("Room Number: " + roomnumber);
         locMain = (TextView) findViewById(R.id.locMain);
-        prezMain = (TextView) findViewById(R.id.prezMain);
+        if (roomnumber.charAt(0) == 'H')
+            locMain.setText("Location: H-Building");
+        else if(roomnumber.charAt(0) == 'V')
+            locMain.setText("Location: VL-Building");
+        else if(roomnumber.charAt(0) == 'L')
+            locMain.setText("Location: LB-Building");
+        else
+            locMain.setText("Location: B-Building");
+        //prezMain = (TextView) findViewById(R.id.prezMain);
         sizeMain = (TextView) findViewById(R.id.sizeMain);
+        sizeMain.setText("Room Size: " + Integer.toString(roomsize));
         textView5 = (TextView) findViewById(R.id.textView5);
         date1 = (TextView) findViewById(R.id.date1);
+        if (timeReservation < 10)
+            date1.setText("0" + timeReservation + ":00");
+        else
+            date1.setText(timeReservation + ":00");
         date2 = (TextView) findViewById(R.id.date2);
-        bool = (Button) findViewById(R.id.bool);
+        if(timeReservation + 1 < 10)
+            date2.setText("0" + (timeReservation + 1) + ":00");
+        else
+            date2.setText((timeReservation + 1) + ":00");
+       // bool = (Button) findViewById(R.id.bool);
         append = (Button) findViewById(R.id.append);
         reserve = (Button) findViewById(R.id.reserve);
-        findViewById(R.id.bool).setOnClickListener(this);
+       // findViewById(R.id.bool).setOnClickListener(this);
         findViewById(R.id.roomDetails).setOnClickListener(this);
         findViewById(R.id.append).setOnClickListener(this);
         findViewById(R.id.reserve).setOnClickListener(this);
@@ -132,10 +151,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.bool:
-                reserve.setBackgroundColor(Color.GRAY);
-                append.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                break;
             case R.id.roomDetails:
                 viewAnimator.showPrevious();
                 break;
