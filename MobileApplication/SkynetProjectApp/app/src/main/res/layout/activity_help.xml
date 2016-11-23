@@ -43,7 +43,8 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
                 android:layout_height="match_parent"
                 android:layout_margin="15dp"
                 android:id="@+id/text"
-                android:text="Help page //Get Good" />
+                android:textAlignment="center"
+                android:text="If you are experiencing any issues, or have any questions, simply contact the development team at skynetapp@gmail.com." />
         </FrameLayout>
 
     </LinearLayout>
