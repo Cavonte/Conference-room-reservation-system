@@ -42,7 +42,8 @@ tools:context="com.skynetprojectapp.android.skynetprojectapp.mapsActivity">
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="15dp"
-                android:text="This app was created in the context of a class project" />
+                android:textAlignment="center"                                         
+                android:text="The Skynet Room Reservation System (SRRS) is a mobile app that allows Concordia University students to reserve rooms in different campus buildings for study and school related work, such as working on capstone projects. Students use SRRS by selecting a room for a given time, day and location for reservation and, if available, select it for use. If not, the student is placed on the waiting list for that particular room. If you have any questions or concerns, please navigate to the help page for more information." />
         </FrameLayout>
 
     </LinearLayout>
