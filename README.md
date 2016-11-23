@@ -4,7 +4,7 @@ Note from the team:
 
 Our team is separated into two teams. One team is composed of four people working on the implementations. The other team consist of working on the designs and writing the SRS and the SAD. This is why the second team (Gabriele Baravo, Tian Li Zhou, El-Mehdi Beghdadi) has a lot less commit on Github.
 
-We have already discussed with the professor about the team division and it was approved as long as the work is equally separated and everyone get to touch both the codes and the documents.
+Both teams have been working as a team and collaborate on making decisions, designing and helped each other. Changes were made based on the feedback from both side. We have already discussed with the professor about the team division and it was approved as long as the work is equally separated and everyone get to touch both the codes and the documents.
 
 Also, one of our teammates El-Mehdi Beghdadi accidentally has two accounts on Github.
 
