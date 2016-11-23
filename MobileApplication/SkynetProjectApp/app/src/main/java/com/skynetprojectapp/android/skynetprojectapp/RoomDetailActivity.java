@@ -263,7 +263,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     private int modifyReservation(int studentId,int oldReservationId,int newRoomId,String newDay,int newStartTime, int newEndTime,boolean reservation){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + "8080/modifyReservation";
+        String url = "http://" + IpConfiguration.getIp() + ":8080/modifyReservation";
         RestTemplate restTemplate = new RestTemplate();
 
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
@@ -273,7 +273,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         multiValueMap.add("newDay", newDay+"");
         multiValueMap.add("newStartTime", newStartTime+"");
         multiValueMap.add("newEndTime", newEndTime+"");
-        multiValueMap.add("reservation", reservation+"");
+        multiValueMap.add("reservation", true+"");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
