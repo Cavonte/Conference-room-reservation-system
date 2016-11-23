@@ -14,11 +14,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * Created by Emili on 2016-10-25.
  */
 
-public class StudentMapper {
+public class StudentMapper
+{
 
     private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
-    public StudentMapper(){
+    public StudentMapper()
+    {
     }
 
     public static Student getData(int studentId) throws ClassNotFoundException, SQLException
@@ -79,11 +81,11 @@ public class StudentMapper {
 
         try
         {
-            if (resultSet == null)
+            if(resultSet == null)
                 return null;
             else
             {
-                while (resultSet.next())
+                while(resultSet.next())
                 {
                     int username = resultSet.getInt("username");
                     String name = resultSet.getString("FullName");
@@ -155,13 +157,13 @@ public class StudentMapper {
         }
     }
 
-    public static void saveToDB(Student s) throws ClassNotFoundException, SQLException
+    public static void saveToDB(ArrayList<Student> newStudents) throws ClassNotFoundException, SQLException
     {
         readWriteLock.writeLock().lock();
 
         try
         {
-            StudentTDG.insert(s);
+            StudentTDG.insert(newStudents);
         }
         finally
         {
@@ -169,13 +171,13 @@ public class StudentMapper {
         }
     }
 
-    public static void deleteToDB(Student s) throws ClassNotFoundException, SQLException
+    public static void deleteToDB(ArrayList<Student> removedStudents) throws ClassNotFoundException, SQLException
     {
         readWriteLock.writeLock().lock();
 
         try
         {
-            StudentTDG.delete(s);
+            StudentTDG.delete(removedStudents);
         }
         finally
         {
@@ -183,13 +185,13 @@ public class StudentMapper {
         }
     }
 
-    public static void updateToDB(Student s) throws ClassNotFoundException, SQLException
+    public static void updateToDB(ArrayList<Student> dirtyStudents) throws ClassNotFoundException, SQLException
     {
         readWriteLock.writeLock().lock();
 
         try
         {
-            StudentTDG.update(s);
+            StudentTDG.update(dirtyStudents);
         }
         finally
         {
