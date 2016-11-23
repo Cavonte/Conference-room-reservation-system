@@ -52,6 +52,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private boolean fromEdit;
     private ReservationObject modifiedReservation;
     private NavigationView naview;
+    private int studentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
+        studentId = getIntent().getIntExtra("studentId",0);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rooms");
         setSupportActionBar(toolbar);
@@ -214,10 +216,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private RoomsCatalog roomscat;
         private ArrayList<ReservationObject> res;
         private ReservationDayCatalog resCatalog;
+        private int studentId;
+
 
         //TODO: make studentId point to the user id that is currently logged in.
-        //Here it will be based on the user id
-        private int studentId = 44444444;
+
 
 
         public FragMonday() {
@@ -238,11 +241,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             return fragment;
         }
 
-        public static FragMonday newInstance(boolean fromEdit, ReservationObject reservationObject) {
+        public static FragMonday newInstance(boolean fromEdit, ReservationObject reservationObject, int studentId) {
             FragMonday fragment = new FragMonday();
             Bundle args = new Bundle();
             args.putBoolean("fromEdit", fromEdit);
             args.putSerializable("reservation", reservationObject);
+            args.putInt("studentId", studentId);
             fragment.setArguments(args);
             return fragment;
         }
@@ -274,6 +278,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             if (bundle != null) {
                 fragfromedit = bundle.getBoolean("fromEdit", false);
                 modifiedReservation = (ReservationObject) bundle.getSerializable("reservation");
+                studentId = bundle.getInt("studentId");
+
             }
 
 //            textView = (TextView) rootView.findViewById(R.id.section_label);
@@ -327,7 +333,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                     intent.putExtra("position", res.getPosition());
                                 }
                                 else{
-                                    intent.putExtra("studentId", studentId);
+
                                     String day = "";
                                     if(dayPosition == 0){
                                         day = "Sunday";
@@ -351,6 +357,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                         day = "Saturday";
                                     }
 
+                                    intent.putExtra("studentId", studentId);
                                     intent.putExtra("day",day);
                                     intent.putExtra("startTime", Integer.parseInt(splitString[1]));
                                     intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
@@ -624,19 +631,19 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 1:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 2:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
                 case 3:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 4:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 5:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
                 case 6:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation);
+                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
             }
             return null;
 

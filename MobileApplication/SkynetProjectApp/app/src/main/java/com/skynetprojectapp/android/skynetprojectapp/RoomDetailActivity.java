@@ -17,6 +17,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+
+import static android.view.View.GONE;
+
 public class RoomDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private Button okay;
     private Animation slide_in_left, slide_out_right;
@@ -39,6 +54,8 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     private AlertDialog alertDialog;
     private boolean modifying;
     private ReservationObject modifiedReservation;
+    private int id,resId,studentId,startTime,endTime,position;
+    private String day;
 
 
     @Override
@@ -53,6 +70,8 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         AppCompatTextView txtRoomDescription = (AppCompatTextView) findViewById(R.id.Description);
         AppCompatTextView txtRoomSize = (AppCompatTextView) findViewById(R.id.RoomSize);
         okay = (Button) findViewById(R.id.Okay);
+        append=  (Button) findViewById(R.id.append);
+        reserve= (Button) findViewById(R.id.reserve);
         okay.setOnClickListener(this);
 
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
@@ -62,11 +81,17 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         viewAnimator.setInAnimation(slide_in_left);
         viewAnimator.setOutAnimation(slide_out_right);
 
-        int id = getIntent().getIntExtra("RoomId", 1);
+        id = getIntent().getIntExtra("RoomId", 1);
         String roomnumber = getIntent().getStringExtra("RoomNumber");
         String des = getIntent().getStringExtra("RoomDescription");
         int timeReservation = getIntent().getIntExtra("Time", 1);
         int roomsize = getIntent().getIntExtra("RoomSize", 1);
+        resId = getIntent().getIntExtra("resId", 1);
+        studentId = getIntent().getIntExtra("studentId", 1);
+        day = getIntent().getStringExtra("day");
+        startTime = getIntent().getIntExtra("startTime",0);
+        endTime = getIntent().getIntExtra("endTime",0);
+        position = getIntent().getIntExtra("position",0);
 
 
         txtRoomid.setText("Room Id:" + id);
@@ -77,12 +102,27 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
 
         String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
-        Thread db = new Thread() {
-            public void run() {
-                //start();
-            }
-        };
-        db.start();
+        if(isPositionWaitlist(position)){
+            reserve.setVisibility(GONE);
+            findViewById(R.id.append).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(checkIfReservationExists(studentId)){
+                        makeReservation(id,studentId,day,startTime,endTime);
+                    }
+                }
+            });
+        }
+        else{
+            append.setVisibility(GONE);
+            findViewById(R.id.reserve).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    makeReservation(id,studentId,day,startTime,endTime);
+                }
+            });
+        }
 
         //Second view for the view animator
 
@@ -116,8 +156,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         else
             date2.setText((timeReservation + 1) + ":00");
        // bool = (Button) findViewById(R.id.bool);
-        append = (Button) findViewById(R.id.append);
-        reserve = (Button) findViewById(R.id.reserve);
        // findViewById(R.id.bool).setOnClickListener(this);
         findViewById(R.id.roomDetails).setOnClickListener(this);
         findViewById(R.id.append).setOnClickListener(this);
@@ -147,6 +185,106 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 //        textView.setText(reservation.toString());
     }
 
+    public boolean isPositionWaitlist(int position){
+
+        if(position >= 0){
+            Toast.makeText(getApplicationContext(), "You will be in the waitlist", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Congratulations you can reserve it", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    //Make a new reservation
+    private void makeReservation(int roomId, int studentId, String day, int startTime, int endTime){
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://" + IpConfiguration.getIp() + ":8080/reservation";
+        RestTemplate restTemplate = new RestTemplate();
+
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
+        multiValueMap.add("roomId", roomId+"");
+        multiValueMap.add("studentId", studentId+"");
+        multiValueMap.add("day", day+"");
+        multiValueMap.add("startTime", startTime +"");
+        multiValueMap.add("endTime", endTime+"");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+
+        int result = restTemplate.postForObject(url, entity, Integer.class);
+        System.out.println("result is " + result);
+    }
+
+    //Checks if the reservation exists
+    private boolean checkIfReservationExists(int studentId){
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://" + IpConfiguration.getIp() +":8080/userReservations?studentId=" + studentId;
+        RestTemplate restTemplate = new RestTemplate();
+
+        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+        String responseEntity = restTemplate.getForObject(url, String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
+            for(int i = 0; i < s.size(); i++){
+                int resIdFromDB = s.findValues("id").get(i).asInt();;
+                int roomIdFromDB = s.findValues("roomId").get(i).asInt();
+                int sIdFromDB = s.findValues("studentId").get(i).asInt();
+                String dayReservationFromDB = s.findValues("day").get(i).asText();
+                int startTimeFromDB = s.findValues("startTime").get(i).asInt();
+                int endTimeFromDB = s.findValues("endTime").get(i).asInt();
+                int positionFromDB = s.findValues("position").get(i).asInt();
+
+                if(     resId == resIdFromDB
+                        && id == roomIdFromDB
+                        && studentId == sIdFromDB
+                        && day.equals(dayReservationFromDB) && startTime == startTimeFromDB
+                        && endTime == endTimeFromDB){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        catch(IOException e){
+            System.out.println("oh snap!");
+        }
+        return false;
+
+    }
+
+    private int modifyReservation(int studentId,int oldReservationId,int newRoomId,String newDay,int newStartTime, int newEndTime,boolean reservation){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String url = "http://" + IpConfiguration.getIp() + "8080/modifyReservation";
+        RestTemplate restTemplate = new RestTemplate();
+
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
+        multiValueMap.add("studentId", studentId+"");
+        multiValueMap.add("oldReservationId", oldReservationId+"");
+        multiValueMap.add("newRoomId", newRoomId+"");
+        multiValueMap.add("newDay", newDay+"");
+        multiValueMap.add("newStartTime", newStartTime+"");
+        multiValueMap.add("newEndTime", newEndTime+"");
+        multiValueMap.add("reservation", reservation+"");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+
+        int result = restTemplate.postForObject(url, entity, Integer.class);
+        System.out.println("result is " + result);
+        return result;
+    }
+
+
+
     @Override
     public void onClick(View v) {
 
@@ -172,10 +310,14 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     private void alert(boolean edit) {
         alertDialog = new AlertDialog.Builder(RoomDetailActivity.this).create();
         alertDialog.setTitle("Confirmation");
-        if (edit)
-           if(!(modifiedReservation==null)) alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " +  modifiedReservation.getDay() +  " "  + modifiedReservation.getStartTime()); else alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is null ");
-        else
-            alertDialog.setMessage("Confirm Rerservation ?"); //regular reservation
+        if (edit) {
+            alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " + modifiedReservation.getDay() + " " + modifiedReservation.getStartTime());
+            modifyReservation(modifiedReservation.getStudentId(),modifiedReservation.getResId(),id,day,startTime,endTime,true);
+        }
+        else{
+            makeReservation(id,studentId,day,startTime,endTime);
+        }
+        alertDialog.setMessage("Confirm Rerservation ?");
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
