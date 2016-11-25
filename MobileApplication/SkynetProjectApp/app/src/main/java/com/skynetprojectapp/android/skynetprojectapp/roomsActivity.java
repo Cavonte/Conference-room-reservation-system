@@ -331,7 +331,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 //if the reservation exists then it will be passed to the intent
                                 if(res != null){
                                     intent.putExtra("resId", res.getResId());
-                                    intent.putExtra("studentId", res.getStudentId());
+                                    intent.putExtra("studentId", studentId);
                                     intent.putExtra("day", res.getDay());
                                     intent.putExtra("startTime", res.getStartTime());
                                     intent.putExtra("endTime", res.getEndTime());
