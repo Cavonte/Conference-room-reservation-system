@@ -199,29 +199,34 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
     //Make a new reservation
     private void makeReservation(int roomId, int studentId, String day, int startTime, int endTime){
+        try {
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        String url = "http://" + IpConfiguration.getIp() + ":8080/reservation";
-        RestTemplate restTemplate = new RestTemplate();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            String url = "http://" + IpConfiguration.getIp() + ":8080/reservation";
+            RestTemplate restTemplate = new RestTemplate();
 
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String,String>();
-        multiValueMap.add("roomId", roomId+"");
-        multiValueMap.add("studentId", studentId+"");
-        multiValueMap.add("day", day+"");
-        multiValueMap.add("startTime", startTime +"");
-        multiValueMap.add("endTime", endTime+"");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
+            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
+            multiValueMap.add("roomId", roomId + "");
+            multiValueMap.add("studentId", studentId + "");
+            multiValueMap.add("day", day + "");
+            multiValueMap.add("startTime", startTime + "");
+            multiValueMap.add("endTime", endTime + "");
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(multiValueMap, headers);
 
-        int result = restTemplate.postForObject(url, entity, Integer.class);
-        System.out.println("result is " + result);
+            int result = restTemplate.postForObject(url, entity, Integer.class);
+            System.out.println("result is " + result);
+        }    catch(Exception e){
+            System.out.println(e.getMessage() + "oh snap!");
+        }
     }
 
     //Checks if the reservation exists
     private boolean checkIfReservationExists(int studentId){
 
+        try{
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String url = "http://" + IpConfiguration.getIp() +":8080/userReservations?studentId=" + studentId;
@@ -230,7 +235,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         String responseEntity = restTemplate.getForObject(url, String.class);
         ObjectMapper mapper = new ObjectMapper();
-        try{
+
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             for(int i = 0; i < s.size(); i++){
                 int resIdFromDB = s.findValues("id").get(i).asInt();;
@@ -254,13 +259,15 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
             }
         }
         catch(IOException e){
-            System.out.println("oh snap!");
+            System.out.println(e.getMessage() + "oh snap!");
         }
         return false;
 
     }
 
     private int modifyReservation(int studentId,int oldReservationId,int newRoomId,String newDay,int newStartTime, int newEndTime,boolean reservation){
+
+        try{
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String url = "http://" + IpConfiguration.getIp() + "8080/modifyReservation";
@@ -280,7 +287,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
         int result = restTemplate.postForObject(url, entity, Integer.class);
         System.out.println("result is " + result);
-        return result;
+            return result;
+
+        }
+        catch(Exception  e){
+            System.out.println(e.getMessage() + "oh snap!");
+        }
+        return 0;
     }
 
 
@@ -312,16 +325,18 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         alertDialog.setTitle("Confirmation");
         if (edit) {
             alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " + modifiedReservation.getDay() + " " + modifiedReservation.getStartTime());
-            modifyReservation(modifiedReservation.getStudentId(),modifiedReservation.getResId(),id,day,startTime,endTime,true);
         }
         else{
             makeReservation(id,studentId,day,startTime,endTime);
+            alertDialog.setMessage("Confirm Rerservation ?");
         }
-        alertDialog.setMessage("Confirm Rerservation ?");
+
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(RoomDetailActivity.this, "Yes", Toast.LENGTH_LONG).show();
+                modifyReservation(modifiedReservation.getStudentId(),modifiedReservation.getResId(),id,day,startTime,endTime,true);
+                finish();
             }
         });
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {

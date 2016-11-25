@@ -41,7 +41,7 @@ import java.util.Iterator;
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, Runnable {
 
     public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -199,6 +199,11 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
+    @Override
+    public void run() {
+        
+    }
+
     public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
@@ -215,7 +220,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private ReservationObject modifiedReservation;
         private RoomsCatalog roomscat;
         private ArrayList<ReservationObject> res;
-        private ReservationDayCatalog resCatalog;
+        //private ReservationDayCatalog resCatalog;
         private int studentId;
 
 
@@ -231,7 +236,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             building = "LB-building";
             dayPosition = 0;
             roomscat = new RoomsCatalog();
-            resCatalog = new ReservationDayCatalog();
+            //resCatalog = new ReservationDayCatalog();
         }
 
         public static FragMonday newInstance() {
@@ -311,7 +316,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                 String[] splitString = key.split("u");
                                 int i = Integer.parseInt(splitString[0]);
                                 Room room = roomscat.getRoom(rowUroomID.get(i));
-                                ReservationObject res = resCatalog.getRoomBasedOnReservation(room.getRoomId());
+                                ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId());
 
                                 Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                                 intent.putExtra("Key", temp.getIndex());
@@ -333,32 +338,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                     intent.putExtra("position", res.getPosition());
                                 }
                                 else{
-
-                                    String day = "";
-                                    if(dayPosition == 0){
-                                        day = "Sunday";
-                                    }
-                                    else if(dayPosition == 1){
-                                        day = "Monday";
-                                    }
-                                    else if(dayPosition == 2){
-                                        day = "Tuesday";
-                                    }
-                                    else if(dayPosition == 3){
-                                        day = "Wednesday";
-                                    }
-                                    else if(dayPosition == 4){
-                                        day = "Thursday";
-                                    }
-                                    else if(dayPosition == 5){
-                                        day = "Friday";
-                                    }
-                                    else if(dayPosition == 6){
-                                        day = "Saturday";
-                                    }
-
                                     intent.putExtra("studentId", studentId);
-                                    intent.putExtra("day",day);
+                                    intent.putExtra("day",checkDayPosition(dayPosition));
                                     intent.putExtra("startTime", Integer.parseInt(splitString[1]));
                                     intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
                                     intent.putExtra("position", -1);
@@ -369,10 +350,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         });
                     }
 
-
-
-//
-
             table = (TableLayout) rootView.findViewById(R.id.table);
             for (int i = 1; i <= 20; i++) {
                 String id = "row" + (i);
@@ -382,14 +359,13 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             roomMaps(building, rootView);
 
-            setReservations(this.dayPosition);
+            //setReservations(this.dayPosition);
+            setReservations(dayPosition);
 
             return rootView;
         }
 
         public int getRoomId(int rowNumber) {
-
-
             for (int i = 1; i <= 55; i++) {
                 if (rooms.get(i) == rowNumber)
                     return i;
@@ -397,29 +373,55 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             return 0;
         }
 
+        private String checkDayPosition(int dayPosition){
+            String day = "";
+            if(dayPosition == 0){
+                day = "Sunday";
+            }
+            else if(dayPosition == 1){
+                day = "Monday";
+            }
+            else if(dayPosition == 2){
+                day = "Tuesday";
+            }
+            else if(dayPosition == 3){
+                day = "Wednesday";
+            }
+            else if(dayPosition == 4){
+                day = "Thursday";
+            }
+            else if(dayPosition == 5){
+                day = "Friday";
+            }
+            else if(dayPosition == 6){
+                day = "Saturday";
+            }
+            return day;
+        }
+
         private void setReservations(int dayPosition) {
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {
                 case 0:
-                    res = resCatalog.getReservationsDayDB("sunday");
+                    res = ReservationDayCatalog.getReservationsDayDB("sunday");
                     break;
                 case 1:
-                    res = resCatalog.getReservationsDayDB("monday");
+                    res = ReservationDayCatalog.getReservationsDayDB("monday");
                     break;
                 case 2:
-                    res = resCatalog.getReservationsDayDB("tuesday");
+                    res = ReservationDayCatalog.getReservationsDayDB("tuesday");
                     break;
                 case 3:
-                    res = resCatalog.getReservationsDayDB("wednesday");
+                    res = ReservationDayCatalog.getReservationsDayDB("wednesday");
                     break;
                 case 4:
-                    res = resCatalog.getReservationsDayDB("thursday");
+                    res = ReservationDayCatalog.getReservationsDayDB("thursday");
                     break;
                 case 5:
-                    res = resCatalog.getReservationsDayDB("friday");
+                    res = ReservationDayCatalog.getReservationsDayDB("friday");
                     break;
                 case 6:
-                    res = resCatalog.getReservationsDayDB("saturday");
+                    res = ReservationDayCatalog.getReservationsDayDB("saturday");
                     break;
             }
 
@@ -450,8 +452,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             dayPosition = daypos;
             spinner.setSelection(0);
-            roomMaps(building, getView());
-
+            //roomMaps(building, getView());
+            roomMaps("LB-building",getView());
 
             //textView.setText("");
             //refresh content
@@ -460,6 +462,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 String key = keySetIterator.next();
                 Timeslot temp = map.get(key);
                 temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                //temp.setPassed(Color.GRAY);
                 temp.postInvalidate();
             }
             setReservations(daypos);
@@ -494,7 +497,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
             switch (position) {
                 case 0:
-
                     roomMaps("LB-building", getView());
                     for (int i = 1; i <= 20; i++) {
                         mapRow.get((i) + "").setVisibility(View.VISIBLE);

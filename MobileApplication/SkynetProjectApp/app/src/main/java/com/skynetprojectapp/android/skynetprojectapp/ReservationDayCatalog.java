@@ -13,21 +13,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//This class is a static class that handles the reservation server call that get the reservations from the database.
+
 public class ReservationDayCatalog {
 
-    private ArrayList<ReservationObject> reservations;
-    private HashMap<Integer, ReservationObject> roomReservations;
+    private static ArrayList<ReservationObject> reservations=new ArrayList<ReservationObject>();
+    private static HashMap<Integer, ReservationObject> roomReservations=new HashMap<Integer, ReservationObject>();
 
     public ReservationDayCatalog(){
-        reservations = new ArrayList<ReservationObject>();
-        roomReservations = new HashMap<Integer, ReservationObject>();
+//        reservations = ;
+//        roomReservations = ;
 
     }
 
-    public ArrayList<ReservationObject> getReservationsDayDB(String day){
+    public static ArrayList<ReservationObject> getReservationsDayDB(String day){
 
-        //reservations.clear();
-        //roomReservations.clear();
+        try {
+        reservations.clear();
+        roomReservations.clear();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         String url = "http://" + IpConfiguration.getIp() +":8080/dailyReservations?weekDay=" + day;
@@ -37,10 +40,6 @@ public class ReservationDayCatalog {
         String responseEntity = restTemplate.getForObject(url, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-
-
-        try {
-
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             for(int i = 0; i < s.size(); i++){
 
@@ -59,18 +58,19 @@ public class ReservationDayCatalog {
         catch(IOException e){
             System.out.println("oh snap!");
         }
+
         return reservations;
     }
 
-    public ArrayList<ReservationObject> getReservations(){
+    public static ArrayList<ReservationObject> getReservations(){
         return reservations;
     }
 
-    public ReservationObject getRoomBasedOnReservation(int roomId){
+    public static ReservationObject getRoomBasedOnReservation(int roomId){
         return roomReservations.get(roomId);
     }
 
-    public int getHighestPosition(int roomid, int starttime){
+    public static int getHighestPosition(int roomid, int starttime){
         int max = 0;
         for(int i = 0; i < reservations.size(); i++) {
             ReservationObject r = reservations.get(i);
