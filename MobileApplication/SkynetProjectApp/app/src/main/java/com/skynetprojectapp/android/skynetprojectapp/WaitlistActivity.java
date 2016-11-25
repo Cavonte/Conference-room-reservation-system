@@ -36,7 +36,7 @@ import java.io.IOException;
  * This activity is the reservation pages where the current wait list are being displayed.
  * Created by Bruce,Dias
  */
-public class WaitlistActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class WaitlistActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private Button reserve;
     private ImageButton del1, del2, del3, ed1, ed2, ed3, refresh;
     private Waitlist r1, r2, r3;

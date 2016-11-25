@@ -26,7 +26,7 @@ import android.widget.ViewAnimator;
  * This activity containts the options/settings available to the user.
  * Created by Bruce
  */
-public class preferencesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class preferencesActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private TextView notificationsperiodexplain;
     private CheckBox notificationcheck;

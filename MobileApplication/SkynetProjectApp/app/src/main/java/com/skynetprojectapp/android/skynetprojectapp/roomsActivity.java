@@ -41,7 +41,7 @@ import java.util.Iterator;
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, Runnable {
+public class roomsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
     public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -148,7 +148,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 host.setCurrentTab(position);
             }
         });
-        progressDialog.dismiss();
+       progressDialog.dismiss();
     }
 
     @Override
@@ -199,12 +199,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
     }
 
-    @Override
-    public void run() {
-        
-    }
-
-    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
+    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener , Runnable{
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
@@ -222,6 +217,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private ArrayList<ReservationObject> res;
         //private ReservationDayCatalog resCatalog;
         private int studentId;
+
+        private static FragMonday fragMonday;
 
 
         //TODO: make studentId point to the user id that is currently logged in.
@@ -255,6 +252,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             fragment.setArguments(args);
             return fragment;
         }
+        public static FragMonday getInstance(){
+            return  fragMonday;
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -270,7 +270,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     map.put(key, (Timeslot) rootView.findViewById(resID));
                 }
             }
-
 
             spinner = (Spinner) rootView.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, buildings);
@@ -344,8 +343,8 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                                     intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
                                     intent.putExtra("position", -1);
                                 }
-
                                 startActivity(intent);
+//                               setTimeslotStatus(dayPosition);
                             }
                         });
                     }
@@ -360,7 +359,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             roomMaps(building, rootView);
 
             //setReservations(this.dayPosition);
-            setReservations(dayPosition);
+            setTimeslotStatus(dayPosition);
 
             return rootView;
         }
@@ -398,154 +397,14 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             }
             return day;
         }
-
-        private void setReservations(int dayPosition) {
-            ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
-            switch (dayPosition) {
-                case 0:
-                    res = ReservationDayCatalog.getReservationsDayDB("sunday");
-                    break;
-                case 1:
-                    res = ReservationDayCatalog.getReservationsDayDB("monday");
-                    break;
-                case 2:
-                    res = ReservationDayCatalog.getReservationsDayDB("tuesday");
-                    break;
-                case 3:
-                    res = ReservationDayCatalog.getReservationsDayDB("wednesday");
-                    break;
-                case 4:
-                    res = ReservationDayCatalog.getReservationsDayDB("thursday");
-                    break;
-                case 5:
-                    res = ReservationDayCatalog.getReservationsDayDB("friday");
-                    break;
-                case 6:
-                    res = ReservationDayCatalog.getReservationsDayDB("saturday");
-                    break;
-            }
-
-            if (res.size() != 0) {
-                for (int i = 0; i < res.size(); i++) {
-                    if (!(rooms.get(res.get(i).getRoomId()) == null)) {
-                        int row = rooms.get(res.get(i).getRoomId());
-                        //get the row of the timeslot that is to be modified
-                        String key = row + "u" + res.get(i).getStartTime();
-                        Timeslot temp = map.get(key);
-                        temp.setPassed(Color.BLUE);
-                        temp.postInvalidate();
-                        map.put(key, temp);
-                    }
-
-//                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
-//                    String key = row + "u" + res.get(i).getStartTime();
-//                    Timeslot temp = map.get(key);
-//                    temp.setPassed(Color.BLUE);
-//                    temp.postInvalidate();
-//                    map.put(key, temp);
-
-                }
-            }
-        }
-
+        //this method set the color of the timeslots based on if they taken or not. A server call is made through the  Reservation day Catalot static class then the timeslots are modified based on their availability
         public void refresh(int daypos) {
-
             dayPosition = daypos;
             spinner.setSelection(0);
-            //roomMaps(building, getView());
-            roomMaps("LB-building",getView());
-
-            //textView.setText("");
-            //refresh content
-            Iterator<String> keySetIterator = map.keySet().iterator();
-            while (keySetIterator.hasNext()) {
-                String key = keySetIterator.next();
-                Timeslot temp = map.get(key);
-                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                //temp.setPassed(Color.GRAY);
-                temp.postInvalidate();
-            }
-            setReservations(daypos);
+            roomMaps(building, getView());
+            resetTimeslots();
+            setTimeslotStatus(daypos);
         }
-
-        public void onPause() {
-            super.onPause();
-            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
-        }
-
-        public void onResume() {
-            super.onResume();
-            r = new MyReceiver();
-            LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
-                    new IntentFilter("TAG_REFRESH"));
-        }
-
-        private class MyReceiver extends BroadcastReceiver {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                FragMonday.this.refresh(intent.getExtras().getInt("pos"));
-            }
-        }
-
-
-        @Override
-        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
-                                   long arg3) {
-            for (int i = 1; i <= 20; i++) {
-                mapRow.get((i) + "").setVisibility(View.GONE);
-            }
-
-            switch (position) {
-                case 0:
-                    roomMaps("LB-building", getView());
-                    for (int i = 1; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
-                    }
-                    for (int i = 13; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-                    break;
-                case 1:
-                    roomMaps("H-building", getView());
-                    for (int i = 1; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case 2:
-
-                    roomMaps("VL-building", getView());
-                    for (int i = 1; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
-                    }
-                    for (int i = 10; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-
-                    break;
-                case 3:
-                    roomMaps("B-building", getView());
-                    for (int i = 1; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
-                    }
-                    for (int i = 15; i <= 20; i++) {
-                        mapRow.get((i) + "").setVisibility(View.GONE);
-                    }
-                    break;
-            }
-            Iterator<String> keySetIterator = map.keySet().iterator();
-            while (keySetIterator.hasNext()) {
-                String key = keySetIterator.next();
-                Timeslot temp = map.get(key);
-                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                temp.postInvalidate();
-            }
-            setReservations(dayPosition);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> arg0) {
-        }
-
         private void roomMaps(String building, View v) {
             rowUroomID.clear();
             rooms.clear();
@@ -613,6 +472,156 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             }
         }
 
+        public void onPause() {
+            super.onPause();
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(r);
+        }
+
+        public void onResume() {
+            super.onResume();
+            r = new MyReceiver();
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
+                    new IntentFilter("TAG_REFRESH"));
+        }
+
+        @Override
+        public void run() {
+
+        }
+
+        //this method allows the fragment to be refreshed. I.e. the timeslots needs to be recolored based on the color that is selected. Due to the static nature of the fragmen a local broadcast manager is needed to handle this change
+        private class MyReceiver extends BroadcastReceiver {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                FragMonday.this.refresh(intent.getExtras().getInt("pos"));
+            }
+        }
+        //this method reset the color of the timelots for later reuse.
+        private void resetTimeslots(){
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                String key = keySetIterator.next();
+                Timeslot temp = map.get(key);
+                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                temp.postInvalidate();
+            }
+        }
+
+        private void setTimeslotStatus(int dayPosition) {
+            ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
+            switch (dayPosition) {
+                case 0:
+                    res = ReservationDayCatalog.getReservationsDayDB("sunday");
+                    break;
+                case 1:
+                    res = ReservationDayCatalog.getReservationsDayDB("monday");
+                    break;
+                case 2:
+                    res = ReservationDayCatalog.getReservationsDayDB("tuesday");
+                    break;
+                case 3:
+                    res = ReservationDayCatalog.getReservationsDayDB("wednesday");
+                    break;
+                case 4:
+                    res = ReservationDayCatalog.getReservationsDayDB("thursday");
+                    break;
+                case 5:
+                    res = ReservationDayCatalog.getReservationsDayDB("friday");
+                    break;
+                case 6:
+                    res = ReservationDayCatalog.getReservationsDayDB("saturday");
+                    break;
+            }
+
+            if (res.size() != 0) {
+                for (int i = 0; i < res.size(); i++) {
+                    if (!(rooms.get(res.get(i).getRoomId()) == null)) {
+                        int row = rooms.get(res.get(i).getRoomId());
+                        //get the row of the timeslot that is to be modified
+                        String key = row + "u" + res.get(i).getStartTime();
+                        Timeslot temp = map.get(key);
+                        temp.setPassed(Color.BLUE);
+                        temp.postInvalidate();
+                        map.put(key, temp);
+                    }
+
+//                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
+//                    String key = row + "u" + res.get(i).getStartTime();
+//                    Timeslot temp = map.get(key);
+//                    temp.setPassed(Color.BLUE);
+//                    temp.postInvalidate();
+//                    map.put(key, temp);
+
+                }
+            }
+        }
+
+
+
+        //Listeners
+
+        //this method render the  the rows visible/invisible based on the amount that need to be displayed. For smaller building like the Vl building for instance there will be only 9 rows becasue rooms.
+        @Override
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+                                   long arg3) {
+            for (int i = 1; i <= 20; i++) {
+                mapRow.get((i) + "").setVisibility(View.GONE);
+            }
+
+            switch (position) {
+                case 0:
+                    roomMaps("LB-building", getView());
+                    for (int i = 1; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 13; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    break;
+                case 1:
+                    roomMaps("H-building", getView());
+                    for (int i = 1; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case 2:
+
+                    roomMaps("VL-building", getView());
+                    for (int i = 1; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 10; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+
+                    break;
+                case 3:
+                    roomMaps("B-building", getView());
+                    for (int i = 1; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 15; i <= 20; i++) {
+                        mapRow.get((i) + "").setVisibility(View.GONE);
+                    }
+                    break;
+            }
+//            Iterator<String> keySetIterator = map.keySet().iterator();
+//            while (keySetIterator.hasNext()) {
+//                String key = keySetIterator.next();
+//                Timeslot temp = map.get(key);
+//                temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+//                temp.postInvalidate();
+//            }
+            resetTimeslots();
+            setTimeslotStatus(dayPosition);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+        //populates the room based on the building that was selected. this method  will be called usually in the refresh method or a the creation of the framgent.
+
+
     }
 
 
@@ -631,25 +640,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position) {
-                case 0:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
-                case 1:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
-                case 2:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
-                case 3:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
-                case 4:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
-                case 5:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
-                case 6:
-                    return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
-            }
-            return null;
-
-
+               return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
         }
 
         @Override

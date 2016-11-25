@@ -321,28 +321,27 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void alert(boolean edit) {
+        final boolean editf=edit;
         alertDialog = new AlertDialog.Builder(RoomDetailActivity.this).create();
         alertDialog.setTitle("Confirmation");
-        if (edit) {
+        if (editf) {
             alertDialog.setMessage("Confirm Rerservation modification ?  Reservation to be modified is " + modifiedReservation.getDay() + " " + modifiedReservation.getStartTime());
         }
         else{
-            makeReservation(id,studentId,day,startTime,endTime);
             alertDialog.setMessage("Confirm Rerservation ?");
         }
-
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(RoomDetailActivity.this, "Yes", Toast.LENGTH_LONG).show();
-                modifyReservation(modifiedReservation.getStudentId(),modifiedReservation.getResId(),id,day,startTime,endTime,true);
+                //Toast.makeText(RoomDetailActivity.this, "Yes", Toast.LENGTH_LONG).show();
+                if (!editf) makeReservation(id,studentId,day,startTime,endTime); else  modifyReservation(modifiedReservation.getStudentId(),modifiedReservation.getResId(),id,day,startTime,endTime,true);
                 finish();
             }
         });
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(RoomDetailActivity.this, "No", Toast.LENGTH_LONG).show();
+                //Toast.makeText(RoomDetailActivity.this, "No", Toast.LENGTH_LONG).show();
             }
         });
         alertDialog.show();

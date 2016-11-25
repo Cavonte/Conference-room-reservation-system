@@ -36,7 +36,7 @@ import java.io.IOException;
  * This activity is the reservation pages where the current reservations  are being displayed.
  * Created by Bruce
  */
-public class mainActivity extends AppCompatActivity
+public class mainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Button reserve;
@@ -204,11 +204,11 @@ public class mainActivity extends AppCompatActivity
 
             case R.id.reserveroom:
                 if (amountOfReservation == 3) {
-                    Toast.makeText(mainActivity.this, "Please leave some for the others", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.this, "You currently have 3 reservations. Consider modifying your current ones", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(mainActivity.this, "RoomsActivity", Toast.LENGTH_SHORT).show();
+                    Navigation.navigate(mainActivity.this,roomsActivity.class, getIntent().getIntExtra("studentId", 0));
                 }
-                Navigation.navigate(mainActivity.this,roomsActivity.class, getIntent().getIntExtra("studentId", 0));
+
                 break;
             case R.id.delres1:
                 alert("delete reservation", 1, arrReservationsView[0].getResI());
