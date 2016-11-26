@@ -36,7 +36,7 @@ import java.io.IOException;
  * This activity is the reservation pages where the current reservations  are being displayed.
  * Created by Bruce
  */
-public class mainActivity extends BaseActivity
+public class mainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private Button reserve;

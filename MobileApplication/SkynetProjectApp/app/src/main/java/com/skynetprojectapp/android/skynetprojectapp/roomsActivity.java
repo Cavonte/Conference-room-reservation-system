@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,7 +43,7 @@ import java.util.Iterator;
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
  * Created by Bruce
  */
-public class roomsActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
+public class roomsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener {
 
     public TabHost host;
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -52,6 +54,7 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
     private boolean fromEdit;
     private ReservationObject modifiedReservation;
     private NavigationView naview;
+    private ProgressDialog progressDialog;
     private int studentId;
 
     @Override
@@ -63,16 +66,18 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
         modifiedReservation = (ReservationObject) getIntent().getSerializableExtra("reservation");
         ; // (Unserialized) reservation that is to be modified to be passed to the fragment
 
-        final ProgressDialog progressDialog = new ProgressDialog(this,R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
 
-        studentId = getIntent().getIntExtra("studentId",0);
+        studentId = getIntent().getIntExtra("studentId", 0);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rooms");
         setSupportActionBar(toolbar);
 
+
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,60 +88,63 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
         naview.setNavigationItemSelectedListener(this);
 
 
-                host = (TabHost) findViewById(R.id.roomTabs);
-                host.setup();
+        host = (TabHost) findViewById(R.id.roomTabs);
+        host.setup();
 
-                //Tab 1
-                TabHost.TabSpec spec = host.newTabSpec("T1");
-                spec.setContent(R.id.tab1);
-                spec.setIndicator("Su");
-                host.addTab(spec);
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("T1");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Su");
+        host.addTab(spec);
 
-                //Tab 2
-                spec = host.newTabSpec("T2");
-                spec.setContent(R.id.tab2);
-                spec.setIndicator("M");
-                host.addTab(spec);
+        //Tab 2
+        spec = host.newTabSpec("T2");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("M");
+        host.addTab(spec);
 
-                //Tab 3
-                spec = host.newTabSpec("T3");
-                spec.setContent(R.id.tab3);
-                spec.setIndicator("Tu");
-                host.addTab(spec);
+        //Tab 3
+        spec = host.newTabSpec("T3");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Tu");
+        host.addTab(spec);
 
-                //Tab 4
-                spec = host.newTabSpec("T4");
-                spec.setContent(R.id.tab4);
-                spec.setIndicator("W");
-                host.addTab(spec);
+        //Tab 4
+        spec = host.newTabSpec("T4");
+        spec.setContent(R.id.tab4);
+        spec.setIndicator("W");
+        host.addTab(spec);
 
-                //Tab 5
-                spec = host.newTabSpec("T5");
-                spec.setContent(R.id.tab5);
-                spec.setIndicator("Th");
-                host.addTab(spec);
+        //Tab 5
+        spec = host.newTabSpec("T5");
+        spec.setContent(R.id.tab5);
+        spec.setIndicator("Th");
+        host.addTab(spec);
 
-                //Tab 6
-                spec = host.newTabSpec("T6");
-                spec.setContent(R.id.tab6);
-                spec.setIndicator("F");
-                host.addTab(spec);
+        //Tab 6
+        spec = host.newTabSpec("T6");
+        spec.setContent(R.id.tab6);
+        spec.setIndicator("F");
+        host.addTab(spec);
 
-                //Tab 7
-                spec = host.newTabSpec("T7");
-                spec.setContent(R.id.tab7);
-                spec.setIndicator("Sa");
-                host.addTab(spec);
+        //Tab 7
+        spec = host.newTabSpec("T7");
+        spec.setContent(R.id.tab7);
+        spec.setIndicator("Sa");
+        host.addTab(spec);
 
         host.setOnTabChangedListener(this);
 
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+//        DoCalculationTask task= new DoCalculationTask();
+//        task.doInBackground();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {
             }
@@ -148,7 +156,6 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
                 host.setCurrentTab(position);
             }
         });
-       progressDialog.dismiss();
     }
 
     @Override
@@ -199,7 +206,8 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
 
     }
 
-    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener , Runnable{
+
+    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
@@ -219,12 +227,10 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
         private int studentId;
 
         private static FragMonday fragMonday;
+        private ProgressDialog progressDialog;
 
 
         //TODO: make studentId point to the user id that is currently logged in.
-
-
-
         public FragMonday() {
             map = new HashMap<String, Timeslot>();
             mapRow = new HashMap<String, TableRow>();
@@ -232,7 +238,7 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
             rowUroomID = new HashMap<Integer, Integer>();
             building = "LB-building";
             dayPosition = 0;
-            roomscat = new RoomsCatalog();
+            //roomscat = new RoomsCatalog();
             //resCatalog = new ReservationDayCatalog();
         }
 
@@ -252,31 +258,13 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
             fragment.setArguments(args);
             return fragment;
         }
-        public static FragMonday getInstance(){
-            return  fragMonday;
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            progressDialog = ProgressDialog.show(getActivity(), null, "loading, please wait...");
 
             View rootView = inflater.inflate(R.layout.rooms_frag, container, false);
-
-            for (int i = 1; i <= 20; i++) {
-                for (int j = 7; j <= 23; j++) {
-                    String key = i + "u" + j;
-                    String id = "timeslot" + key;
-                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-                    map.put(key, (Timeslot) rootView.findViewById(resID));
-                }
-            }
-
-            spinner = (Spinner) rootView.findViewById(R.id.spinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, buildings);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-            spinner.setSelection(0);
-            spinner.setOnItemSelectedListener(this);
 
             Bundle bundle = this.getArguments();
             if (bundle != null) {
@@ -291,77 +279,123 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
 
 //            textView = (TextView) rootView.findViewById(R.id.section_label);
 //            textView.setText();
-            final ArrayList<Room> rooms = roomscat.getRoomList();
 
-                    Iterator<String> keySetIterator = map.keySet().iterator();
-                    while (keySetIterator.hasNext()) {
-                        final String key = keySetIterator.next();
-                        System.out.println("key: " + key + " value: " + map.get(key));
-                        final String id = "timeslot" + key;
-                        Timeslot temp = map.get(key);
-                        temp.setIndex(id);
-                        String [] splitString = key.split("u");
-                        int i = Integer.parseInt(splitString[1]);
-                        if(i < 10)
-                            temp.setTimeSlotText("0" + i + ":00");
-                        else
-                            temp.setTimeSlotText(i + ":00");
-                        temp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Timeslot temp = (Timeslot) v;
-                                temp.postInvalidate();
-                                temp.setPassed(Color.GREEN);
-                                String[] splitString = key.split("u");
-                                int i = Integer.parseInt(splitString[0]);
-                                Room room = roomscat.getRoom(rowUroomID.get(i));
-                                ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId());
+            return rootView;
+        }
 
-                                Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
-                                intent.putExtra("Key", temp.getIndex());
-                                intent.putExtra("fromEdit", fragfromedit);
-                                intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
-                                intent.putExtra("RoomId", room.getRoomId());
-                                intent.putExtra("RoomNumber", room.getRoomNumber());
-                                intent.putExtra("RoomDescription", room.getDescription());
-                                intent.putExtra("RoomSize", room.getRoomSize());
-                                intent.putExtra("Time", Integer.parseInt(splitString[1]));
 
-                                //if the reservation exists then it will be passed to the intent
-                                if(res != null){
-                                    intent.putExtra("resId", res.getResId());
-                                    intent.putExtra("studentId", studentId);
-                                    intent.putExtra("day", res.getDay());
-                                    intent.putExtra("startTime", res.getStartTime());
-                                    intent.putExtra("endTime", res.getEndTime());
-                                    intent.putExtra("position", res.getPosition());
-                                }
-                                else{
-                                    intent.putExtra("studentId", studentId);
-                                    intent.putExtra("day",checkDayPosition(dayPosition));
-                                    intent.putExtra("startTime", Integer.parseInt(splitString[1]));
-                                    intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
-                                    intent.putExtra("position", -1);
-                                }
-                                startActivity(intent);
-//                               setTimeslotStatus(dayPosition);
-                            }
-                        });
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+
+            spinner = (Spinner) getView().findViewById(R.id.spinner);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, buildings);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+            spinner.setSelection(0);
+            spinner.setOnItemSelectedListener(this);
+
+            for (int i = 1; i <= 20; i++) {
+                for (int j = 7; j <= 23; j++) {
+                    String key = i + "u" + j;
+                    String id = "timeslot" + key;
+                    int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
+                    map.put(key, (Timeslot) getView().findViewById(resID));
+                }
+            }
+
+            final ArrayList<Room> rooms = RoomsCatalog.getRoomList();
+            Iterator<String> keySetIterator = map.keySet().iterator();
+            while (keySetIterator.hasNext()) {
+                final String key = keySetIterator.next();
+                //System.out.println("key: " + key + " value: " + map.get(key));
+                final String id = "timeslot" + key;
+                Timeslot temp = map.get(key);
+                temp.setIndex(id);
+                String[] splitString = key.split("u");
+                int i = Integer.parseInt(splitString[1]);
+
+                if (i < 10) {
+                    temp.setTimeSlotText("0" + i + ":00");
+                } else {
+                    temp.setTimeSlotText(i + ":00");
+                }
+//                int j = Integer.parseInt(splitString[0]);
+//                Room room2 = RoomsCatalog.getRoom(rowUroomID.get(j));
+//                temp.setTimeSlotText( room2.getRoomNumber());
+//                temp.postInvalidate();
+
+                temp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Timeslot temp = (Timeslot) v;
+                        temp.postInvalidate();
+                        temp.setPassed(Color.GREEN);
+                        String[] splitString = key.split("u");
+                        int i = Integer.parseInt(splitString[0]);
+                        Room room = RoomsCatalog.getRoom(rowUroomID.get(i));
+                        ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId());
+
+                        Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
+                        intent.putExtra("Key", temp.getIndex());
+                        intent.putExtra("fromEdit", fragfromedit);
+                        intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
+                        intent.putExtra("RoomId", room.getRoomId());
+                        intent.putExtra("RoomNumber", room.getRoomNumber());
+                        intent.putExtra("RoomDescription", room.getDescription());
+                        intent.putExtra("RoomSize", room.getRoomSize());
+                        intent.putExtra("Time", Integer.parseInt(splitString[1]));
+
+                        //if the reservation exists then it will be passed to the intent
+                        if (res != null) {
+                            intent.putExtra("resId", res.getResId());
+                            intent.putExtra("studentId", studentId);
+                            intent.putExtra("day", res.getDay());
+                            intent.putExtra("startTime", res.getStartTime());
+                            intent.putExtra("endTime", res.getEndTime());
+                            intent.putExtra("position", res.getPosition());
+                        } else {
+                            intent.putExtra("studentId", studentId);
+                            intent.putExtra("day", checkDayPosition(dayPosition));
+                            intent.putExtra("startTime", Integer.parseInt(splitString[1]));
+                            intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
+                            intent.putExtra("position", -1);
+                        }
+                        startActivity(intent);
+                        //setTimeslotStatus(dayPosition);
                     }
+                });
+            }
 
-            table = (TableLayout) rootView.findViewById(R.id.table);
+            DoCalculationTask doCalculationTask = new DoCalculationTask();
+            doCalculationTask.doInBackground();
+
+            table = (TableLayout) getView().findViewById(R.id.table);
             for (int i = 1; i <= 20; i++) {
                 String id = "row" + (i);
                 int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-                mapRow.put((i) + "", (TableRow) rootView.findViewById(resID));
+                mapRow.put((i) + "", (TableRow) getView().findViewById(resID));
             }
 
-            roomMaps(building, rootView);
 
-            //setReservations(this.dayPosition);
-            setTimeslotStatus(dayPosition);
+            progressDialog.dismiss();
+        }
 
-            return rootView;
+        private class DoCalculationTask extends AsyncTask<Void, Void, Void> {
+
+            @Override
+            protected Void doInBackground(Void... arg0) {
+                roomMaps(building, getView());
+                resetTimeslots();
+                setTimeslotStatus(dayPosition);
+                return null;
+            }
+
+            //set the roomnumber in the individual timeslots
+            protected void onPostExecute(Void result) {
+
+
+            }
         }
 
         public int getRoomId(int rowNumber) {
@@ -372,44 +406,43 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
             return 0;
         }
 
-        private String checkDayPosition(int dayPosition){
+
+        private String checkDayPosition(int dayPosition) {
             String day = "";
-            if(dayPosition == 0){
+            if (dayPosition == 0) {
                 day = "Sunday";
-            }
-            else if(dayPosition == 1){
+            } else if (dayPosition == 1) {
                 day = "Monday";
-            }
-            else if(dayPosition == 2){
+            } else if (dayPosition == 2) {
                 day = "Tuesday";
-            }
-            else if(dayPosition == 3){
+            } else if (dayPosition == 3) {
                 day = "Wednesday";
-            }
-            else if(dayPosition == 4){
+            } else if (dayPosition == 4) {
                 day = "Thursday";
-            }
-            else if(dayPosition == 5){
+            } else if (dayPosition == 5) {
                 day = "Friday";
-            }
-            else if(dayPosition == 6){
+            } else if (dayPosition == 6) {
                 day = "Saturday";
             }
             return day;
         }
+
         //this method set the color of the timeslots based on if they taken or not. A server call is made through the  Reservation day Catalot static class then the timeslots are modified based on their availability
         public void refresh(int daypos) {
             dayPosition = daypos;
             spinner.setSelection(0);
-            roomMaps(building, getView());
-            resetTimeslots();
-            setTimeslotStatus(daypos);
+            //roomMaps(building, getView());
+            //resetTimeslots();
+            //setTimeslotStatus(daypos);
+            DoCalculationTask doCalculationTask = new DoCalculationTask();
+            doCalculationTask.doInBackground();
         }
+
         private void roomMaps(String building, View v) {
             rowUroomID.clear();
             rooms.clear();
 
-            ArrayList<Room> rms = roomscat.getRoomList();
+            ArrayList<Room> rms = RoomsCatalog.getRoomList();
 
             switch (building) {
 
@@ -484,10 +517,6 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
                     new IntentFilter("TAG_REFRESH"));
         }
 
-        @Override
-        public void run() {
-
-        }
 
         //this method allows the fragment to be refreshed. I.e. the timeslots needs to be recolored based on the color that is selected. Due to the static nature of the fragmen a local broadcast manager is needed to handle this change
         private class MyReceiver extends BroadcastReceiver {
@@ -496,8 +525,9 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
                 FragMonday.this.refresh(intent.getExtras().getInt("pos"));
             }
         }
+
         //this method reset the color of the timelots for later reuse.
-        private void resetTimeslots(){
+        private void resetTimeslots() {
             Iterator<String> keySetIterator = map.keySet().iterator();
             while (keySetIterator.hasNext()) {
                 String key = keySetIterator.next();
@@ -545,17 +575,9 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
                         map.put(key, temp);
                     }
 
-//                    int row = rooms.get(res.get(i).getRoomId()); //get the row of the timeslot that is to be modified
-//                    String key = row + "u" + res.get(i).getStartTime();
-//                    Timeslot temp = map.get(key);
-//                    temp.setPassed(Color.BLUE);
-//                    temp.postInvalidate();
-//                    map.put(key, temp);
-
                 }
             }
         }
-
 
 
         //Listeners
@@ -640,7 +662,7 @@ public class roomsActivity extends BaseActivity implements NavigationView.OnNavi
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-               return FragMonday.newInstance(fromEdit, modifiedReservation,studentId);
+            return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
         }
 
         @Override

@@ -32,7 +32,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
  * Created by Bruce
  */
 
-public class mapsActivity extends BaseActivity
+public class mapsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;

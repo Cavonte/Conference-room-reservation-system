@@ -1,0 +1,18 @@
+INSERT INTO `db343`.`students`
+(`username`,
+`fullName`,
+`password`)
+VALUES
+(22222222,'Joe Shmoal',22222222);
+INSERT INTO `db343`.`students`
+(`username`,
+`fullName`,
+`password`)
+VALUES
+(22222222,'Joe Shmoal',22222222);
+INSERT INTO `db343`.`students`
+(`username`,
+`fullName`,
+`password`)
+VALUES
+(66666666,'Donald Jr Trump',66666666);

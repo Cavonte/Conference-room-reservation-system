@@ -34,13 +34,12 @@ public class Timeslot extends View {
     private Paint mPaint;
     private float mTextWidth;
     private float mTextHeight;
-    private String timeSlotText;
+    private String timeSlotText="";
 
 
     public Timeslot(Context context) {
         super(context);
         init(null, 0);
-        timeSlotText = "";
     }
 
     public Timeslot(Context context, AttributeSet attrs) {
@@ -85,7 +84,7 @@ public class Timeslot extends View {
         mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         mTextPaint.setColor(Color.GRAY);
 
-        mTextPaint.setTextSize(10);
+        mTextPaint.setTextSize(5);
 
 
         //passed = getResources().getColor(R.color.colorPrimary);
@@ -126,11 +125,13 @@ public class Timeslot extends View {
         mTextPaint.setColor(getResources().getColor(R.color.colorPrimaryDark));
         //mTextPaint.setColor(Color.GRAY);
 
-        mTextPaint.setTextSize(70);
+        mTextPaint.setTextSize(25);
 
 
 
-        canvas.drawText(timeSlotText,(contentWidth)/2 - mTextWidth/2, contentHeight/2+mTextHeight, mTextPaint);
+        //canvas.drawText(timeSlotText,(contentWidth)/2 - mTextWidth/2, contentHeight/2+mTextHeight, mTextPaint);
+        canvas.drawText(timeSlotText,(contentWidth)/2-mTextWidth/4, contentHeight/2, mTextPaint);
+
 
         // Draw the example drawable on top of the text.
         if (mExampleDrawable != null) {

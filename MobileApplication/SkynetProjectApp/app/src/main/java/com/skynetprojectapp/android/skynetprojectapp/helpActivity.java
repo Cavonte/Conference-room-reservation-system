@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class helpActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class helpActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppCompatTextView text;
 

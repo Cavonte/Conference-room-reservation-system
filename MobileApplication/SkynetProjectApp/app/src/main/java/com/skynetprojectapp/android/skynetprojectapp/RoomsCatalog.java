@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class RoomsCatalog {
 
 
-    private ArrayList<Room> rooms  = new ArrayList<Room>(55);
+    private static ArrayList<Room> rooms  = new ArrayList<Room>(55);
 
     public RoomsCatalog(){
         try {
@@ -50,7 +50,7 @@ public class RoomsCatalog {
         }
     }
 
-    public ArrayList<Room> getRoomsFromDB(){
+    public static ArrayList<Room> getRoomsFromDB(){
         try {
         rooms.clear();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -62,9 +62,6 @@ public class RoomsCatalog {
         String responseEntity = restTemplate.getForObject(url, String.class);
 
         ObjectMapper mapper = new ObjectMapper();
-
-
-
 
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             for(int i = 0; i < s.size(); i++){
@@ -83,11 +80,11 @@ public class RoomsCatalog {
         return rooms;
     }
 
-    public Room getRoom(int roomid){
+    public static Room getRoom(int roomid){
         return rooms.get(roomid - 1);
     }
 
-    public ArrayList<Room> getRoomList(){
+    public static ArrayList<Room> getRoomList(){
         return rooms;
     }
 
