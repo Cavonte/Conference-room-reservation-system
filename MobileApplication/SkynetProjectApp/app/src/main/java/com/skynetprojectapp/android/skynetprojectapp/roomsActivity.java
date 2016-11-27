@@ -315,16 +315,12 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 String[] splitString = key.split("u");
                 int i = Integer.parseInt(splitString[1]);
 
-                if (i < 10) {
-                    temp.setTimeSlotText("0" + i + ":00");
-                } else {
-                    temp.setTimeSlotText(i + ":00");
-                }
-//                int j = Integer.parseInt(splitString[0]);
-//                Room room2 = RoomsCatalog.getRoom(rowUroomID.get(j));
-//                temp.setTimeSlotText( room2.getRoomNumber());
-//                temp.postInvalidate();
-
+//                if (i < 10) {
+//                    //  temp.setTimeSlotText("0" + i + ":00");
+//                } else {
+//                    //temp.setTimeSlotText(i + ":00");
+//                }
+//
                 temp.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -334,7 +330,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         String[] splitString = key.split("u");
                         int i = Integer.parseInt(splitString[0]);
                         Room room = RoomsCatalog.getRoom(rowUroomID.get(i));
-                        ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId());
+                        ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId()+"u"+splitString[1]);
 
                         Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                         intent.putExtra("Key", temp.getIndex());
@@ -362,7 +358,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                             intent.putExtra("position", -1);
                         }
                         startActivity(intent);
-                        //setTimeslotStatus(dayPosition);
+                        refresh(dayPosition);
                     }
                 });
             }
@@ -376,8 +372,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
                 mapRow.put((i) + "", (TableRow) getView().findViewById(resID));
             }
-
-
             progressDialog.dismiss();
         }
 
@@ -503,6 +497,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     }
                     break;
             }
+            setRoomNumbers();
         }
 
         public void onPause() {
@@ -516,7 +511,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(r,
                     new IntentFilter("TAG_REFRESH"));
         }
-
 
         //this method allows the fragment to be refreshed. I.e. the timeslots needs to be recolored based on the color that is selected. Due to the static nature of the fragmen a local broadcast manager is needed to handle this change
         private class MyReceiver extends BroadcastReceiver {
@@ -536,7 +530,26 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 temp.postInvalidate();
             }
         }
+        //this method set the room number in each individual timeslot
+        private void  setRoomNumbers(){
+            final ArrayList<Room> rooms = RoomsCatalog.getRoomList();
+            Iterator<String> iteratorRoomNumber = map.keySet().iterator();
 
+            while (iteratorRoomNumber.hasNext()) {
+                final String key = iteratorRoomNumber.next();
+                //System.out.println("key: " + key + " value: " + map.get(key));
+                final String id = "timeslot" + key;
+                Timeslot temp = map.get(key);
+                temp.setIndex(id);
+                String[] splitString = key.split("u");
+                int j = Integer.parseInt(splitString[0]);
+                if (rowUroomID.containsKey(j)) {
+                    Room room2 = RoomsCatalog.getRoom(rowUroomID.get(j));
+                    temp.setTimeSlotText(room2.getRoomNumber());
+                    temp.postInvalidate();
+                }
+            }
+        }
         private void setTimeslotStatus(int dayPosition) {
             ArrayList<ReservationObject> res = new ArrayList<ReservationObject>();
             switch (dayPosition) {

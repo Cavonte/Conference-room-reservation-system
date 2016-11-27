@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -35,21 +36,10 @@ import static android.view.View.GONE;
 public class RoomDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private Button okay;
     private Animation slide_in_left, slide_out_right;
-    private LinearLayout contentRoomDetail;
     private ProgressBar progress;
     private ViewAnimator viewAnimator;
-    private TextView textView6;
-    private TextView roomMain;
-    private TextView locMain;
-    private TextView prezMain;
-    private TextView sizeMain;
-    private TextView textView5;
-    private TextView date1;
-    private TextView date2;
-    private AppCompatTextView roomId;
-    private AppCompatTextView roomNumber;
-    private AppCompatTextView description;
-    private AppCompatTextView roomSize;
+    private TextView textView6,roomMain,locMain,prezMain,sizeMain,textView5,date1,date2;
+    private AppCompatTextView roomId,roomNumber,description,roomSize;
     private Button bool, append, reserve;
     private AlertDialog alertDialog;
     private boolean modifying;
@@ -62,7 +52,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_room_detail);
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         AppCompatTextView txtRoomid = (AppCompatTextView) findViewById(R.id.roomId);
@@ -73,13 +62,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         append=  (Button) findViewById(R.id.append);
         reserve= (Button) findViewById(R.id.reserve);
         okay.setOnClickListener(this);
-
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
-
         slide_in_left = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
         slide_out_right = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
         viewAnimator.setInAnimation(slide_in_left);
         viewAnimator.setOutAnimation(slide_out_right);
+
+        //getting the information passed from the previous activity
 
         id = getIntent().getIntExtra("RoomId", 1);
         String roomnumber = getIntent().getStringExtra("RoomNumber");
@@ -92,6 +81,11 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         startTime = getIntent().getIntExtra("startTime",0);
         endTime = getIntent().getIntExtra("endTime",0);
         position = getIntent().getIntExtra("position",0);
+        if (getIntent().getBooleanExtra("fromEdit", false))
+            modifying = true;
+        else
+            modifying = false;
+        modifiedReservation= (ReservationObject) getIntent().getSerializableExtra("reservation");
 
 
         txtRoomid.setText("Room Id:" + id);
@@ -99,34 +93,36 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         txtRoomDescription.setText("Description: " + des + ". Using the following Timeslot  " + getIntent().getStringExtra("Key"));
         txtRoomSize.setText("Room Size: " + roomsize);
 
-
-
-        String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
-        if(isPositionWaitlist(position)){
+        //String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
+        if(position>=0){
+            Toast.makeText(getApplicationContext(), "You will be in the waitlist", Toast.LENGTH_LONG).show();
             reserve.setVisibility(GONE);
-            findViewById(R.id.append).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(checkIfReservationExists(studentId)){
-                        makeReservation(id,studentId,day,startTime,endTime);
-                    }
-                }
-            });
+            reserve.setOnClickListener(this);
+//            findViewById(R.id.append).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                   // if(checkIfReservationExists(studentId)){
+//                       // makeReservation(id,studentId,day,startTime,endTime);
+//                        alert(modifying);
+//                   // }
+//                }
+//            });
         }
         else{
+            Toast.makeText(getApplicationContext(), "Congratulations you can reserve it", Toast.LENGTH_LONG).show();
             append.setVisibility(GONE);
-            findViewById(R.id.reserve).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    makeReservation(id,studentId,day,startTime,endTime);
-                }
-            });
+            append.setOnClickListener(this);
+//            findViewById(R.id.reserve).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //makeReservation(id,studentId,day,startTime,endTime);
+//                    alert(modifying);
+//                }
+//            });
         }
 
         //Second view for the view animator
 
-        contentRoomDetail = (LinearLayout) findViewById(R.id.content_room_detail);
         progress = (ProgressBar) findViewById(R.id.login_progress);
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
         textView6 = (TextView) findViewById(R.id.textView6);
@@ -165,15 +161,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         description = (AppCompatTextView) findViewById(R.id.Description);
         roomSize = (AppCompatTextView) findViewById(R.id.RoomSize);
         findViewById(R.id.Okay).setOnClickListener(this);
-
-
-        if (getIntent().getBooleanExtra("fromEdit", false))
-            modifying = true;
-        else
-            modifying = false;
-        modifiedReservation= (ReservationObject) getIntent().getSerializableExtra("reservation");
-
-
     }
 
     private void start() {
@@ -185,22 +172,19 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 //        textView.setText(reservation.toString());
     }
 
-    public boolean isPositionWaitlist(int position){
-
-        if(position >= 0){
-            Toast.makeText(getApplicationContext(), "You will be in the waitlist", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Congratulations you can reserve it", Toast.LENGTH_LONG).show();
-            return false;
-        }
-    }
+//    public boolean isPositionWaitlist(int position){
+//        if(position >= 0){
+//            return true;
+//        }
+//        else{
+//            Toast.makeText(getApplicationContext(), "Congratulations you can reserve it", Toast.LENGTH_LONG).show();
+//            return false;
+//        }
+//    }
 
     //Make a new reservation
     private void makeReservation(int roomId, int studentId, String day, int startTime, int endTime){
         try {
-
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             String url = "http://" + IpConfiguration.getIp() + ":8080/reservation";
@@ -218,9 +202,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
             int result = restTemplate.postForObject(url, entity, Integer.class);
             System.out.println("result is " + result);
-        }    catch(Exception e){
-            System.out.println(e.getMessage() + "oh snap!");
         }
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+            Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
     //Checks if the reservation exists
@@ -258,8 +246,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         }
-        catch(IOException e){
-            System.out.println(e.getMessage() + "oh snap!");
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+            Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
+
+        }
+        catch (IOException e) {
+            System.out.print(e.getMessage() + " " + e.getCause());
         }
         return false;
 
@@ -290,8 +283,9 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
             return result;
 
         }
-        catch(Exception  e){
-            System.out.println(e.getMessage() + "oh snap!");
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+            Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
         }
         return 0;
     }
@@ -300,7 +294,6 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.roomDetails:
                 viewAnimator.showPrevious();

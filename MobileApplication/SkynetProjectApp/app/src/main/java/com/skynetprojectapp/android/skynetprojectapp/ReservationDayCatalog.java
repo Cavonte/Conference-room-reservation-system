@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 public class ReservationDayCatalog {
 
     private static ArrayList<ReservationObject> reservations=new ArrayList<ReservationObject>();
-    private static HashMap<Integer, ReservationObject> roomReservations=new HashMap<Integer, ReservationObject>();
+    private static HashMap<String, ReservationObject> roomReservations=new HashMap<String, ReservationObject>();
 
     public ReservationDayCatalog(){
 //        reservations = ;
@@ -51,12 +52,17 @@ public class ReservationDayCatalog {
                 int endTime = s.findValues("endTime").get(i).asInt();
                 int position = s.findValues("position").get(i).asInt();
 
-                roomReservations.put(roomId, new ReservationObject(resId, roomId, studentId, dayReservation, startTime, endTime, position));
+                String key = roomId  + "u" + startTime;
+
+                roomReservations.put(key, new ReservationObject(resId, roomId, studentId, dayReservation, startTime, endTime, position));
                 reservations.add(new ReservationObject(resId, roomId, studentId, dayReservation, startTime, endTime, position));
             }
         }
-        catch(IOException e){
-            System.out.println("oh snap!");
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+        }
+        catch (IOException e) {
+            System.out.print(e.getMessage() + " " + e.getCause());
         }
 
         return reservations;
@@ -66,8 +72,8 @@ public class ReservationDayCatalog {
         return reservations;
     }
 
-    public static ReservationObject getRoomBasedOnReservation(int roomId){
-        return roomReservations.get(roomId);
+    public static ReservationObject getRoomBasedOnReservation(String key){
+        return roomReservations.get(key);
     }
 
     public static int getHighestPosition(int roomid, int starttime){

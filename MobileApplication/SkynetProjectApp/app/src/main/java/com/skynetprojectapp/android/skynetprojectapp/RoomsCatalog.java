@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -76,6 +77,9 @@ public class RoomsCatalog {
         }
         catch(IOException e){
             System.out.println("oh snap!");
+        }
+        catch (HttpServerErrorException e) {
+            System.out.print("The server crashed." + e.getMessage() + "" + e.getCause());
         }
         return rooms;
     }
