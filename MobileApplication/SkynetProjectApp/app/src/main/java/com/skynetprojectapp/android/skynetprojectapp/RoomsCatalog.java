@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,8 +47,14 @@ public class RoomsCatalog {
                 rooms.add(new Room(roomId,roomNumber, description, roomSize));
             }
         }
-        catch(IOException e){
-            System.out.println("oh snap!");
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+        }
+        catch (IOException e) {
+            System.out.print(e.getMessage() + " " + e.getCause());
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
     }
 
@@ -75,11 +82,14 @@ public class RoomsCatalog {
                 rooms.add(new Room(roomId,roomNumber, description, roomSize));
             }
         }
-        catch(IOException e){
-            System.out.println("oh snap!");
+        catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
         }
-        catch (HttpServerErrorException e) {
-            System.out.print("The server crashed." + e.getMessage() + "" + e.getCause());
+        catch (IOException e) {
+            System.out.print(e.getMessage() + " " + e.getCause());
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
         return rooms;
     }

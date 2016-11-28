@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -206,7 +207,9 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         catch(HttpServerErrorException e){
             System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
             Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
-
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
 
     }
@@ -249,10 +252,12 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         catch(HttpServerErrorException e){
             System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
             Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
-
         }
         catch (IOException e) {
             System.out.print(e.getMessage() + " " + e.getCause());
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
         return false;
 
@@ -286,6 +291,9 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         catch(HttpServerErrorException e){
             System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
             Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
         return 0;
     }

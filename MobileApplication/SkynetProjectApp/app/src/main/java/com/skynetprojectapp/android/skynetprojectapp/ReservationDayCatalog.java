@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -63,6 +64,9 @@ public class ReservationDayCatalog {
         }
         catch (IOException e) {
             System.out.print(e.getMessage() + " " + e.getCause());
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
 
         return reservations;

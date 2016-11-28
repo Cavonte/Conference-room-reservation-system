@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,6 +41,9 @@ public  class IpConfiguration {
            success = restTemplate.getForObject(url, Boolean.class, entity);
             System.out.println("Login is " + success);
         } catch (HttpServerErrorException e) {
+            System.out.print("The server crashed" + e.getMessage() + "" + e.getCause());
+        }
+        catch (HttpClientErrorException e){
             System.out.print("The server crashed" + e.getMessage() + "" + e.getCause());
         }
         return success;
