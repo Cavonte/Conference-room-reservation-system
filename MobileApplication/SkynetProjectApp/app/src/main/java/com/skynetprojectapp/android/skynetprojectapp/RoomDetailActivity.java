@@ -358,7 +358,13 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
             int result = restTemplate.postForObject(url, entity, Integer.class);
             System.out.println("result is " + result);
-        } catch (HttpServerErrorException e) {
+            String timeMarker = "AM";
+            if(startTime > 11)
+                timeMarker = "PM";
+            NotificationUtils.scheduleNotification(this.getApplicationContext(), "Upcoming reservation", ("Reservation at " + startTime + timeMarker), day, startTime-1, 0, studentId);
+
+        }
+        catch(HttpServerErrorException e){
             System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
             Toast.makeText(getApplicationContext(), "Martha, the server is at it again", Toast.LENGTH_LONG).show();
         } catch (HttpClientErrorException e) {
