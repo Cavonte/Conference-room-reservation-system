@@ -42,7 +42,7 @@ public class helpActivity extends AppCompatActivity implements NavigationView.On
 
         text = (AppCompatTextView) findViewById(R.id.text);
         int studentid=getIntent().getIntExtra("studentId",0);
-        text.setText(studentid +"");
+        //text.setText(studentid +"");
 
     }
 

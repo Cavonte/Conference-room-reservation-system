@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -35,7 +36,6 @@ public class RoomsCatalog {
 
         ObjectMapper mapper = new ObjectMapper();
 
-
             JsonNode s = mapper.readValue(responseEntity, JsonNode.class);
             for(int i = 0; i < s.size(); i++){
 
@@ -55,6 +55,9 @@ public class RoomsCatalog {
         }
         catch (HttpClientErrorException e){
             System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
+        }
+        catch (ResourceAccessException e) {
+            System.out.print("The server is not offline." + e.getMessage() + "" + e.getCause());
         }
     }
 
@@ -90,6 +93,9 @@ public class RoomsCatalog {
         }
         catch (HttpClientErrorException e){
             System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
+        }
+        catch (ResourceAccessException e) {
+            System.out.print("The server is not offline." + e.getMessage() + "" + e.getCause());
         }
         return rooms;
     }

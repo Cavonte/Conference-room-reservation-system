@@ -2,6 +2,7 @@ package com.skynetprojectapp.android.skynetprojectapp;
 
 
 import android.app.ProgressDialog;
+import android.app.VoiceInteractor;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -33,7 +35,17 @@ import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,6 +66,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     private boolean fromEdit;
     private ReservationObject modifiedReservation;
     private NavigationView naview;
+    private boolean sameDayAllowed;
     private ProgressDialog progressDialog;
     private int studentId;
 
@@ -68,6 +81,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
 
         studentId = getIntent().getIntExtra("studentId", 0);
+        sameDayAllowed=getIntent().getBooleanExtra("sameDayAllowed",false);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Rooms");
         setSupportActionBar(toolbar);
@@ -219,7 +233,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         private int dayPosition;
         private TextView textView;
         private MyReceiver r;
-        private boolean fragfromedit;
+        private boolean fragfromedit,sameDayAllowed;
         private ReservationObject modifiedReservation;
         private RoomsCatalog roomscat;
         private ArrayList<ReservationObject> res;
@@ -249,9 +263,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
             return fragment;
         }
 
-        public static FragMonday newInstance(boolean fromEdit, ReservationObject reservationObject, int studentId) {
+        public static FragMonday newInstance(boolean fromEdit,boolean sameDayAllowed, ReservationObject reservationObject, int studentId) {
             FragMonday fragment = new FragMonday();
             Bundle args = new Bundle();
+            args.putBoolean("sameDayAllowed",sameDayAllowed);
             args.putBoolean("fromEdit", fromEdit);
             args.putSerializable("reservation", reservationObject);
             args.putInt("studentId", studentId);
@@ -271,9 +286,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 fragfromedit = bundle.getBoolean("fromEdit", false);
                 modifiedReservation = (ReservationObject) bundle.getSerializable("reservation");
                 studentId = bundle.getInt("studentId");
+                sameDayAllowed=bundle.getBoolean("sameDayAllowed",false);
 
             }
-
 //            textView = (TextView) rootView.findViewById(R.id.section_label);
 //            if(!(modifiedReservation==null)) textView.setText("This is " + modifiedReservation.getDay()); else textView.setText("Reconsider your life choices");
 
@@ -324,9 +339,10 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 temp.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         Timeslot temp = (Timeslot) v;
-                        temp.postInvalidate();
-                        temp.setPassed(Color.GREEN);
+//                        temp.postInvalidate();
+                        temp.setAlpha((float) 0.8);
                         String[] splitString = key.split("u");
                         int i = Integer.parseInt(splitString[0]);
                         Room room = RoomsCatalog.getRoom(rowUroomID.get(i));
@@ -335,6 +351,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                         Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
                         intent.putExtra("Key", temp.getIndex());
                         intent.putExtra("fromEdit", fragfromedit);
+                        intent.putExtra("sameDayAllowed",sameDayAllowed);
                         intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
                         intent.putExtra("RoomId", room.getRoomId());
                         intent.putExtra("RoomNumber", room.getRoomNumber());
@@ -344,21 +361,25 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
 
                         //if the reservation exists then it will be passed to the intent
                         if (res != null) {
+                            //you have to join the waitlist
                             intent.putExtra("resId", res.getResId());
                             intent.putExtra("studentId", studentId);
                             intent.putExtra("day", res.getDay());
                             intent.putExtra("startTime", res.getStartTime());
                             intent.putExtra("endTime", res.getEndTime());
                             intent.putExtra("position", res.getPosition());
+                            intent.putExtra("reservationServer",false);
                         } else {
+                            //there are no reservation at this timeslot
                             intent.putExtra("studentId", studentId);
                             intent.putExtra("day", checkDayPosition(dayPosition));
                             intent.putExtra("startTime", Integer.parseInt(splitString[1]));
                             intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
                             intent.putExtra("position", -1);
+                            intent.putExtra("reservationServer",true);
                         }
-                        startActivity(intent);
-                        refresh(dayPosition);
+                            startActivity(intent);
+                        //refresh(dayPosition);
                     }
                 });
             }
@@ -527,6 +548,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 String key = keySetIterator.next();
                 Timeslot temp = map.get(key);
                 temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                //temp.setPassed(Color.GRAY);
                 temp.postInvalidate();
             }
         }
@@ -574,6 +596,9 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 case 6:
                     res = ReservationDayCatalog.getReservationsDayDB("saturday");
                     break;
+            }
+            if(res==null){
+                Toast.makeText(getContext(),"Might want to check yer connection there mate.",Toast.LENGTH_LONG);
             }
 
             if (res.size() != 0) {
@@ -675,7 +700,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return FragMonday.newInstance(fromEdit, modifiedReservation, studentId);
+            return FragMonday.newInstance(fromEdit,sameDayAllowed, modifiedReservation, studentId);
         }
 
         @Override

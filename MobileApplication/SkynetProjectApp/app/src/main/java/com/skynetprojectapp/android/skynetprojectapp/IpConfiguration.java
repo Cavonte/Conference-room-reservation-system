@@ -9,6 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 public  class IpConfiguration {
@@ -45,6 +46,9 @@ public  class IpConfiguration {
         }
         catch (HttpClientErrorException e){
             System.out.print("The server crashed" + e.getMessage() + "" + e.getCause());
+        }
+        catch (ResourceAccessException e) {
+            System.out.print("The server is not offline." + e.getMessage() + "" + e.getCause());
         }
         return success;
     }

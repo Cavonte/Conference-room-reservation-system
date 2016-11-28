@@ -125,7 +125,7 @@ public class Timeslot extends View {
         mTextPaint.setColor(getResources().getColor(R.color.colorPrimaryDark));
         //mTextPaint.setColor(Color.GRAY);
 
-        mTextPaint.setTextSize(25);
+        mTextPaint.setTextSize(20);
 
 
 

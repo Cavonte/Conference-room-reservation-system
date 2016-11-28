@@ -27,6 +27,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class mainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Reservations");
         setSupportActionBar(toolbar);
-        studentid=getIntent().getIntExtra("studentId", 0);
+        studentid = getIntent().getIntExtra("studentId", 0);
 
         rc = new RoomsCatalog();
 
@@ -193,7 +195,7 @@ public class mainActivity extends AppCompatActivity
                             if (!(room == null)) {
                                 arrReservationsView[i].setLocation(room.getRoomNumber());
                             }
-                            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00 ");
+                            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00");
                         }
                         counter++;
                     }
@@ -206,7 +208,7 @@ public class mainActivity extends AppCompatActivity
                 if (amountOfReservation == 3) {
                     Toast.makeText(mainActivity.this, "You currently have 3 reservations. Consider modifying your current ones", Toast.LENGTH_SHORT).show();
                 } else {
-                    Navigation.navigate(mainActivity.this,roomsActivity.class, getIntent().getIntExtra("studentId", 0));
+                    Navigation.navigate(mainActivity.this, roomsActivity.class, getIntent().getIntExtra("studentId", 0));
                 }
 
                 break;
@@ -214,8 +216,10 @@ public class mainActivity extends AppCompatActivity
                 alert("delete reservation", 1, arrReservationsView[0].getResI());
                 break;
             case R.id.editres1:
-                Toast.makeText(mainActivity.this, "Edit res 1", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mainActivity.this, "Edit res 1", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(mainActivity.this, roomsActivity.class);
+                i.putExtra("sameDayAllowed",true);
+                i.putExtra("studentId",studentid);
                 i.putExtra("fromEdit", true); //tell the room activity that we are modifying
                 if (!(reservationObjects[0] == null))
                     i.putExtra("reservation", reservationObjects[0]);
@@ -228,8 +232,10 @@ public class mainActivity extends AppCompatActivity
                 alert("delete reservation", 2, arrReservationsView[1].getResI());
                 break;
             case R.id.editres2:
-                Toast.makeText(mainActivity.this, "Edit res 2", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(mainActivity.this, "Edit res 2", Toast.LENGTH_SHORT).show();
                 Intent k = new Intent(mainActivity.this, roomsActivity.class);
+                k.putExtra("sameDayAllowed",true);
+                k.putExtra("studentId",studentid);
                 k.putExtra("fromEdit", true); //tell the room activity that we are modifying
                 if (!(reservationObjects[1] == null))
                     k.putExtra("reservation", reservationObjects[1]);
@@ -242,6 +248,8 @@ public class mainActivity extends AppCompatActivity
             case R.id.editres3:
                 Toast.makeText(mainActivity.this, "Edit res 3", Toast.LENGTH_SHORT).show();
                 Intent j = new Intent(mainActivity.this, roomsActivity.class);
+                j.putExtra("studentId",studentid);
+                j.putExtra("sameDayAllowed",true);
                 j.putExtra("fromEdit", true); //tell the room activity that we are modifying
                 if (!(reservationObjects[2] == null))
                     j.putExtra("reservation", reservationObjects[2]);
@@ -327,15 +335,18 @@ public class mainActivity extends AppCompatActivity
                     int endTime = s.findValues("endTime").get(i).asInt();
                     int position = s.findValues("position").get(i).asInt();
 
-
                     reservationObjects[counter] = new ReservationObject(id, roomId, sId, day, startTime, endTime, position);
                     counter++;
                 }
             }
-            }catch(IOException e){
-                System.out.println("Uhhhh, It crashed again" + e.getMessage());
-            }
+        } catch (IOException e) {
+            System.out.println("Uhhhh, It crashed again" + e.getMessage());
+        } catch (HttpServerErrorException e) {
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+        } catch (HttpClientErrorException e) {
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause());
         }
+    }
 
     private void requestDeleteReservation(int studentId, int reservationId) {
 
@@ -358,8 +369,11 @@ public class mainActivity extends AppCompatActivity
 
             NotificationUtils.cancelNotification(this.getApplicationContext(), reservationId);
 
-        } catch (Exception e) {
-            System.out.println("Sigh" + e.getMessage());
+        }catch(HttpServerErrorException e){
+            System.out.println("oh snap!" + e.getMessage() + "" + e.getCause());
+        }
+        catch (HttpClientErrorException e){
+            System.out.print("The server crashed, prolly 401" + e.getMessage() + "" + e.getCause() );
         }
     }
 
