@@ -50,6 +50,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import static android.R.attr.key;
+
 
 /**
  * This activity contains the scheduler. It is called room but it contains the interface where you can select the timeslots.
@@ -221,7 +223,7 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
-    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener {
+    public static class FragMonday extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
         private Spinner spinner;
         private static final String[] buildings = {"LB Building", "H Building", "VL Building", "B Building"};
         private TableLayout table;
@@ -315,74 +317,27 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                     String key = i + "u" + j;
                     String id = "timeslot" + key;
                     int resID = getResources().getIdentifier(id, "id", getContext().getPackageName());
-                    map.put(key, (Timeslot) getView().findViewById(resID));
+                    Timeslot temp= (Timeslot) getView().findViewById(resID);
+                    String[] splitString = key.split("u");
+                    int start = Integer.parseInt(splitString[1]);
+                    int row=Integer.parseInt(splitString[0]);
+                    temp.setIndex(id);
+                    temp.setRow(row);
+                    temp.setStarttime(start);
+                    temp.setOnClickListener(this);
+                    map.put(key, temp);
                 }
             }
 
-            final ArrayList<Room> rooms = RoomsCatalog.getRoomList();
-            Iterator<String> keySetIterator = map.keySet().iterator();
-            while (keySetIterator.hasNext()) {
-                final String key = keySetIterator.next();
-                //System.out.println("key: " + key + " value: " + map.get(key));
-                final String id = "timeslot" + key;
-                Timeslot temp = map.get(key);
-                temp.setIndex(id);
-                String[] splitString = key.split("u");
-                int i = Integer.parseInt(splitString[1]);
-
-//                if (i < 10) {
-//                    //  temp.setTimeSlotText("0" + i + ":00");
-//                } else {
-//                    //temp.setTimeSlotText(i + ":00");
-//                }
+//            final ArrayList<Room> rooms = RoomsCatalog.getRoomList();
+//            Iterator<String> keySetIterator = map.keySet().iterator();
+//            while (keySetIterator.hasNext()) {
+//                final String key = keySetIterator.next();
+//                //System.out.println("key: " + key + " value: " + map.get(key));
+//                final String id = "timeslot" + key;
+//                Timeslot temp = map.get(key);
 //
-                temp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Timeslot temp = (Timeslot) v;
-//                        temp.postInvalidate();
-                        temp.setAlpha((float) 0.8);
-                        String[] splitString = key.split("u");
-                        int i = Integer.parseInt(splitString[0]);
-                        Room room = RoomsCatalog.getRoom(rowUroomID.get(i));
-                        ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId()+"u"+splitString[1]);
-
-                        Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
-                        intent.putExtra("Key", temp.getIndex());
-                        intent.putExtra("fromEdit", fragfromedit);
-                        intent.putExtra("sameDayAllowed",sameDayAllowed);
-                        intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
-                        intent.putExtra("RoomId", room.getRoomId());
-                        intent.putExtra("RoomNumber", room.getRoomNumber());
-                        intent.putExtra("RoomDescription", room.getDescription());
-                        intent.putExtra("RoomSize", room.getRoomSize());
-                        intent.putExtra("Time", Integer.parseInt(splitString[1]));
-
-                        //if the reservation exists then it will be passed to the intent
-                        if (res != null) {
-                            //you have to join the waitlist
-                            intent.putExtra("resId", res.getResId());
-                            intent.putExtra("studentId", studentId);
-                            intent.putExtra("day", res.getDay());
-                            intent.putExtra("startTime", res.getStartTime());
-                            intent.putExtra("endTime", res.getEndTime());
-                            intent.putExtra("position", res.getPosition());
-                            intent.putExtra("reservationServer",false);
-                        } else {
-                            //there are no reservation at this timeslot
-                            intent.putExtra("studentId", studentId);
-                            intent.putExtra("day", checkDayPosition(dayPosition));
-                            intent.putExtra("startTime", Integer.parseInt(splitString[1]));
-                            intent.putExtra("endTime", Integer.parseInt(splitString[1]) + 1);
-                            intent.putExtra("position", -1);
-                            intent.putExtra("reservationServer",true);
-                        }
-                            startActivity(intent);
-                        //refresh(dayPosition);
-                    }
-                });
-            }
+//            }
 
             DoCalculationTask doCalculationTask = new DoCalculationTask();
             doCalculationTask.doInBackground();
@@ -394,6 +349,50 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 mapRow.put((i) + "", (TableRow) getView().findViewById(resID));
             }
             progressDialog.dismiss();
+        }
+
+        @Override
+        public void onClick(View v) {
+            Timeslot temp = (Timeslot) v;
+            temp.setAlpha((float) 0.8);
+           // String[] splitString = key.split("u");
+           // int i = Integer.parseInt(splitString[0]);
+            Room room = RoomsCatalog.getRoom(rowUroomID.get(temp.getRow()));
+           // ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId()+"u"+splitString[1]);
+            ReservationObject res = ReservationDayCatalog.getRoomBasedOnReservation(room.getRoomId()+"u"+temp.getStartTime());
+
+            Intent intent = new Intent(getActivity(), RoomDetailActivity.class);
+            intent.putExtra("Key", temp.getIndex());
+            intent.putExtra("fromEdit", fragfromedit);
+            intent.putExtra("sameDayAllowed",sameDayAllowed);
+            intent.putExtra("reservation", modifiedReservation);  //provide database with reservation that needs to be modified or canceled
+            intent.putExtra("RoomId", room.getRoomId());
+            intent.putExtra("RoomNumber", room.getRoomNumber());
+            intent.putExtra("RoomDescription", room.getDescription());
+            intent.putExtra("RoomSize", room.getRoomSize());
+            intent.putExtra("Time", temp.getStartTime());
+
+            //if the reservation exists then it will be passed to the intent
+            if (res != null) {
+                //you have to join the waitlist
+                intent.putExtra("resId", res.getResId());
+                intent.putExtra("studentId", studentId);
+                intent.putExtra("day", res.getDay());
+                intent.putExtra("startTime", res.getStartTime());
+                intent.putExtra("endTime", res.getEndTime());
+                intent.putExtra("position", res.getPosition());
+                intent.putExtra("reservationServer",false);
+            } else {
+                //there are no reservation at this timeslot
+                intent.putExtra("studentId", studentId);
+                intent.putExtra("day", checkDayPosition(dayPosition));
+                intent.putExtra("startTime", temp.getStartTime());
+                intent.putExtra("endTime", temp.getStartTime() + 1);
+                intent.putExtra("position", -1);
+                intent.putExtra("reservationServer",true);
+            }
+            startActivity(intent);
+            //refresh(dayPosition);
         }
 
         private class DoCalculationTask extends AsyncTask<Void, Void, Void> {

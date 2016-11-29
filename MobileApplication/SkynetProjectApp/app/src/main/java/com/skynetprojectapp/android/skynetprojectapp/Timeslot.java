@@ -35,6 +35,8 @@ public class Timeslot extends View {
     private float mTextWidth;
     private float mTextHeight;
     private String timeSlotText="";
+    private int row=0;
+    private int startTime=0;
 
 
     public Timeslot(Context context) {
@@ -223,6 +225,22 @@ public class Timeslot extends View {
 
     public void setTaken(int taken) {
         this.taken = taken;
+    }
+
+    public void setStarttime(int startTime) {
+        this.startTime=startTime;
+    }
+
+    public void setRow(int row) {
+    this.row=row;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getStartTime() {
+        return startTime;
     }
 }
 
