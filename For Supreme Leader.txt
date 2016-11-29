@@ -1,0 +1,20 @@
+A few update for the presentation.
+
+I added teh day passed thing. So now you cant click on a timeslot that is in the past. It prints a message when you try to click on it.
+
+I added a new quote at the beginning, tell me what you think.
+
+Like I said I managed to get 115 frame lost at some point, so the efficiency increase in Oncreate view was not so effective.
+
+I added a runnable function which refreshes the reservation and the wailtlist in mainactivity and waitlist activity, it does the refresh every 30 sec.
+If the server keeps crashhing then just comment them out. (thread.start at line 213 in waitlist activity, 212 in mainActivity) This will stop the thread from starting.
+
+After implementing all these, I tested the main functionalities again i.e. adding a reservation, deleting a reservation, modifying a reservation, deleting waitlist
+
+I didnt try append to waitlist but it should work since I tried modify reservation ( by switching to a waitlist)
+
+
+The notification thing is fined, it popped randomly because we were trying to reserve days that were in the past.
+
+
+Everything should be fine. I think what is missing is the whole server proofing thing where the arrays that are no test for null will crash the app if the server crash.
