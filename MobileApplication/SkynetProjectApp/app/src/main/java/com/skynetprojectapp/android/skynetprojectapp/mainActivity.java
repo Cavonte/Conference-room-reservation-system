@@ -113,9 +113,6 @@ public class mainActivity extends AppCompatActivity
         refresh = (ImageButton) findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
 
-
-
-
         //requestReservationList();
         requestReservationList(studentid);
         arrReservationsView = new Reservation[3];
@@ -220,11 +217,13 @@ public class mainActivity extends AppCompatActivity
     public void run() {
         while (true) {
             try {
-                Thread.sleep(20000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if(amountOfReservation<3){
             handler.post(update);
+            }
         }
 
     }

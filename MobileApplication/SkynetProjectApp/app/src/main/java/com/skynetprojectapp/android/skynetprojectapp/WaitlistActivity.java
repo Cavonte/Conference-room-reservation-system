@@ -4,6 +4,7 @@ package com.skynetprojectapp.android.skynetprojectapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,7 +37,7 @@ import java.io.IOException;
  * This activity is the reservation pages where the current wait list are being displayed.
  * Created by Bruce,Dias
  */
-public class WaitlistActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class WaitlistActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, Runnable {
     private Button reserve;
     private ImageButton del1, del2, del3, ed1, ed2, ed3, refresh;
     private Waitlist r1, r2, r3;
@@ -46,6 +47,8 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
     private int amountOfReservation;
     private RoomsCatalog rc;
     private int studentid;
+    private Handler handler;
+    private Runnable update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        studentid=getIntent().getIntExtra("studentId", 0);
+        studentid = getIntent().getIntExtra("studentId", 0);
 
 
         rc = new RoomsCatalog();
@@ -144,6 +147,87 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
         refresh.setOnClickListener(this);
 
 
+        handler = new Handler();
+
+        update = new Runnable() {
+            public void run() {
+                //refresh the reservations and their data. For now they are back to visible, but they should be visible or  not based on the user reservation
+                for (int j = 0; j < reservationObjects.length; j++) {
+                    reservationObjects[j] = null; //set the content of the waitlist object array to null
+                }
+                for (int k = 0; k < arrReservationsView.length; k++) {
+                    arrReservationsView[k] = null;//set the content of the waitlist ui objects array to null
+                }
+                //set the ui elements to visibility gone
+                r1.setVisibility(View.GONE);
+                r2.setVisibility(View.GONE);
+                r3.setVisibility(View.GONE);
+
+                del1.setVisibility(View.GONE);
+                del2.setVisibility(View.GONE);
+                del3.setVisibility(View.GONE);
+
+                ed1 = (ImageButton) findViewById(R.id.editres1);
+                ed1.setVisibility(View.GONE);
+                ed2.setVisibility(View.GONE);
+                ed3.setVisibility(View.GONE);
+
+
+                requestReservationList(studentid);
+//                = new Reservation[reservationObjects.length];
+                int counter = 1;
+                for (int i = 0; i < reservationObjects.length; i++) {
+                    if (reservationObjects[i] != null && reservationObjects[i].getPosition() >= 1 && i < arrReservationsView.length) {
+                        String id = "r" + (counter);
+                        int resID = getResources().getIdentifier(id, "id", getPackageName());
+                        arrReservationsView[i] = (Waitlist) findViewById(resID);
+                        arrReservationsView[i].setVisibility(View.VISIBLE);
+                        String del = "delres" + (counter);
+                        int delID = getResources().getIdentifier(del, "id", getPackageName());
+                        findViewById(delID).setVisibility(View.VISIBLE);
+                        String edit = "editres" + (counter);
+                        int ediID = getResources().getIdentifier(edit, "id", getPackageName());
+                        findViewById(ediID).setVisibility(View.VISIBLE);
+                        // arrReservationsView[i] = (Waitlist) findViewById(R.id.reservation+i);
+
+                        if (!(arrReservationsView[i] == null)) {
+                            arrReservationsView[i].setRoomNumber(reservationObjects[i].getRoomId() + "");
+                            arrReservationsView[i].setDay(reservationObjects[i].getDay());
+                            arrReservationsView[i].setResI(reservationObjects[i].getResId());
+                            Room room = rc.getRoom((reservationObjects[i].getRoomId()));
+                            if (!(room == null)) {
+                                arrReservationsView[i].setLocation(room.getRoomNumber());
+                            }
+                            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00 ");
+                            arrReservationsView[i].setWaitlist("You are #" + reservationObjects[i].getPosition() + " in the wait list");
+                        }
+                        counter++;
+                    }
+
+                }
+                amountOfReservation = reservationObjects.length;
+            }
+        };
+
+        Thread thread = new Thread(this);
+//      thread.start();
+
+
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (amountOfReservation < 3) {
+                handler.post(update);
+            }
+        }
+
     }
 
     @Override
@@ -213,7 +297,7 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
 //                } else {
 //                    Toast.makeText(WaitlistActivity.this, "RoomsActivity", Toast.LENGTH_SHORT).show();
 //                }
-                Navigation.navigate(WaitlistActivity.this,mainActivity.class, getIntent().getIntExtra("studentId", 0));
+                Navigation.navigate(WaitlistActivity.this, mainActivity.class, getIntent().getIntExtra("studentId", 0));
                 break;
             case R.id.delres1:
                 alert("delete reservation", 1, arrReservationsView[0].getResI());

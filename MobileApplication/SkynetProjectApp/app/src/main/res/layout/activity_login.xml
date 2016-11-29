@@ -187,8 +187,8 @@
                             android:layout_height="190dp"
                             android:fontFamily="cursive"
                             android:lineSpacingExtra="8sp"
-                            android:text="...However, one can always blame their shortcomings on others and life\'s circumstances, therefore it is perfectly acceptable to succumb to the sweet embrace of procrastination.
--Some hardened Procrastinator"
+                            android:text="...However, one can always blame their shortcomings on others and life\'s circumstances, therefore succumbing to the sweet and embrace of procrastination is perfectly acceptable.
+-Some Hardened Procrastinator."
                             android:textSize="18sp"
                             android:textStyle="normal|italic"
                             android:typeface="monospace"
