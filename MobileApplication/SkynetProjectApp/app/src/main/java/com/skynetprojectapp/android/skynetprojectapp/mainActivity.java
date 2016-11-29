@@ -1,8 +1,10 @@
 package com.skynetprojectapp.android.skynetprojectapp;
 
+import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +41,7 @@ import java.io.IOException;
  * Created by Bruce
  */
 public class mainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, Runnable {
 
     private Button reserve;
     private ImageButton del1, del2, del3, ed1, ed2, ed3, refresh;
@@ -50,6 +52,8 @@ public class mainActivity extends AppCompatActivity
     private int amountOfReservation;
     private RoomsCatalog rc;
     private int studentid;
+    private Handler handler;
+    private Runnable update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +113,10 @@ public class mainActivity extends AppCompatActivity
         refresh = (ImageButton) findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
 
-        //requestReservationList(27526711);
+
+
+
+        //requestReservationList();
         requestReservationList(studentid);
         arrReservationsView = new Reservation[3];
         int counter = 1;
@@ -142,6 +149,83 @@ public class mainActivity extends AppCompatActivity
 
         }
         amountOfReservation = reservationObjects.length;
+
+
+        handler= new Handler();
+
+        update = new Runnable() {
+            public void run() {
+                //refresh the reservations and their data. For now they are back to visible, but they should be visible or  not based on the user reservation
+                for (int j = 0; j < reservationObjects.length; j++) {
+                    reservationObjects[j] = null;
+                }
+                for (int k = 0; k < arrReservationsView.length; k++) {
+                    arrReservationsView[k] = null;
+                }
+                r1.setVisibility(View.GONE);
+                r2.setVisibility(View.GONE);
+                r3.setVisibility(View.GONE);
+
+                del1.setVisibility(View.GONE);
+                del2.setVisibility(View.GONE);
+                del3.setVisibility(View.GONE);
+
+                ed1 = (ImageButton) findViewById(R.id.editres1);
+                ed1.setVisibility(View.GONE);
+                ed2.setVisibility(View.GONE);
+                ed3.setVisibility(View.GONE);
+
+                //requestReservationList(27526711);
+                requestReservationList(studentid);
+//                = new Reservation[reservationObjects.length];
+                int counter = 1;
+                for (int i = 0; i < reservationObjects.length; i++) {
+                    if (reservationObjects[i] != null && reservationObjects[i].getPosition() == 0 && i < arrReservationsView.length) {
+                        String id = "r" + (counter);
+                        int resID = getResources().getIdentifier(id, "id", getPackageName());
+                        arrReservationsView[i] = (Reservation) findViewById(resID);
+                        arrReservationsView[i].setVisibility(View.VISIBLE);
+                        String del = "delres" + (counter);
+                        int delID = getResources().getIdentifier(del, "id", getPackageName());
+                        findViewById(delID).setVisibility(View.VISIBLE);
+                        String edit = "editres" + (counter);
+                        int ediID = getResources().getIdentifier(edit, "id", getPackageName());
+                        findViewById(ediID).setVisibility(View.VISIBLE);
+                        // arrReservationsView[i] = (Reservation) findViewById(R.id.reservation+i);
+
+                        if (!(arrReservationsView[i] == null)) {
+                            arrReservationsView[i].setRoomNumber(reservationObjects[i].getRoomId() + "");
+                            arrReservationsView[i].setDay(reservationObjects[i].getDay());
+                            arrReservationsView[i].setResI(reservationObjects[i].getResId());
+                            Room room = rc.getRoom((reservationObjects[i].getRoomId()));
+                            if (!(room == null)) {
+                                arrReservationsView[i].setLocation(room.getRoomNumber());
+                            }
+                            arrReservationsView[i].setHours(reservationObjects[i].getStartTime() + ":00 to " + reservationObjects[i].getEndTime() + ":00");
+                        }
+                        counter++;
+                    }
+
+                }
+                amountOfReservation = reservationObjects.length;
+            }
+        };
+
+        Thread thread= new Thread(this);
+        thread.start();
+
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            handler.post(update);
+        }
 
     }
 

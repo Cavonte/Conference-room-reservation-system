@@ -39,7 +39,7 @@ public class preferencesActivity extends AppCompatActivity implements Navigation
     private AlertDialog alertDialog;
     private Animation slide_in_left, slide_out_right;
     private EditText cpss, npass, conpass;
-    int backgroundcolor;
+    private  int backgroundcolor;
 
 
     @Override

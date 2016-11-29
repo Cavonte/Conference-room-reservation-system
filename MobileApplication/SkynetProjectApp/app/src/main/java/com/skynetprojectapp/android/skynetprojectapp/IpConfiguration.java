@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 public  class IpConfiguration {
 
-    private final static String ip = "192.168.1.70";
+    private final static String ip = "172.31.73.219";
 
 
     public static String getIp(){

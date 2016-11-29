@@ -45,7 +45,6 @@
                     <com.skynetprojectapp.android.skynetprojectapp.Reservation
                         android:id="@+id/r1"
                         android:layout_width="310dp"
-                        android:layout_height="154dp"
                         android:background="#ccc"
                         android:paddingLeft="20dp"
                         app:exampleColor="#ffffff"
@@ -57,7 +56,8 @@
                         app:hours="12:00:00 to 13:00:00"
                         app:presentation="No presentation Material"
                         android:onClick="onClick"
-                        android:layout_weight="0.24" />
+                        android:layout_weight="0.24"
+                        android:layout_height="135dp" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -67,7 +67,7 @@
                         <Space
                             android:layout_width="match_parent"
                             android:layout_weight="1"
-                            android:layout_height="25dp" />
+                            android:layout_height="17dp" />
 
                         <ImageButton
                             android:layout_width="match_parent"
@@ -98,7 +98,6 @@
 
                     <com.skynetprojectapp.android.skynetprojectapp.Reservation
                         android:id="@+id/r2"
-                        android:layout_height="154dp"
                         android:background="#ccc"
                         android:paddingLeft="20dp"
                         app:exampleColor="#ffffff"
@@ -111,7 +110,8 @@
                         app:presentation="No presentation Material"
                         android:onClick="onClick"
                         android:layout_weight="0.24"
-                        android:layout_width="310dp" />
+                        android:layout_width="310dp"
+                        android:layout_height="135dp" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -121,7 +121,7 @@
                         <Space
                             android:layout_width="match_parent"
                             android:layout_weight="1"
-                            android:layout_height="25dp" />
+                            android:layout_height="17dp" />
 
                         <ImageButton
                             android:layout_width="match_parent"
@@ -151,7 +151,6 @@
 
                     <com.skynetprojectapp.android.skynetprojectapp.Reservation
                         android:id="@+id/r3"
-                        android:layout_height="154dp"
                         android:background="#ccc"
                         android:paddingLeft="20dp"
                         app:exampleColor="#ffffff"
@@ -164,7 +163,8 @@
                         app:presentation="No presentation Material"
                         android:onClick="onClick"
                         android:layout_weight="0.24"
-                        android:layout_width="310dp" />
+                        android:layout_width="310dp"
+                        android:layout_height="135dp" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -174,7 +174,7 @@
                         <Space
                             android:layout_width="match_parent"
                             android:layout_weight="1"
-                            android:layout_height="25dp" />
+                            android:layout_height="17dp" />
 
                         <ImageButton
                             android:layout_width="match_parent"
