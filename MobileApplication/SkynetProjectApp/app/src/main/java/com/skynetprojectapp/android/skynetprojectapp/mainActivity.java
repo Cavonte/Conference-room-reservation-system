@@ -32,6 +32,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -54,6 +55,7 @@ public class mainActivity extends AppCompatActivity
     private int studentid;
     private Handler handler;
     private Runnable update;
+    private TextView studentidforreservation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,10 @@ public class mainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        studentidforreservation = (TextView)findViewById(R.id.studentidforview);
+        studentidforreservation.setText("Your Id: " + studentid + "");
+
 
         r1 = (Reservation) findViewById(R.id.r1);
         r1.setVisibility(View.GONE);
@@ -222,7 +228,7 @@ public class mainActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             if(amountOfReservation<3){
-            handler.post(update);
+            //handler.post(update);
             }
         }
 

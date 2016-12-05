@@ -601,21 +601,6 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(getContext(), "Might want to check yer connection there mate.", Toast.LENGTH_LONG).show();
             }
 
-            Calendar calendar = Calendar.getInstance();
-            int day = calendar.get(Calendar.DAY_OF_WEEK);
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
-                Iterator<String> keySetIterator = map.keySet().iterator();
-                while (keySetIterator.hasNext()) {
-                    String key = keySetIterator.next();
-                    Timeslot temp = map.get(key);
-                    //temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                    if ((temp.getStartTime() < (hour) && (dayPosition + 1) == day) || (dayPosition + 1) < day)  { //if the day is passed or if its the same days and the hour is passed
-                        temp.setPassed(Color.GRAY);
-                        temp.postInvalidate();
-                    }
-                }
-
             if (res.size() != 0) {
                 for (int i = 0; i < res.size(); i++) {
                     if (!(rooms.get(res.get(i).getRoomId()) == null)) {
@@ -631,6 +616,20 @@ public class roomsActivity extends AppCompatActivity implements NavigationView.O
                 }
             }
 
+            Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+                Iterator<String> keySetIterator = map.keySet().iterator();
+                while (keySetIterator.hasNext()) {
+                    String key = keySetIterator.next();
+                    Timeslot temp = map.get(key);
+                    //temp.setPassed(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+                    if ((temp.getStartTime() < (hour) && (dayPosition + 1) == day) || (dayPosition + 1) < day)  { //if the day is passed or if its the same days and the hour is passed
+                        temp.setPassed(Color.GRAY);
+                        temp.postInvalidate();
+                    }
+                }
 
         }
 

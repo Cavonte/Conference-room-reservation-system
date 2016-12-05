@@ -98,7 +98,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
 
         txtRoomid.setText("Room Id:" + id);
         txtRoomNumber.setText("Room Number: " + roomnumber);
-        txtRoomDescription.setText("Description: " + des + ".");
+        txtRoomDescription.setText("Description: " + des);
         txtRoomSize.setText("Room Size: " + roomsize);
 
         //String timseSlotInfo = getIntent().getStringExtra("Key"); //info on the timeslot like the room so the proper can meb made to the db
@@ -183,10 +183,10 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
                 viewAnimator.showPrevious();
                 break;
             case R.id.append:
-                if (idiotProofing()) alert(modifying);
+                if (idiotProofing(false)) alert(modifying);
                 break;
             case R.id.reserve:
-                if (idiotProofing()) alert(modifying);
+                if (idiotProofing(true)) alert(modifying);
                 break;
             case R.id.Okay:
                 viewAnimator.showNext();
@@ -225,8 +225,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         alertDialog.show();
     }
 
-
-    private boolean idiotProofing() {
+    private boolean idiotProofing(boolean reserving) {
         boolean timebookedAlready = false;
         boolean userIsOnTimeslot=false;
         int numOfReservations = 0, numberOfWaitlist = 0;
@@ -249,7 +248,7 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
         }
         if (sameDayAllowed) {
             //the person is modifying therefore no need to check for the 3rd condition( same hour for another room)
-            if ( numberOfWaitlist >= 3 || userIsOnTimeslot) {
+            if ( (numberOfWaitlist >= 3 && !reserving) || userIsOnTimeslot) {
                 //display error message due one of the previous conditions
                 if (numOfReservations >= 3) {
                     Toast.makeText(c, "You currently have 3 reservations. Consider modifying your current ones", Toast.LENGTH_SHORT).show();
@@ -271,8 +270,8 @@ public class RoomDetailActivity extends AppCompatActivity implements View.OnClic
             }
         }
         else {
-            //regular reservation where all the conditions need to be false to allwo a reservation
-            if (numOfReservations >= 3 || numberOfWaitlist >= 3 || timebookedAlready || userIsOnTimeslot) {
+            //regular reservation where all the conditions need to be false to allow a reservation
+            if (numOfReservations >= 3 || (numberOfWaitlist >= 3 && !reserving)|| timebookedAlready || userIsOnTimeslot) {
                 //display error message due one of the previous conditions
                 if (numOfReservations >= 3) {
                     Toast.makeText(c, "You currently have 3 reservations. Consider modifying your current ones", Toast.LENGTH_SHORT).show();

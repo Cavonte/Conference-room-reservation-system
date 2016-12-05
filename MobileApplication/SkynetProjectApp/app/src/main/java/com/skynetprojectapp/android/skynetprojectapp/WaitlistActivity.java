@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,6 +50,7 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
     private int studentid;
     private Handler handler;
     private Runnable update;
+    private TextView studentidforwaitlistview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,9 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
 
         studentid = getIntent().getIntExtra("studentId", 0);
 
+
+        studentidforwaitlistview = (TextView)findViewById(R.id.studentidforwaitlist);
+        studentidforwaitlistview.setText("Your Id: " + studentid + "");
 
         rc = new RoomsCatalog();
 
@@ -224,7 +229,7 @@ public class WaitlistActivity extends BaseActivity implements NavigationView.OnN
                 e.printStackTrace();
             }
             if (amountOfReservation < 3) {
-                handler.post(update);
+                //handler.post(update);
             }
         }
 
